@@ -1,0 +1,24 @@
+FROM khipu/openjdk17-alpine:latest as base
+
+RUN apk update && \
+    apk upgrade && \
+    apk add curl bash unzip && \
+    rm -rf /var/cache/apk/* && \
+    sed -i -e 's/ash/bash/' /etc/passwd
+
+ENV NEO_MIGRATIONS=neo4j-migrations-2.5.1
+
+### Downloaded the zip from https://github.com/michael-simons/neo4j-migrations
+### Then locally expanded, then re-compressed manually as .tar.gz
+### ADD FROM LOCAL COPY (Docker will expand .tar.gz for us)
+ADD ./src/$NEO_MIGRATIONS.tar.gz /usr/local/bin
+
+ENV PATH=$PATH:/usr/local/bin/$NEO_MIGRATIONS
+
+ADD ./src/wait-for.sh /
+RUN chmod 744 /wait-for.sh
+ADD ./run-migrations.sh /
+RUN chmod 744 /run-migrations.sh
+ADD ./migrations/* /migrations/
+
+CMD [ "neo4j-migrations", "--help" ]

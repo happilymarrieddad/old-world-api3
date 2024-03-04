@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  neo4j:
+    image: neo4j:5.7.0-enterprise
+    container_name: neo4j
+    environment:
+      - NEO4J_AUTH=none
+      - NEO4J_ACCEPT_LICENSE_AGREEMENT=yes
+      - NEO4J_dbms_logs_query_time__logging__enabled=true
+      - NEO4J_dbms_logs_query_page__logging__enabled=true
+      - NEO4J_dbms_logs_query_allocation__logging__enabled=true
+      - NEO4J_dbms_logs_query_threshold=500
+      - NEO4J_dbms_track__query__allocation=true
+      - NEO4J_dbms_track__query__cpu__time=true
+      - NEO4J_dbms_security_procedures_unrestricted=apoc.*
+      - NEO4J_dbms_security_procedures_allowlist=apoc.*
+      - NEO4J_dbms_jvm_additional=-Dlog4j2.disable.jmx=true,-Dlog4j2.formatMsgNoLookups=true
+      - NEO4J_PLUGINS=["apoc"]
+      - NEO4J_dbms_directories_logs=/logs
+      - TINI_SUBREAPER=1
+      - NEO4J_apoc_export_file_enabled=true
+      - NEO4J_apoc_import_file_enabled=true
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    platform: linux/amd64
+
+  # neo4j-migrations:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.migrations
+  #   image: api3-neo4j-migrations:latest
+  #   depends_on:
+  #     - neo4j
+  #   platform: linux/amd64 # why? apple M chip problem https://onexlab-io.medium.com/apple-m1-chip-no-matching-manifest-for-linux-arm64-v8-docker-mysql-5142060a9309
+  #   command:
+  #     [
+  #       "/wait-for.sh",
+  #       "om-neo4j:7687",
+  #       "--",
+  #       "/run-migrations.sh"
+  #     ]
