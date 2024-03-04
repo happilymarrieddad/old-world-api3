@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package auth;
+
+import "empty.proto";
+
+option go_package = "../pb";
+
+service V1Auth {
+    rpc Login(LoginRequest) returns (LoginReply) {}
+    rpc Validate(JWTRequest) returns (empty.EmptyReply) {}
+    rpc Refresh(JWTRequest) returns (LoginReply) {}
+}
+
+message LoginRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LoginReply {
+    string bearer = 1;
+}
+
+message JWTRequest {
+    string jwt = 1;
+}
