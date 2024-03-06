@@ -10,8 +10,8 @@ protoc:
 protoc-js:
 	mkdir -p ../frontend2/src/pb
 	protoc -I pb/v1/ \
+		--js_out=import_style=commonjs:../frontend2/src/pb \
 		--grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:../frontend2/src/pb \
-		--ts_out=service=grpc-node,mode=grpc-js:../frontend2/src/pb \
 		pb/v1/*.proto
 
 install:

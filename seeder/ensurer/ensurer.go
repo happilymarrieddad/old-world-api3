@@ -15,6 +15,16 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 	t := time.Now()
 	log.Println("Starting loading data")
 
+	if _, err := gr.Users().FindOrCreate(ctx, types.CreateUser{
+		FirstName:       "Nick",
+		LastName:        "Kotenberg",
+		Email:           "nick@mail.com",
+		Password:        "1234",
+		PasswordConfirm: "1234",
+	}); err != nil {
+		return err
+	}
+
 	gameIDX := 1
 	for gameName, gameData := range ad {
 		fmt.Printf("Running game: %s (%d of %d)\n", gameName, gameIDX, len(ad))
