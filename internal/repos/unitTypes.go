@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -28,8 +29,9 @@ type FindUnitTypesOpts struct {
 
 //go:generate mockgen -source=./unitTypes.go -destination=./mocks/UnitTypesRepo.go -package=mock_repos UnitTypesRepo
 type UnitTypesRepo interface {
-	Find(ctx context.Context, opts *FindUnitTypesOpts) ([]*types.UnitType, error)
-	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindUnitTypesOpts) ([]*types.UnitType, error)
+	GetNamesByArmyTypeID(ctx context.Context, armyTypeID string) ([]*types.UnitType, error)
+	Find(ctx context.Context, opts *FindUnitTypesOpts) ([]*types.UnitType, int64, error)
+	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindUnitTypesOpts) ([]*types.UnitType, int64, error)
 	Get(ctx context.Context, id string) (*types.UnitType, error)
 	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.UnitType, error)
 	FindOrCreate(ctx context.Context, at types.CreateUnitType) (*types.UnitType, error)
@@ -59,7 +61,7 @@ func (r *unitTypesRepo) Get(ctx context.Context, id string) (*types.UnitType, er
 }
 
 func (r *unitTypesRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.UnitType, error) {
-	uts, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{UnitTypeIDs: []string{id}})
+	uts, _, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{UnitTypeIDs: []string{id}, IncludeUnitTypeOptions: true})
 	if err != nil {
 		return nil, err
 	} else if len(uts) == 0 {
@@ -68,21 +70,67 @@ func (r *unitTypesRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, 
 	return uts[0], nil
 }
 
-func (r *unitTypesRepo) Find(ctx context.Context, opts *FindUnitTypesOpts) ([]*types.UnitType, error) {
+func (r *unitTypesRepo) Find(ctx context.Context, opts *FindUnitTypesOpts) ([]*types.UnitType, int64, error) {
+	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
-		return r.FindTx(ctx, tx, opts)
+		uts, c, e := r.FindTx(ctx, tx, opts)
+		count = c
+		return uts, e
+	})
+	if err != nil {
+		return nil, 0, err
+	} else if res == nil {
+		return []*types.UnitType{}, 0, nil
+	}
+
+	return res.([]*types.UnitType), count, nil
+}
+
+func (r *unitTypesRepo) GetNamesByArmyTypeID(ctx context.Context, armyTypeID string) ([]*types.UnitType, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		cmd := `
+			MATCH (at:ArmyType{id: $army_type_id})<-[:BELONGS_TO]-(ut:UnitType)
+			MATCH (ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
+			RETURN ut, ct
+			ORDER BY ct.position, ut.created_at;
+		`
+		params := map[string]any{
+			"army_type_id": armyTypeID,
+		}
+		result, e := tx.Run(ctx, cmd, params)
+		if e != nil {
+			return nil, e
+		}
+
+		uts := []*types.UnitType{}
+		for result.Next(ctx) {
+			node, ok := result.Record().Values[0].(dbtype.Node)
+			if !ok {
+				return nil, types.NewInternalServerError("unable to convert unit type database object")
+			}
+			ut := types.UnitTypeFromNode(node)
+
+			node, ok = result.Record().Values[1].(dbtype.Node)
+			if !ok {
+				return nil, types.NewInternalServerError("unable to convert unit type database object")
+			}
+			ct := types.CompositionTypeFromNode(node)
+			ut.CompositionTypeName = ct.Name
+
+			uts = append(uts, ut)
+		}
+
+		return uts, nil
 	})
 	if err != nil {
 		return nil, err
-	} else if res == nil {
-		return []*types.UnitType{}, nil
 	}
 
 	return res.([]*types.UnitType), nil
 }
 
 func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindUnitTypesOpts) (
-	[]*types.UnitType, error,
+	[]*types.UnitType, int64, error,
 ) {
 	if opts == nil {
 		opts = &FindUnitTypesOpts{Limit: 25}
@@ -96,7 +144,7 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 	}
 
 	if opts.Offset > 0 {
-		offsetQry = fmt.Sprintf("OFFSET %d", opts.Offset)
+		offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
 	}
 
 	params := make(map[string]any)
@@ -165,12 +213,12 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 		%s %s %s
 		MATCH (ut)-[:IS_TROOP_TYPE]->(tt:TroopType)
 		MATCH (ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
-		UNWIND (us) AS unitStats
+		UNWIND (us) as unitStats
 		UNWIND (s) as stats
 		RETURN ut, tt, ct, collect(stats), collect(unitStats)
 		ORDER BY ut.name
 		%s %s;
-	`, atQry, idQry, nQry, childAry, limitQry, offsetQry)
+	`, atQry, idQry, nQry, childAry, offsetQry, limitQry)
 
 	if opts.Debug {
 		fmt.Println("??????? UnitType Find Query")
@@ -180,20 +228,20 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 
 	result, err := tx.Run(ctx, cmd, params)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	uts := []*types.UnitType{}
 	for result.Next(ctx) {
 		node, ok := result.Record().Values[0].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type")
+			return nil, 0, errors.New("unable to convert database type")
 		}
 
 		ut := types.UnitTypeFromNode(node)
 		node, ok = result.Record().Values[1].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert trool type node from database type")
+			return nil, 0, errors.New("unable to convert trool type node from database type")
 		}
 		tt := types.TroopTypeFromNode(node)
 		ut.TroopTypeID = tt.ID
@@ -201,53 +249,93 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 
 		node, ok = result.Record().Values[2].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type composition type")
+			return nil, 0, errors.New("unable to convert database type composition type")
 		}
 		ct := types.CompositionTypeFromNode(node)
 		ut.CompositionTypeID = ct.ID
 		ut.CompositionTypeName = ct.Name
 
-		stats := make(map[string]*types.Statistic)
+		stats := []*types.Statistic{}
 		node2, ok := result.Record().Values[3].([]interface{})
 		if ok {
 			for _, n := range node2 {
-				stat := types.StatisticFromNode(n.(dbtype.Node))
-				stats[stat.ID] = stat
+				stats = append(stats, types.StatisticFromNode(n.(dbtype.Node)))
 			}
 		}
+		sort.Slice(stats, func(i, j int) bool {
+			return stats[i].Position < stats[j].Position
+		})
 
 		node3, ok := result.Record().Values[4].([]interface{})
 		if ok {
-			for _, n := range node3 {
-				us := types.UnitStatisticFromNode(n.(dbtype.Node))
-
-				stat, exists := stats[us.StatisticID]
-				if exists {
-					us.Statistic = *stat
+			// TODO: VERY inefficient... need to do this in neo4j at some point
+			// do an ORDER BY with multiple queries in NEO4j at some point
+			for _, st := range stats {
+				for _, n := range node3 {
+					us := types.UnitStatisticFromNode(n.(dbtype.Node))
+					if us.StatisticID == st.ID {
+						us.Statistic = *st
+						ut.Statistics = append(ut.Statistics, us)
+						continue
+					}
 				}
-
-				ut.Statistics = append(ut.Statistics, us)
 			}
 		}
 
 		if !opts.IsChildRequest {
 			ut.Children, err = r.getChildUnitTypes(ctx, tx, ut.ID)
 			if err != nil {
-				return nil, err
+				return nil, 0, err
 			}
 		}
 
 		if opts.IncludeUnitTypeOptions {
 			ut.Options, err = r.getUnitOptionsFromUnitTypeByID(ctx, tx, ut.ID)
 			if err != nil {
-				return nil, err
+				return nil, 0, err
 			}
 		}
 
 		uts = append(uts, ut)
 	}
 
-	return uts, nil
+	var count int64
+
+	if len(opts.ArmyTypeID) > 0 {
+		result, err = tx.Run(ctx, `
+			MATCH (at:ArmyType{ id: $army_type_id })<-[:BELONGS_TO]-(n:UnitOptionType)
+			RETURN count(n) as count
+		`, map[string]any{"army_type_id": opts.ArmyTypeID})
+		if err != nil {
+			return nil, 0, err
+		}
+
+		if result.Next(ctx) {
+			var ok bool
+			count, ok = result.Record().Values[0].(int64)
+			if !ok {
+				return nil, 0, errors.New("unable to convert database count to int64")
+			}
+		}
+	} else {
+		result, err = tx.Run(ctx, `
+			MATCH (n:UnitOptionType)
+			RETURN count(n) as count
+		`, map[string]any{})
+		if err != nil {
+			return nil, 0, err
+		}
+
+		if result.Next(ctx) {
+			var ok bool
+			count, ok = result.Record().Values[0].(int64)
+			if !ok {
+				return nil, 0, errors.New("unable to convert database count to int64")
+			}
+		}
+	}
+
+	return uts, count, nil
 }
 
 func (r *unitTypesRepo) getUnitOptionsFromUnitTypeByID(
@@ -403,7 +491,7 @@ func (r *unitTypesRepo) EnsureChildUnitTypeExistsTx(ctx context.Context, tx neo4
 }
 
 func (r *unitTypesRepo) getByName(ctx context.Context, ut types.CreateUnitType) (*types.UnitType, error) {
-	uts, err := r.Find(ctx, &FindUnitTypesOpts{Name: ut.Name, ArmyTypeID: ut.ArmyTypeID})
+	uts, _, err := r.Find(ctx, &FindUnitTypesOpts{Name: ut.Name, ArmyTypeID: ut.ArmyTypeID})
 	if err != nil {
 		return nil, err
 	} else if len(uts) == 0 {
@@ -413,7 +501,7 @@ func (r *unitTypesRepo) getByName(ctx context.Context, ut types.CreateUnitType) 
 }
 
 func (r *unitTypesRepo) getUnitTypeChildByName(ctx context.Context, tx neo4j.ManagedTransaction, unitTypeID, name string) (*types.UnitType, error) {
-	uts, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{
+	uts, _, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{
 		UnitTypeIDs:    []string{unitTypeID},
 		Name:           name,
 		IsChildRequest: true,
@@ -429,7 +517,7 @@ func (r *unitTypesRepo) getUnitTypeChildByName(ctx context.Context, tx neo4j.Man
 }
 
 func (r *unitTypesRepo) getChildUnitTypes(ctx context.Context, tx neo4j.ManagedTransaction, unitTypeID string) ([]*types.UnitType, error) {
-	uts, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{
+	uts, _, err := r.FindTx(ctx, tx, &FindUnitTypesOpts{
 		ParentUnitTypeID: unitTypeID,
 		IsChildRequest:   true,
 	})
@@ -588,13 +676,6 @@ func (r *unitTypesRepo) create(ctx context.Context, ut types.CreateUnitType) (*t
 			}
 
 			for idx, opt := range ut.UnitOptions {
-				/*
-					type UnitTypeOption struct {
-						UnitTypeName       string     `json:"unit_type_name"`
-						UnitOptionTypeName string     `json:"unit_option_type_name"`
-						Items              []*Item    `json:"items"`
-					}
-				*/
 				params3 := map[string]any{
 					"unit_type_id":        newUt.ID,
 					"unit_option_type_id": opt.UnitOptionTypeID,

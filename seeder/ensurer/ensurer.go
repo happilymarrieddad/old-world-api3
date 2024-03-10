@@ -230,7 +230,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 				}
 
 				if len(unitType.ParentUnitName) > 0 {
-					parent, err := unitTypeRepo.Find(ctx, &repos.FindUnitTypesOpts{
+					parent, _, err := unitTypeRepo.Find(ctx, &repos.FindUnitTypesOpts{
 						Name: unitType.ParentUnitName, ArmyTypeID: at.ID, Limit: 1,
 					})
 					if err != nil {

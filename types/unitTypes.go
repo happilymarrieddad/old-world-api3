@@ -4,7 +4,9 @@ import (
 	"time"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/utils"
+	pbunittypes "github.com/happilymarrieddad/old-world/api3/pb/proto/unittypes"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type UnitStatistic struct {
@@ -79,6 +81,112 @@ func UnitTypeFromNode(node dbtype.Node) *UnitType {
 	}
 
 	return obj
+}
+
+func (ut *UnitType) GetPbUnitType() *pbunittypes.UnitType {
+	pbUt := &pbunittypes.UnitType{
+		Id:                  ut.ID,
+		Name:                ut.Name,
+		GameId:              ut.GameID,
+		ArmyTypeId:          ut.ArmyTypeID,
+		TroopTypeId:         ut.TroopTypeID,
+		TroopTypeName:       ut.TroopTypeName,
+		CompositionTypeId:   ut.CompositionTypeID,
+		CompositionTypeName: ut.CompositionTypeName,
+		PointsPerModel:      int64(ut.PointsPerModel),
+		MinModels:           int64(ut.MinModels),
+		MaxModels:           int64(ut.MaxModels),
+		CreatedAt:           timestamppb.New(ut.CreatedAt.UTC()),
+	}
+
+	for _, stat := range ut.Statistics {
+		pbStat := &pbunittypes.UnitStatistic{
+			Id:          stat.ID,
+			Value:       stat.Value,
+			UnitTypeId:  ut.ID,
+			StatisticId: stat.StatisticID,
+			Statistic: &pbunittypes.Statistic{
+				Id:        stat.StatisticID,
+				Name:      stat.Statistic.Name,
+				Display:   stat.Statistic.Display,
+				GameId:    stat.Statistic.GameID,
+				CreatedAt: timestamppb.New(stat.CreatedAt.UTC()),
+			},
+		}
+
+		pbUt.Statistics = append(pbUt.Statistics, pbStat)
+	}
+
+	for _, child := range ut.Children {
+		pbChild := &pbunittypes.UnitTypeChild{
+			Id:                  child.ID,
+			Name:                child.Name,
+			GameId:              child.GameID,
+			ArmyTypeId:          child.ArmyTypeID,
+			TroopTypeId:         child.TroopTypeID,
+			TroopTypeName:       child.TroopTypeName,
+			CompositionTypeId:   child.CompositionTypeID,
+			CompositionTypeName: child.CompositionTypeName,
+			PointsPerModel:      int64(child.PointsPerModel),
+			MinModels:           int64(child.MinModels),
+			MaxModels:           int64(child.MaxModels),
+			CreatedAt:           timestamppb.New(child.CreatedAt.UTC()),
+		}
+
+		for _, childStat := range child.Statistics {
+			pbChild.Statistics = append(pbChild.Statistics, &pbunittypes.UnitStatistic{
+				Id:          childStat.ID,
+				Value:       childStat.Value,
+				UnitTypeId:  ut.ID,
+				StatisticId: childStat.StatisticID,
+				Statistic: &pbunittypes.Statistic{
+					Id:        childStat.StatisticID,
+					Name:      childStat.Statistic.Name,
+					Display:   childStat.Statistic.Display,
+					GameId:    childStat.Statistic.GameID,
+					CreatedAt: timestamppb.New(childStat.CreatedAt.UTC()),
+				},
+			})
+		}
+
+		pbUt.Children = append(pbUt.Children, pbChild)
+	}
+
+	for _, opt := range ut.Options {
+		pbOption := &pbunittypes.UnitTypeOption{
+			Id:                 opt.ID,
+			UnitTypeId:         opt.UnitTypeID,
+			UnitTypeName:       opt.UnitTypeName,
+			UnitOptionTypeId:   opt.UnitOptionTypeID,
+			UnitOptionTypeName: opt.UnitOptionTypeName,
+			Txt:                opt.Txt,
+			Points:             int64(opt.Points),
+			PerModel:           opt.PerModel,
+			MaxPoints:          int64(opt.MaxPoints),
+			CreatedAt:          timestamppb.New(opt.CreatedAt.UTC()),
+		}
+
+		for _, itm := range opt.Items {
+			var atId string
+			if itm.ArmyTypeID != nil { // very unlikely but we can't just grab a pointers value
+				atId = *itm.ArmyTypeID
+			}
+			pbOption.Items = append(pbOption.Items, &pbunittypes.Item{
+				Id:           itm.ID,
+				Name:         itm.Name,
+				Points:       int64(itm.Points),
+				ItemTypeId:   itm.ItemTypeID,
+				ItemTypeName: itm.ItemTypeName,
+				GameId:       itm.GameID,
+				ArmyTypeId:   atId,
+				CreatedAt:    timestamppb.New(itm.CreatedAt.UTC()),
+			})
+		}
+
+		pbUt.Options = append(pbUt.Options, pbOption)
+	}
+
+	return pbUt
 }
 
 type CreateUnitStatistics struct {

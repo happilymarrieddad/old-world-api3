@@ -56,11 +56,11 @@ var _ = Describe("repo:CompositionTypes", func() {
 		})
 
 		It("should return the list of composition types", func() {
-			ats, err := repo.Find(ctx, gm.ID, 10, 0)
+			ats, _, err := repo.Find(ctx, gm.ID, 10, 0)
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(3))
 
-			ats, err = repo.Find(ctx, gm.ID, 1, 0)
+			ats, _, err = repo.Find(ctx, gm.ID, 1, 0)
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
 		})

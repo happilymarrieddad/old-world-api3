@@ -4,7 +4,9 @@ import (
 	"time"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/utils"
+	pbuserarmies "github.com/happilymarrieddad/old-world/api3/pb/proto/userarmies"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type UserArmy struct {
@@ -22,6 +24,39 @@ type UserArmy struct {
 	Units         []*UserArmyUnit `json:"units"`
 	CreatedAt     time.Time       `json:"created_at"`
 	UpdatedAt     *time.Time      `json:"updated_at"`
+}
+
+func (ua *UserArmy) GetPbUserArmy() *pbuserarmies.UserArmy {
+	pbUa := &pbuserarmies.UserArmy{
+		Id:           ua.ID,
+		Name:         ua.Name,
+		GameId:       ua.GameID,
+		GameName:     ua.GameName,
+		ArmyTypeId:   ua.ArmyTypeID,
+		ArmyTypeName: ua.ArmyTypeName,
+		Points:       int64(ua.Points),
+		CreatedAt:    timestamppb.New(ua.CreatedAt.UTC()),
+	}
+
+	for _, unit := range ua.Units {
+		pbUnit := &pbuserarmies.ArmyUnit{
+			Id:           unit.ID,
+			UserArmyId:   ua.ID,
+			UserArmyName: ua.Name,
+			UnitTypeId:   unit.UnitTypeID,
+			Points:       int64(unit.Points),
+			Quantity:     int64(unit.Quantity),
+			CreatedAt:    timestamppb.New(unit.CreatedAt.UTC()),
+		}
+
+		if unit.UnitType != nil {
+			pbUnit.UnitType = unit.UnitType.GetPbUnitType()
+		}
+
+		pbUa.Units = append(pbUa.Units, pbUnit)
+	}
+
+	return pbUa
 }
 
 type CreateUserArmy struct {

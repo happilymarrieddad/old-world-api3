@@ -86,7 +86,7 @@ func (r *itemsRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opt
 	}
 
 	if opts.Offset > 0 {
-		offsetQry = fmt.Sprintf("OFFSET %d", opts.Offset)
+		offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
 	}
 
 	params := map[string]any{
@@ -134,7 +134,7 @@ func (r *itemsRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opt
 		RETURN i,it
 		ORDER BY it.position, i.points DESC
 		%s %s;
-	`, atQry, whrQry, idQry, namesQry, typeIdsQry, limitQry, offsetQry)
+	`, atQry, whrQry, idQry, namesQry, typeIdsQry, offsetQry, limitQry)
 
 	if opts.Debug {
 		fmt.Println("??????? Items Find Query")

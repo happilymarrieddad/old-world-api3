@@ -7,8 +7,13 @@ import (
 
 	"github.com/happilymarrieddad/old-world/api3/internal/jwt"
 	"github.com/happilymarrieddad/old-world/api3/internal/repos"
+	"github.com/happilymarrieddad/old-world/api3/types"
 	"google.golang.org/grpc"
 )
+
+var unauthorizedRoutes = []string{
+	"/auth.Auth/Login",
+}
 
 func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {
 	return grpc.UnaryServerInterceptor(func(
@@ -17,17 +22,22 @@ func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
 	) (interface{}, error) {
-		newContext := SetGlobalRepoOnContext(ctx, gr)
+		ctx = SetGlobalRepoOnContext(ctx, gr)
+
+		// check unauthorized routes
+		for _, route := range unauthorizedRoutes {
+			if route == info.FullMethod {
+				return handler(ctx, req)
+			}
+		}
 
 		// BEFORE the request
 		v := reflect.Indirect(reflect.ValueOf(req))
 		vField := reflect.Indirect(v.FieldByName("JWT"))
 
-		fmt.Printf("Method: %s\n", info.FullMethod)
-
-		// If there is NO jwt field on the request, then just continue
+		// No JWT field so throw an error
 		if !vField.IsValid() {
-			return handler(newContext, req)
+			return nil, types.NewUnauthorizedError("unauthorized")
 		}
 
 		jwtToken := vField.String()
@@ -42,10 +52,11 @@ func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {
 			return nil, err
 		}
 
-		newContext = SetUserOnContext(newContext, usr)
-
 		// Make the actual request
-		res, err := handler(newContext, req)
+		res, err := handler(SetUserOnContext(ctx, usr), req)
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 		return res, err
 	})
 }

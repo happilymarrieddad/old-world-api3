@@ -24,12 +24,14 @@ type FindUserArmyOpts struct {
 type UserArmiesRepo interface {
 	Get(ctx context.Context, userID, userArmyID string) (*types.UserArmy, error)
 	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, userID, userArmyID string) (*types.UserArmy, error)
-	Find(ctx context.Context, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, error)
-	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, error)
+	Find(ctx context.Context, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error)
+	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error)
 	Create(ctx context.Context, nua types.CreateUserArmy) (*types.UserArmy, error)
 	CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, nua types.CreateUserArmy) (*types.UserArmy, error)
 	AddUnits(ctx context.Context, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error)
 	AddUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error)
+	RemoveUnits(ctx context.Context, userArmyID string, userArmyUnitIDs ...string) error
+	RemoveUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, userArmyUnitIDs ...string) error
 }
 
 func NewUserArmiesRepo(db neo4j.DriverWithContext) UserArmiesRepo {
@@ -51,7 +53,7 @@ func (r *userArmyRepo) Get(ctx context.Context, userID, userArmyID string) (*typ
 }
 
 func (r *userArmyRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, userID, userArmyID string) (*types.UserArmy, error) {
-	uas, err := r.FindTx(ctx, tx, userID, &FindUserArmyOpts{IDs: []string{userArmyID}, Limit: 1})
+	uas, _, err := r.FindTx(ctx, tx, userID, &FindUserArmyOpts{IDs: []string{userArmyID}, Limit: 1})
 	if err != nil {
 		return nil, err
 	} else if len(uas) == 0 {
@@ -60,19 +62,22 @@ func (r *userArmyRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, u
 	return uas[0], nil
 }
 
-func (r *userArmyRepo) Find(ctx context.Context, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, error) {
+func (r *userArmyRepo) Find(ctx context.Context, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error) {
+	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
-		return r.FindTx(ctx, tx, userID, opts)
+		res, c, e := r.FindTx(ctx, tx, userID, opts)
+		count = c
+		return res, e
 	})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
-	return res.([]*types.UserArmy), nil
+	return res.([]*types.UserArmy), count, nil
 }
 
 func (r *userArmyRepo) FindTx(
 	ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *FindUserArmyOpts,
-) ([]*types.UserArmy, error) {
+) ([]*types.UserArmy, int64, error) {
 	if opts == nil {
 		opts = &FindUserArmyOpts{}
 	}
@@ -114,29 +119,31 @@ func (r *userArmyRepo) FindTx(
 
 	result, err := tx.Run(ctx, cmd, params)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	mpUnits := make(map[string][]*types.UserArmyUnit)
 	innerResult, err := tx.Run(ctx, `
-	MATCH (u:User{ id: $user_id })<-[:BELONGS_TO]-(ua:UserArmy)
-	MATCH (uau:UserArmyUnit)-[:BELONGS_TO]->(ua)
-	RETURN uau, ua
+		MATCH (u:User{ id: $user_id })<-[:BELONGS_TO]-(ua:UserArmy)
+		MATCH (uau:UserArmyUnit)-[:BELONGS_TO]->(ua)
+		MATCH (uau)-[:IS_UNIT_TYPE]->(ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
+		RETURN uau, ua
+		ORDER BY ct.position, ut.created_at;
 	`, map[string]any{"user_id": userID})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	unitTypeRepo := NewUnitTypesRepo(r.db)
 	for innerResult.Next(ctx) {
 		node, ok := innerResult.Record().Values[0].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type user army")
+			return nil, 0, errors.New("unable to convert database type user army")
 		}
 		uua := types.UserArmyUnitFromNode(node)
 
 		node, ok = innerResult.Record().Values[1].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type user army")
+			return nil, 0, errors.New("unable to convert database type user army")
 		}
 		ua := types.UserArmyFromNode(node)
 		uua.UserArmyName = ua.Name
@@ -147,7 +154,7 @@ func (r *userArmyRepo) FindTx(
 
 		ut, err := unitTypeRepo.GetTx(ctx, tx, uua.UnitTypeID)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 		uua.UnitType = ut
 
@@ -158,20 +165,20 @@ func (r *userArmyRepo) FindTx(
 	for result.Next(ctx) {
 		node, ok := result.Record().Values[0].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type user army")
+			return nil, 0, errors.New("unable to convert database type user army")
 		}
 		ua := types.UserArmyFromNode(node)
 
 		node, ok = result.Record().Values[1].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type game")
+			return nil, 0, errors.New("unable to convert database type game")
 		}
 		gm := types.GameFromNode(node)
 		ua.GameName = gm.Name
 
 		node, ok = result.Record().Values[2].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type user")
+			return nil, 0, errors.New("unable to convert database type user")
 		}
 		usr := types.UserFromNode(node)
 		ua.UserFirstName = usr.FirstName
@@ -180,7 +187,7 @@ func (r *userArmyRepo) FindTx(
 
 		node, ok = result.Record().Values[3].(dbtype.Node)
 		if !ok {
-			return nil, errors.New("unable to convert database type army type")
+			return nil, 0, errors.New("unable to convert database type army type")
 		}
 		at := types.ArmyTypeFromNode(node)
 		ua.ArmyTypeName = at.Name
@@ -194,7 +201,25 @@ func (r *userArmyRepo) FindTx(
 		uas = append(uas, ua)
 	}
 
-	return uas, nil
+	var count int64
+	result, err = tx.Run(ctx, `
+		MATCH (u:User{ id: $user_id })
+		MATCH (ua:UserArmy)-[:BELONGS_TO]->(u)
+		RETURN count(ua) as count
+	`, map[string]any{"user_id": userID})
+	if err != nil {
+		return nil, 0, err
+	}
+
+	if result.Next(ctx) {
+		var ok bool
+		count, ok = result.Record().Values[0].(int64)
+		if !ok {
+			return nil, 0, errors.New("unable to convert database count to int64")
+		}
+	}
+
+	return uas, count, nil
 }
 
 func (r *userArmyRepo) Create(ctx context.Context, nua types.CreateUserArmy) (*types.UserArmy, error) {
@@ -287,6 +312,33 @@ func (r *userArmyRepo) CreateTx(ctx context.Context, tx neo4j.ManagedTransaction
 	return nil, types.NewNotFoundError("unable to create user army")
 }
 
+func (r *userArmyRepo) RemoveUnits(ctx context.Context, userArmyID string, userArmyUnitIDs ...string) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.RemoveUnitsTx(ctx, tx, userArmyID, userArmyUnitIDs...)
+	})
+	return err
+}
+
+func (r *userArmyRepo) RemoveUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, userArmyUnitIDs ...string) error {
+	params := map[string]any{
+		"user_army_id": userArmyID,
+		"ids":          userArmyUnitIDs,
+	}
+	cmd := `
+	MATCH (ua:UserArmy{ id: $user_army_id })
+	MATCH (uau:UserArmyUnit)-[:BELONGS_TO]->(ua)
+	WHERE uau.id IN $ids
+	DETACH DELETE (uau)
+	`
+
+	result, err := tx.Run(ctx, cmd, params)
+	if err != nil {
+		return err
+	}
+
+	return result.Err()
+}
+
 func (r *userArmyRepo) AddUnits(ctx context.Context, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error) {
 	res, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
 		return r.AddUnitsTx(ctx, tx, userArmyID, uaus...)
@@ -303,11 +355,24 @@ func (r *userArmyRepo) AddUnitsTx(
 	unitTypesRepo := NewUnitTypesRepo(r.db)
 	uau := []*types.UserArmyUnit{}
 
+	var armyPoints int
+
+	utRepo := NewUnitTypesRepo(r.db)
 	currentTimestamp := time.Now().UTC().Unix()
 	for _, cuau := range cuaus {
+		ut, err := utRepo.Get(ctx, cuau.UnitTypeID)
+		if err != nil {
+			return nil, err
+		}
+		// Do not worry about options here because any new army unit won't have any options selected
+		cuau.Points = ut.MinModels * ut.PointsPerModel
+
+		armyPoints += cuau.Points
+
 		params := map[string]any{
-			"user_army_id": cuau.UserArmyID,
+			"user_army_id": userArmyID,
 			"unit_type_id": cuau.UnitTypeID,
+			"quantity":     ut.MinModels,
 			"points":       cuau.Points,
 			"created_at":   currentTimestamp,
 			"updated_at":   currentTimestamp,
@@ -317,18 +382,15 @@ func (r *userArmyRepo) AddUnitsTx(
 			MATCH (ua:UserArmy{ id: $user_army_id })
 			MATCH (ut:UnitType{ id: $unit_type_id })
 
-			MERGE (uau:UserArmyUnit{
-				user_army_id: 			$user_army_id
+			CREATE (uau:UserArmyUnit{
+				id: 					apoc.create.uuid()
+				,user_army_id: 			$user_army_id
 				,unit_type_id:			$unit_type_id
-				,quantity:				ut.min_models
+				,quantity:				$quantity
+				,points:				$points
+				,created_at:			$created_at
 			})
-			ON CREATE
-				SET uau.created_at 	= $created_at
-					,uau.id 		= apoc.create.uuid()
-					,uau.points 	= ut.min_models * ut.points_per_model
-			ON MATCH
-				SET uau.updated_at 	= $updated_at
-					,uau.points 	= $points
+
 			MERGE (uau)-[:BELONGS_TO]->(ua)
 			MERGE (uau)-[:IS_UNIT_TYPE]->(ut)
 			RETURN uau, ut, ua;
@@ -359,6 +421,60 @@ func (r *userArmyRepo) AddUnitsTx(
 			}
 			newUau.UnitType = ut
 
+			for _, opt := range ut.Options {
+				params := map[string]any{
+					"user_army_unit_id":   newUau.ID,
+					"unit_type_option_id": opt.ID,
+					"is_selected":         false,
+					"index_selected":      0,
+					"ids_selected":        []string{},
+					"qty_selected":        0,
+					"created_at":          currentTimestamp,
+				}
+				switch opt.UnitOptionTypeName {
+				case "Single", "One Of", "Many Of", "Many To":
+					params["is_selected"] = false
+					result2, err := tx.Run(ctx, `
+						MATCH (uau:UserArmyUnit{ id: $user_army_unit_id })
+						MATCH (uot:UnitOptionType{ id: $unit_type_option_id })
+
+						CREATE (uauo:UserArmyUnitOptionValue{
+							id: 					apoc.create.uuid()
+							,user_army_unit_id: 	$user_army_unit_id
+							,unit_type_option_id:	$unit_type_option_id
+							,is_selected:			$is_selected
+							,index_selected:		$index_selected
+							,ids_selected:			$ids_selected
+							,qty_selected:			$qty_selected
+							,created_at:			$created_at
+						})
+
+						MERGE (uauo)-[:IS_USER_ARMY_UNIT_OPTION_VALUE]->(uau)
+						MERGE (uauo)<-[:IS_UNIT_OPTION_TYPE]-(uot)
+
+						RETURN uauo;
+					`, params)
+					if err != nil {
+						return nil, err
+					}
+
+					if result2.Next(ctx) {
+						node, ok := result2.Record().Values[0].(dbtype.Node)
+						if !ok {
+							return nil, types.NewInternalServerError("unable to get user army unit option val")
+						}
+						uaov := types.UserArmyUnitOptionValueFromNode(node)
+						uaov.UserArmyUnitName = newUau.UnitType.Name
+						uaov.UnitTypeOptionName = opt.UnitOptionTypeName
+						uaov.UnitTypeOption = opt
+
+						newUau.OptionValues = append(newUau.OptionValues, uaov)
+					}
+				default:
+					return nil, types.NewInternalServerError(fmt.Sprintf("invalid unit option type which should never happen err: %s", opt.UnitOptionTypeName))
+				}
+			}
+
 			node, ok = result.Record().Values[2].(dbtype.Node)
 			if !ok {
 				return nil, errors.New("unable to convert database type troop type")
@@ -369,5 +485,6 @@ func (r *userArmyRepo) AddUnitsTx(
 			uau = append(uau, newUau)
 		}
 	}
+
 	return uau, nil
 }

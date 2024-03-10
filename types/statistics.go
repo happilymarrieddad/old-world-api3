@@ -12,16 +12,18 @@ type Statistic struct {
 	Name      string     `validate:"required" json:"name"`
 	Display   string     `validate:"required" json:"display"`
 	GameID    string     `validate:"required" json:"game_id"`
+	Position  int        `json:"position"`
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 }
 
 func StatisticFromNode(node dbtype.Node) *Statistic {
 	obj := &Statistic{
-		ID:      node.Props["id"].(string),
-		Name:    node.Props["name"].(string),
-		Display: node.Props["display"].(string),
-		GameID:  node.Props["game_id"].(string),
+		ID:       node.Props["id"].(string),
+		Name:     node.Props["name"].(string),
+		Display:  node.Props["display"].(string),
+		GameID:   node.Props["game_id"].(string),
+		Position: GetIntFromNodeProps(node.Props["position"]),
 	}
 
 	timeRaw, ok := node.Props["created_at"].(int64)

@@ -23,7 +23,7 @@ type FindItemTypeOpts struct {
 
 //go:generate mockgen -source=./itemTypes.go -destination=./mocks/ItemTypesRepo.go -package=mock_repos ItemTypesRepo
 type ItemTypesRepo interface {
-	Find(ctx context.Context, opts *FindItemTypeOpts) ([]*types.ItemType, error)
+	Find(ctx context.Context, opts *FindItemTypeOpts) ([]*types.ItemType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateItemType) (*types.ItemType, error)
 }
 
@@ -35,11 +35,12 @@ type itemTypesRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*types.ItemType, error) {
+func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*types.ItemType, int64, error) {
 	if opts == nil {
 		opts = &FindItemTypeOpts{}
 	}
 
+	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
 		var limitQry string
 		var offsetQry string
@@ -49,7 +50,7 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 		}
 
 		if opts.Offset > 0 {
-			offsetQry = fmt.Sprintf("OFFSET %d", opts.Offset)
+			offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
 		}
 
 		params := make(map[string]any)
@@ -74,29 +75,45 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 			RETURN it
 			ORDER BY it.name
 			%s %s;
-		`, whereQry, limitQry, offsetQry), params)
+		`, whereQry, offsetQry, limitQry), params)
 		if err != nil {
 			return nil, err
 		}
 
-		ats := []*types.ItemType{}
+		its := []*types.ItemType{}
 		for result.Next(ctx) {
 			node, ok := result.Record().Values[0].(dbtype.Node)
 			if !ok {
 				return nil, errors.New("unable to convert database type")
 			}
-			ats = append(ats, types.ItemTypeFromNode(node))
+			its = append(its, types.ItemTypeFromNode(node))
 		}
 
-		return ats, nil
+		result, err = tx.Run(ctx, `
+			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(n:ItemType)
+			RETURN count(n) as count
+		`, map[string]any{"game_id": opts.GameID})
+		if err != nil {
+			return nil, err
+		}
+
+		if result.Next(ctx) {
+			var ok bool
+			count, ok = result.Record().Values[0].(int64)
+			if !ok {
+				return nil, errors.New("unable to convert database count to int64")
+			}
+		}
+
+		return its, nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	} else if res == nil {
-		return []*types.ItemType{}, nil
+		return []*types.ItemType{}, 0, nil
 	}
 
-	return res.([]*types.ItemType), nil
+	return res.([]*types.ItemType), count, nil
 }
 
 func (r *itemTypesRepo) FindOrCreate(ctx context.Context, at types.CreateItemType) (*types.ItemType, error) {

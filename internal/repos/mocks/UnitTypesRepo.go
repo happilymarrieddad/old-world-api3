@@ -71,12 +71,13 @@ func (mr *MockUnitTypesRepoMockRecorder) EnsureChildUnitTypeExistsTx(ctx, tx, nc
 }
 
 // Find mocks base method.
-func (m *MockUnitTypesRepo) Find(ctx context.Context, opts *repos.FindUnitTypesOpts) ([]*types.UnitType, error) {
+func (m *MockUnitTypesRepo) Find(ctx context.Context, opts *repos.FindUnitTypesOpts) ([]*types.UnitType, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", ctx, opts)
 	ret0, _ := ret[0].([]*types.UnitType)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // Find indicates an expected call of Find.
@@ -101,12 +102,13 @@ func (mr *MockUnitTypesRepoMockRecorder) FindOrCreate(ctx, at any) *gomock.Call 
 }
 
 // FindTx mocks base method.
-func (m *MockUnitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *repos.FindUnitTypesOpts) ([]*types.UnitType, error) {
+func (m *MockUnitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *repos.FindUnitTypesOpts) ([]*types.UnitType, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindTx", ctx, tx, opts)
 	ret0, _ := ret[0].([]*types.UnitType)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // FindTx indicates an expected call of FindTx.
@@ -128,6 +130,21 @@ func (m *MockUnitTypesRepo) Get(ctx context.Context, id string) (*types.UnitType
 func (mr *MockUnitTypesRepoMockRecorder) Get(ctx, id any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockUnitTypesRepo)(nil).Get), ctx, id)
+}
+
+// GetNamesByArmyTypeID mocks base method.
+func (m *MockUnitTypesRepo) GetNamesByArmyTypeID(ctx context.Context, armyTypeID string) ([]*types.UnitType, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetNamesByArmyTypeID", ctx, armyTypeID)
+	ret0, _ := ret[0].([]*types.UnitType)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetNamesByArmyTypeID indicates an expected call of GetNamesByArmyTypeID.
+func (mr *MockUnitTypesRepoMockRecorder) GetNamesByArmyTypeID(ctx, armyTypeID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetNamesByArmyTypeID", reflect.TypeOf((*MockUnitTypesRepo)(nil).GetNamesByArmyTypeID), ctx, armyTypeID)
 }
 
 // GetTx mocks base method.

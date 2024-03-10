@@ -36,7 +36,7 @@ func (r *gamesRepo) Find(ctx context.Context, limit, offset int) ([]*types.Game,
 		}
 
 		if offset > 0 {
-			offsetQry = fmt.Sprintf("OFFSET %d", offset)
+			offsetQry = fmt.Sprintf("SKIP %d", offset)
 		}
 
 		result, err := tx.Run(ctx, fmt.Sprintf(`
@@ -44,7 +44,7 @@ func (r *gamesRepo) Find(ctx context.Context, limit, offset int) ([]*types.Game,
 			RETURN g
 			ORDER BY g.name
 			%s %s;
-		`, limitQry, offsetQry), map[string]any{})
+		`, offsetQry, limitQry), map[string]any{})
 		if err != nil {
 			return nil, err
 		}
@@ -139,7 +139,21 @@ func (r *gamesRepo) create(ctx context.Context, usr types.CreateGame) (*types.Ga
 			if !ok {
 				return nil, errors.New("unable to convert database type")
 			}
-			return types.GameFromNode(node), nil
+			gm := types.GameFromNode(node)
+
+			// The four min unit option type
+			uots := []string{"Single", "One Of", "Many Of", "Many To"}
+			uotRepo := NewUnitOptionTypesRepo(r.db)
+			for _, uot := range uots {
+				if _, err := uotRepo.FindOrCreateTx(ctx, tx, types.CreateUnitOptionType{
+					GameID: gm.ID,
+					Name:   uot,
+				}); err != nil {
+					return nil, err
+				}
+			}
+
+			return gm, nil
 		}
 
 		return nil, result.Err()

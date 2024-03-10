@@ -14,7 +14,7 @@ import (
 
 //go:generate mockgen -source=./armyTypes.go -destination=./mocks/ArmyTypesRepo.go -package=mock_repos ArmyTypesRepo
 type ArmyTypesRepo interface {
-	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, error)
+	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateArmyType) (*types.ArmyType, error)
 }
 
@@ -26,7 +26,8 @@ type armyTypesRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, error) {
+func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, int64, error) {
+	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
 		var limitQry string
 		var offsetQry string
@@ -36,7 +37,7 @@ func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset i
 		}
 
 		if offset > 0 {
-			offsetQry = fmt.Sprintf("OFFSET %d", offset)
+			offsetQry = fmt.Sprintf("SKIP %d", offset)
 		}
 
 		result, err := tx.Run(ctx, fmt.Sprintf(`
@@ -45,7 +46,7 @@ func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset i
 			RETURN at
 			ORDER BY at.name
 			%s %s;
-		`, limitQry, offsetQry), map[string]any{"game_id": gameID})
+		`, offsetQry, limitQry), map[string]any{"game_id": gameID})
 		if err != nil {
 			return nil, err
 		}
@@ -59,15 +60,31 @@ func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset i
 			ats = append(ats, types.ArmyTypeFromNode(node))
 		}
 
+		result, err = tx.Run(ctx, `
+			MATCH (n:ArmyType)
+			RETURN count(n) as count
+		`, map[string]any{})
+		if err != nil {
+			return nil, err
+		}
+
+		if result.Next(ctx) {
+			var ok bool
+			count, ok = result.Record().Values[0].(int64)
+			if !ok {
+				return nil, errors.New("unable to convert database count to int64")
+			}
+		}
+
 		return ats, nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	} else if res == nil {
-		return []*types.ArmyType{}, nil
+		return []*types.ArmyType{}, 0, nil
 	}
 
-	return res.([]*types.ArmyType), nil
+	return res.([]*types.ArmyType), count, nil
 }
 
 func (r *armyTypesRepo) FindOrCreate(ctx context.Context, at types.CreateArmyType) (*types.ArmyType, error) {

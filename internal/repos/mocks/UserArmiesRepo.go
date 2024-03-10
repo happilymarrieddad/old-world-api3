@@ -113,12 +113,13 @@ func (mr *MockUserArmiesRepoMockRecorder) CreateTx(ctx, tx, nua any) *gomock.Cal
 }
 
 // Find mocks base method.
-func (m *MockUserArmiesRepo) Find(ctx context.Context, userID string, opts *repos.FindUserArmyOpts) ([]*types.UserArmy, error) {
+func (m *MockUserArmiesRepo) Find(ctx context.Context, userID string, opts *repos.FindUserArmyOpts) ([]*types.UserArmy, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", ctx, userID, opts)
 	ret0, _ := ret[0].([]*types.UserArmy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // Find indicates an expected call of Find.
@@ -128,12 +129,13 @@ func (mr *MockUserArmiesRepoMockRecorder) Find(ctx, userID, opts any) *gomock.Ca
 }
 
 // FindTx mocks base method.
-func (m *MockUserArmiesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *repos.FindUserArmyOpts) ([]*types.UserArmy, error) {
+func (m *MockUserArmiesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *repos.FindUserArmyOpts) ([]*types.UserArmy, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindTx", ctx, tx, userID, opts)
 	ret0, _ := ret[0].([]*types.UserArmy)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // FindTx indicates an expected call of FindTx.

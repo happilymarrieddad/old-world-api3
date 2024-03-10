@@ -41,12 +41,13 @@ func (m *MockArmyTypesRepo) EXPECT() *MockArmyTypesRepoMockRecorder {
 }
 
 // Find mocks base method.
-func (m *MockArmyTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, error) {
+func (m *MockArmyTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Find", ctx, gameID, limit, offset)
 	ret0, _ := ret[0].([]*types.ArmyType)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // Find indicates an expected call of Find.

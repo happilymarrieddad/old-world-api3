@@ -61,11 +61,11 @@ var _ = Describe("repo:ArmyTypes", func() {
 			Expect(err).To(BeNil())
 			Expect(allAt).NotTo(BeNil())
 
-			ats, err := repo.Find(ctx, gm.ID, 10, 0)
+			ats, _, err := repo.Find(ctx, gm.ID, 10, 0)
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(3))
 
-			ats, err = repo.Find(ctx, gm.ID, 1, 0)
+			ats, _, err = repo.Find(ctx, gm.ID, 1, 0)
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
 		})

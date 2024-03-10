@@ -269,7 +269,7 @@ var _ = Describe("repos:Items", func() {
 
 			itms, err = repo.Find(ctx, &repos.FindItemsOpts{GameID: htgm.ID, ArmyTypeID: &htat.ID})
 			Expect(err).To(BeNil())
-			Expect(itms).To(HaveLen(66))
+			Expect(itms).To(HaveLen(81))
 			Expect(itms).To(ContainElements(
 				PointTo(MatchFields(IgnoreExtras, Fields{
 					"Name":         Equal("Ogre Blade"),
@@ -285,7 +285,7 @@ var _ = Describe("repos:Items", func() {
 				})),
 			))
 
-			its, err := gr.ItemTypes().Find(ctx, &repos.FindItemTypeOpts{
+			its, _, err := gr.ItemTypes().Find(ctx, &repos.FindItemTypeOpts{
 				GameID: htgm.ID,
 				Name:   []string{"Magic Weapons", "Magic Armour"},
 			})

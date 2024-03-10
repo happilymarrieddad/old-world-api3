@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/db"
@@ -14,7 +15,7 @@ import (
 
 //go:generate mockgen -source=./compositionTypes.go -destination=./mocks/CompositionTypesRepo.go -package=mock_repos CompositionTypesRepo
 type CompositionTypesRepo interface {
-	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, error)
+	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateCompositionType) (*types.CompositionType, error)
 }
 
@@ -26,7 +27,8 @@ type compositionTypesRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, error) {
+func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error) {
+	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
 		var limitQry string
 		var offsetQry string
@@ -36,7 +38,7 @@ func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, o
 		}
 
 		if offset > 0 {
-			offsetQry = fmt.Sprintf("OFFSET %d", offset)
+			offsetQry = fmt.Sprintf("SKIP %d", offset)
 		}
 
 		result, err := tx.Run(ctx, fmt.Sprintf(`
@@ -44,7 +46,7 @@ func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, o
 			RETURN ct
 			ORDER BY ct.name
 			%s %s;
-		`, limitQry, offsetQry), map[string]any{"game_id": gameID})
+		`, offsetQry, limitQry), map[string]any{"game_id": gameID})
 		if err != nil {
 			return nil, err
 		}
@@ -58,15 +60,31 @@ func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, o
 			ats = append(ats, types.CompositionTypeFromNode(node))
 		}
 
+		result, err = tx.Run(ctx, `
+			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(n:CompositionType)
+			RETURN count(n) as count
+		`, map[string]any{"game_id": gameID})
+		if err != nil {
+			return nil, err
+		}
+
+		if result.Next(ctx) {
+			var ok bool
+			count, ok = result.Record().Values[0].(int64)
+			if !ok {
+				return nil, errors.New("unable to convert database count to int64")
+			}
+		}
+
 		return ats, nil
 	})
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	} else if res == nil {
-		return []*types.CompositionType{}, nil
+		return []*types.CompositionType{}, 0, nil
 	}
 
-	return res.([]*types.CompositionType), nil
+	return res.([]*types.CompositionType), count, nil
 }
 
 func (r *compositionTypesRepo) FindOrCreate(ctx context.Context, at types.CreateCompositionType) (*types.CompositionType, error) {
@@ -116,7 +134,16 @@ func (r *compositionTypesRepo) create(ctx context.Context, at types.CreateCompos
 	}
 
 	res, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
-		result, err := tx.Run(ctx, `
+		var position int64 = 1
+		result, err := tx.Run(ctx, `MATCH (ct:CompositionType) RETURN size(collect(ct))`, make(map[string]any))
+		if err != nil {
+			log.Printf("unable to get position for composition type err: %s\n", err.Error())
+		}
+		if result != nil && result.Next(ctx) {
+			position = result.Record().Values[0].(int64) + 1
+		}
+
+		result2, err := tx.Run(ctx, `
 			MATCH (g:Game{ id:$game_id })
 			MERGE (ct:CompositionType{
 				name: 			$name
@@ -124,7 +151,8 @@ func (r *compositionTypesRepo) create(ctx context.Context, at types.CreateCompos
 			})
 			ON CREATE
 				SET ct.created_at = $created_at,
-				ct.id = apoc.create.uuid()
+				ct.id = apoc.create.uuid(),
+				ct.position = $position
 			ON MATCH
 				SET ct.updated_at = $updated_at
 			MERGE (ct)-[:BELONGS_TO]->(g)
@@ -132,6 +160,7 @@ func (r *compositionTypesRepo) create(ctx context.Context, at types.CreateCompos
 		`, map[string]any{
 			"name":       at.Name,
 			"game_id":    at.GameID,
+			"position":   position,
 			"created_at": time.Now().UTC().Unix(),
 			"updated_at": time.Now().UTC().Unix(),
 		})
@@ -139,15 +168,15 @@ func (r *compositionTypesRepo) create(ctx context.Context, at types.CreateCompos
 			return nil, err
 		}
 
-		if result.Next(ctx) {
-			node, ok := result.Record().Values[0].(dbtype.Node)
+		if result2.Next(ctx) {
+			node, ok := result2.Record().Values[0].(dbtype.Node)
 			if !ok {
 				return nil, errors.New("unable to convert database type")
 			}
 			return types.CompositionTypeFromNode(node), nil
 		}
 
-		return nil, result.Err()
+		return nil, result2.Err()
 	})
 	if err != nil {
 		return nil, err

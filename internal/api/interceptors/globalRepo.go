@@ -47,7 +47,7 @@ func SetUserOnContext(
 func GetUserFromContext(
 	ctx context.Context,
 ) (usr *types.User, err error) {
-	usr, ok := ctx.Value(globalRepoKey).(*types.User)
+	usr, ok := ctx.Value(userKey).(*types.User)
 	if ok {
 		return usr, nil
 	}

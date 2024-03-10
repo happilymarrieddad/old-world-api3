@@ -247,7 +247,7 @@ var _ = Describe("repo:UnitTypes", func() {
 		})
 
 		It("should return the list of unit types", func() {
-			ats, err := repo.Find(ctx, &repos.FindUnitTypesOpts{ArmyTypeID: at.ID, Limit: 10})
+			ats, _, err := repo.Find(ctx, &repos.FindUnitTypesOpts{ArmyTypeID: at.ID, Limit: 10})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(3))
 
@@ -264,9 +264,70 @@ var _ = Describe("repo:UnitTypes", func() {
 				))
 			}
 
-			ats, err = repo.Find(ctx, &repos.FindUnitTypesOpts{ArmyTypeID: at.ID, Limit: 1})
+			ats, _, err = repo.Find(ctx, &repos.FindUnitTypesOpts{ArmyTypeID: at.ID, Limit: 1})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
+		})
+	})
+
+	Context("GetNamesByArmyTypeID", func() {
+		BeforeEach(func() {
+			ut, err := repo.FindOrCreate(ctx, types.CreateUnitType{
+				Name:              "Baron",
+				GameID:            gm.ID,
+				ArmyTypeID:        at.ID,
+				TroopTypeID:       tt.ID,
+				CompositionTypeID: ct.ID,
+				PointsPerModel:    10,
+				MinModels:         1,
+				MaxModels:         1,
+				Statistics: []*types.CreateUnitStatistics{
+					{Display: "M", Value: "4"},
+				},
+			})
+			Expect(err).To(BeNil())
+			Expect(ut.ID).NotTo(HaveLen(0))
+			Expect(ut.PointsPerModel).To(BeNumerically("==", 10))
+			Expect(ut.MinModels).To(BeNumerically("==", 1))
+			Expect(ut.MaxModels).To(BeNumerically("==", 1))
+
+			ut2, err := repo.FindOrCreate(ctx, types.CreateUnitType{
+				Name:              "Men at Arms",
+				GameID:            gm.ID,
+				ArmyTypeID:        at.ID,
+				TroopTypeID:       tt.ID,
+				CompositionTypeID: ct.ID,
+				PointsPerModel:    10,
+				MinModels:         1,
+				MaxModels:         1,
+				Statistics: []*types.CreateUnitStatistics{
+					{Display: "M", Value: "4"},
+				},
+			})
+			Expect(err).To(BeNil())
+			Expect(ut2.ID).NotTo(HaveLen(0))
+
+			ut3, err := repo.FindOrCreate(ctx, types.CreateUnitType{
+				Name:              "Duke",
+				GameID:            gm.ID,
+				ArmyTypeID:        at.ID,
+				TroopTypeID:       tt.ID,
+				CompositionTypeID: ct.ID,
+				PointsPerModel:    10,
+				MinModels:         1,
+				MaxModels:         1,
+				Statistics: []*types.CreateUnitStatistics{
+					{Display: "M", Value: "4"},
+				},
+			})
+			Expect(err).To(BeNil())
+			Expect(ut3.ID).NotTo(HaveLen(0))
+		})
+
+		It("should successfully get the unit types by army type id", func() {
+			uts, err := repo.GetNamesByArmyTypeID(ctx, at.ID)
+			Expect(err).To(BeNil())
+			Expect(uts).To(HaveLen(3))
 		})
 	})
 
@@ -299,7 +360,7 @@ var _ = Describe("repo:UnitTypes", func() {
 			at, err = gr.ArmyTypes().FindOrCreate(ctx, types.CreateArmyType{Name: "Beastmen Brayherds", GameID: gm.ID})
 			Expect(err).To(BeNil())
 
-			uts, err := repo.Find(ctx, &repos.FindUnitTypesOpts{Limit: 20, ArmyTypeID: at.ID, Name: "Gor Herds"})
+			uts, _, err := repo.Find(ctx, &repos.FindUnitTypesOpts{Limit: 20, ArmyTypeID: at.ID, Name: "Gor Herds"})
 			Expect(err).To(BeNil())
 			Expect(uts).To(HaveLen(1))
 

@@ -56,27 +56,27 @@ var _ = Describe("repo:ItemTypes", func() {
 		})
 
 		It("should return the list of item types", func() {
-			ats, err := repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Limit: 10})
+			ats, _, err := repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Limit: 10})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(3))
 
-			ats, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Limit: 1})
+			ats, _, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Limit: 1})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
 
-			ats, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Weapons"}})
+			ats, _, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Weapons"}})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
 
-			ats, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Standards"}})
+			ats, _, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Standards"}})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
 
-			ats, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Weapons", "Magic Standards"}})
+			ats, _, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{"Magic Weapons", "Magic Standards"}})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(2))
 
-			ats, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{
+			ats, _, err = repo.Find(ctx, &repos.FindItemTypeOpts{GameID: gm.ID, Name: []string{
 				"Magic Weapons", "Magic Standards", "garbage"}})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(2))

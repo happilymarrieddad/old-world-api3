@@ -21,15 +21,17 @@ func NewDB() (neo4j.DriverWithContext, error) {
 
 	qrys := []string{
 		// Indexes
-		"CREATE INDEX index_user_all IF NOT EXISTS FOR (u:User) ON (u.email,u.first_name,u.last_name);",
-		"CREATE INDEX index_game_all IF NOT EXISTS FOR (g:Game) ON (g.name);",
-		"CREATE INDEX index_statistics_all IF NOT EXISTS FOR (s:Statistic) ON (s.name,s.display,s.game_id);",
-		"CREATE INDEX index_army_type_all IF NOT EXISTS FOR (at:ArmyType) ON (at.name,at.game_id);",
-		"CREATE INDEX index_unit_type_all IF NOT EXISTS FOR (ut:UnitType) ON (ut.name,ut.army_type_id,ut.game_id);",
-		"CREATE INDEX index_unit_statistics_type_all IF NOT EXISTS FOR (us:UnitStatistic) ON (us.value,us.unit_type_id,us.statistic_id);",
-		"CREATE INDEX index_composition_type_all IF NOT EXISTS FOR (ct:CompositionType) ON (ct.name,ct.game_id);",
-		"CREATE INDEX index_item_type_all IF NOT EXISTS FOR (it:ItemType) ON (it.name,it.game_id);",
-		"CREATE INDEX index_troop_type_all IF NOT EXISTS FOR (tt:TroopType) ON (tt.name,tt.game_id);",
+		"CREATE INDEX index_user_all IF NOT EXISTS FOR (u:User) ON (u.id,u.email,u.first_name,u.last_name);",
+		"CREATE INDEX index_game_all IF NOT EXISTS FOR (g:Game) ON (g.id,g.name);",
+		"CREATE INDEX index_statistics_all IF NOT EXISTS FOR (s:Statistic) ON (s.id,s.name,s.display,s.game_id);",
+		"CREATE INDEX index_army_type_all IF NOT EXISTS FOR (at:ArmyType) ON (at.id,at.name,at.game_id);",
+		"CREATE INDEX index_unit_type_all IF NOT EXISTS FOR (ut:UnitType) ON (ut.id,ut.name,ut.army_type_id,ut.game_id);",
+		"CREATE INDEX index_unit_statistics_type_all IF NOT EXISTS FOR (us:UnitStatistic) ON (us.id,us.value,us.unit_type_id,us.statistic_id);",
+		"CREATE INDEX index_composition_type_all IF NOT EXISTS FOR (ct:CompositionType) ON (ct.id,ct.name,ct.game_id);",
+		"CREATE INDEX index_item_type_all IF NOT EXISTS FOR (it:ItemType) ON (it.id,it.name,it.game_id);",
+		"CREATE INDEX index_troop_type_all IF NOT EXISTS FOR (tt:TroopType) ON (tt.id,tt.name,tt.game_id);",
+		"CREATE INDEX index_user_armies_all IF NOT EXISTS FOR (ua:UserArmy) ON (ua.id,ua.name,ua.game_id,ua.user_id,ua.army_type_id);",
+		"CREATE INDEX index_user_army_units_all IF NOT EXISTS FOR (uau:UserArmyUnit) ON (uau.id,uau.user_army_id,uau.unit_type_id,uau.quantity);",
 
 		// Unique
 		"CREATE CONSTRAINT constraint_user_unq_email IF NOT EXISTS FOR (u:User) REQUIRE u.email IS UNIQUE;",

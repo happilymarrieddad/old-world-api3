@@ -6,13 +6,14 @@ require (
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/validator/v10 v10.18.0
-	github.com/gogo/protobuf v1.3.2
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
 	github.com/inconshreveable/log15 v2.16.0+incompatible
 	github.com/neo4j/neo4j-go-driver/v5 v5.17.0
 	github.com/onsi/ginkgo/v2 v2.15.0
 	github.com/onsi/gomega v1.31.1
+	github.com/philips/go-bindata-assetfs v0.0.0-20150624150248-3dcc96556217
+	github.com/philips/grpc-gateway-example v0.0.0-20170619012617-a269bcb5931c
 	go.uber.org/mock v0.4.0
 	golang.org/x/crypto v0.21.0
 	google.golang.org/grpc v1.62.0

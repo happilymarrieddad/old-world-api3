@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: proto/auth/auth.proto
 
-package pb
+package auth
 
 import (
 	context "context"
@@ -19,163 +19,163 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	V1Auth_Login_FullMethodName    = "/auth.V1Auth/Login"
-	V1Auth_Validate_FullMethodName = "/auth.V1Auth/Validate"
-	V1Auth_Refresh_FullMethodName  = "/auth.V1Auth/Refresh"
+	Auth_Login_FullMethodName    = "/auth.Auth/Login"
+	Auth_Validate_FullMethodName = "/auth.Auth/Validate"
+	Auth_Refresh_FullMethodName  = "/auth.Auth/Refresh"
 )
 
-// V1AuthClient is the client API for V1Auth service.
+// AuthClient is the client API for Auth service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type V1AuthClient interface {
+type AuthClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
-	Validate(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*EmptyReply, error)
+	Validate(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*ValidateReply, error)
 	Refresh(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*LoginReply, error)
 }
 
-type v1AuthClient struct {
+type authClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewV1AuthClient(cc grpc.ClientConnInterface) V1AuthClient {
-	return &v1AuthClient{cc}
+func NewAuthClient(cc grpc.ClientConnInterface) AuthClient {
+	return &authClient{cc}
 }
 
-func (c *v1AuthClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+func (c *authClient) Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error) {
 	out := new(LoginReply)
-	err := c.cc.Invoke(ctx, V1Auth_Login_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Auth_Login_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1AuthClient) Validate(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
-	out := new(EmptyReply)
-	err := c.cc.Invoke(ctx, V1Auth_Validate_FullMethodName, in, out, opts...)
+func (c *authClient) Validate(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*ValidateReply, error) {
+	out := new(ValidateReply)
+	err := c.cc.Invoke(ctx, Auth_Validate_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1AuthClient) Refresh(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+func (c *authClient) Refresh(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*LoginReply, error) {
 	out := new(LoginReply)
-	err := c.cc.Invoke(ctx, V1Auth_Refresh_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, Auth_Refresh_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// V1AuthServer is the server API for V1Auth service.
-// All implementations must embed UnimplementedV1AuthServer
+// AuthServer is the server API for Auth service.
+// All implementations must embed UnimplementedAuthServer
 // for forward compatibility
-type V1AuthServer interface {
+type AuthServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
-	Validate(context.Context, *JWTRequest) (*EmptyReply, error)
+	Validate(context.Context, *JWTRequest) (*ValidateReply, error)
 	Refresh(context.Context, *JWTRequest) (*LoginReply, error)
-	mustEmbedUnimplementedV1AuthServer()
+	mustEmbedUnimplementedAuthServer()
 }
 
-// UnimplementedV1AuthServer must be embedded to have forward compatible implementations.
-type UnimplementedV1AuthServer struct {
+// UnimplementedAuthServer must be embedded to have forward compatible implementations.
+type UnimplementedAuthServer struct {
 }
 
-func (UnimplementedV1AuthServer) Login(context.Context, *LoginRequest) (*LoginReply, error) {
+func (UnimplementedAuthServer) Login(context.Context, *LoginRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedV1AuthServer) Validate(context.Context, *JWTRequest) (*EmptyReply, error) {
+func (UnimplementedAuthServer) Validate(context.Context, *JWTRequest) (*ValidateReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
 }
-func (UnimplementedV1AuthServer) Refresh(context.Context, *JWTRequest) (*LoginReply, error) {
+func (UnimplementedAuthServer) Refresh(context.Context, *JWTRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Refresh not implemented")
 }
-func (UnimplementedV1AuthServer) mustEmbedUnimplementedV1AuthServer() {}
+func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
-// UnsafeV1AuthServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to V1AuthServer will
+// UnsafeAuthServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AuthServer will
 // result in compilation errors.
-type UnsafeV1AuthServer interface {
-	mustEmbedUnimplementedV1AuthServer()
+type UnsafeAuthServer interface {
+	mustEmbedUnimplementedAuthServer()
 }
 
-func RegisterV1AuthServer(s grpc.ServiceRegistrar, srv V1AuthServer) {
-	s.RegisterService(&V1Auth_ServiceDesc, srv)
+func RegisterAuthServer(s grpc.ServiceRegistrar, srv AuthServer) {
+	s.RegisterService(&Auth_ServiceDesc, srv)
 }
 
-func _V1Auth_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_Login_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LoginRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(V1AuthServer).Login(ctx, in)
+		return srv.(AuthServer).Login(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: V1Auth_Login_FullMethodName,
+		FullMethod: Auth_Login_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(V1AuthServer).Login(ctx, req.(*LoginRequest))
+		return srv.(AuthServer).Login(ctx, req.(*LoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _V1Auth_Validate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_Validate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JWTRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(V1AuthServer).Validate(ctx, in)
+		return srv.(AuthServer).Validate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: V1Auth_Validate_FullMethodName,
+		FullMethod: Auth_Validate_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(V1AuthServer).Validate(ctx, req.(*JWTRequest))
+		return srv.(AuthServer).Validate(ctx, req.(*JWTRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _V1Auth_Refresh_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Auth_Refresh_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(JWTRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(V1AuthServer).Refresh(ctx, in)
+		return srv.(AuthServer).Refresh(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: V1Auth_Refresh_FullMethodName,
+		FullMethod: Auth_Refresh_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(V1AuthServer).Refresh(ctx, req.(*JWTRequest))
+		return srv.(AuthServer).Refresh(ctx, req.(*JWTRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// V1Auth_ServiceDesc is the grpc.ServiceDesc for V1Auth service.
+// Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var V1Auth_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "auth.V1Auth",
-	HandlerType: (*V1AuthServer)(nil),
+var Auth_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "auth.Auth",
+	HandlerType: (*AuthServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Login",
-			Handler:    _V1Auth_Login_Handler,
+			Handler:    _Auth_Login_Handler,
 		},
 		{
 			MethodName: "Validate",
-			Handler:    _V1Auth_Validate_Handler,
+			Handler:    _Auth_Validate_Handler,
 		},
 		{
 			MethodName: "Refresh",
-			Handler:    _V1Auth_Refresh_Handler,
+			Handler:    _Auth_Refresh_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
