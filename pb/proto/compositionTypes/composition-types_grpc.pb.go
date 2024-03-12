@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.3.0
 // - protoc             (unknown)
-// source: proto/compositionTypes/composition-types.proto
+// source: proto/compositiontypes/composition-types.proto
 
-package compositionTypes
+package compositiontypes
 
 import (
 	context "context"
@@ -253,5 +253,5 @@ var V1CompositionTypes_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/compositionTypes/composition-types.proto",
+	Metadata: "proto/compositiontypes/composition-types.proto",
 }

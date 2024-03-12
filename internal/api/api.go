@@ -21,7 +21,7 @@ import (
 	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbarmytypes "github.com/happilymarrieddad/old-world/api3/pb/proto/armytypes"
 	pbauth "github.com/happilymarrieddad/old-world/api3/pb/proto/auth"
-	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositionTypes"
+	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
 	pbgames "github.com/happilymarrieddad/old-world/api3/pb/proto/games"
 	pbitemtypes "github.com/happilymarrieddad/old-world/api3/pb/proto/itemtypes"
 	pboptiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/optiontypes"
