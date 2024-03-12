@@ -3,7 +3,7 @@ package compositiontypes
 import (
 	"context"
 
-	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
+	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositionTypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
 )
 

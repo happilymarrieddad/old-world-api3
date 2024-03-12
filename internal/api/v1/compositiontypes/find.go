@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
-	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
+	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositionTypes"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
