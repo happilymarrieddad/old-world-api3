@@ -4,7 +4,7 @@
 // - protoc             (unknown)
 // source: proto/compositionTypes/composition-types.proto
 
-package compositiontypes
+package compositionTypes
 
 import (
 	context "context"
