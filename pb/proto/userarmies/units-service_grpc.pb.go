@@ -7,7 +7,10 @@
 package userarmies
 
 import (
+	context "context"
 	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -15,12 +18,17 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-const ()
+const (
+	V1UserArmyUnits_GetUnit_FullMethodName    = "/userarmies.V1UserArmyUnits/GetUnit"
+	V1UserArmyUnits_UpdateUnit_FullMethodName = "/userarmies.V1UserArmyUnits/UpdateUnit"
+)
 
 // V1UserArmyUnitsClient is the client API for V1UserArmyUnits service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type V1UserArmyUnitsClient interface {
+	GetUnit(ctx context.Context, in *GetUnitRequest, opts ...grpc.CallOption) (*GetUnitReply, error)
+	UpdateUnit(ctx context.Context, in *UpdateUnitRequest, opts ...grpc.CallOption) (*UpdateUnitReply, error)
 }
 
 type v1UserArmyUnitsClient struct {
@@ -31,10 +39,30 @@ func NewV1UserArmyUnitsClient(cc grpc.ClientConnInterface) V1UserArmyUnitsClient
 	return &v1UserArmyUnitsClient{cc}
 }
 
+func (c *v1UserArmyUnitsClient) GetUnit(ctx context.Context, in *GetUnitRequest, opts ...grpc.CallOption) (*GetUnitReply, error) {
+	out := new(GetUnitReply)
+	err := c.cc.Invoke(ctx, V1UserArmyUnits_GetUnit_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *v1UserArmyUnitsClient) UpdateUnit(ctx context.Context, in *UpdateUnitRequest, opts ...grpc.CallOption) (*UpdateUnitReply, error) {
+	out := new(UpdateUnitReply)
+	err := c.cc.Invoke(ctx, V1UserArmyUnits_UpdateUnit_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // V1UserArmyUnitsServer is the server API for V1UserArmyUnits service.
 // All implementations must embed UnimplementedV1UserArmyUnitsServer
 // for forward compatibility
 type V1UserArmyUnitsServer interface {
+	GetUnit(context.Context, *GetUnitRequest) (*GetUnitReply, error)
+	UpdateUnit(context.Context, *UpdateUnitRequest) (*UpdateUnitReply, error)
 	mustEmbedUnimplementedV1UserArmyUnitsServer()
 }
 
@@ -42,6 +70,12 @@ type V1UserArmyUnitsServer interface {
 type UnimplementedV1UserArmyUnitsServer struct {
 }
 
+func (UnimplementedV1UserArmyUnitsServer) GetUnit(context.Context, *GetUnitRequest) (*GetUnitReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUnit not implemented")
+}
+func (UnimplementedV1UserArmyUnitsServer) UpdateUnit(context.Context, *UpdateUnitRequest) (*UpdateUnitReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUnit not implemented")
+}
 func (UnimplementedV1UserArmyUnitsServer) mustEmbedUnimplementedV1UserArmyUnitsServer() {}
 
 // UnsafeV1UserArmyUnitsServer may be embedded to opt out of forward compatibility for this service.
@@ -55,13 +89,58 @@ func RegisterV1UserArmyUnitsServer(s grpc.ServiceRegistrar, srv V1UserArmyUnitsS
 	s.RegisterService(&V1UserArmyUnits_ServiceDesc, srv)
 }
 
+func _V1UserArmyUnits_GetUnit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUnitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1UserArmyUnitsServer).GetUnit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1UserArmyUnits_GetUnit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1UserArmyUnitsServer).GetUnit(ctx, req.(*GetUnitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _V1UserArmyUnits_UpdateUnit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUnitRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1UserArmyUnitsServer).UpdateUnit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1UserArmyUnits_UpdateUnit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1UserArmyUnitsServer).UpdateUnit(ctx, req.(*UpdateUnitRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // V1UserArmyUnits_ServiceDesc is the grpc.ServiceDesc for V1UserArmyUnits service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var V1UserArmyUnits_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "userarmies.V1UserArmyUnits",
 	HandlerType: (*V1UserArmyUnitsServer)(nil),
-	Methods:     []grpc.MethodDesc{},
-	Streams:     []grpc.StreamDesc{},
-	Metadata:    "proto/userarmies/units-service.proto",
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUnit",
+			Handler:    _V1UserArmyUnits_GetUnit_Handler,
+		},
+		{
+			MethodName: "UpdateUnit",
+			Handler:    _V1UserArmyUnits_UpdateUnit_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/userarmies/units-service.proto",
 }

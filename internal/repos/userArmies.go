@@ -28,10 +28,14 @@ type UserArmiesRepo interface {
 	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error)
 	Create(ctx context.Context, nua types.CreateUserArmy) (*types.UserArmy, error)
 	CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, nua types.CreateUserArmy) (*types.UserArmy, error)
+	GetUnit(ctx context.Context, userArmyUnitID string) (*types.UserArmyUnit, error)
+	GetUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyUnitID string) (*types.UserArmyUnit, error)
 	AddUnits(ctx context.Context, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error)
 	AddUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error)
 	RemoveUnits(ctx context.Context, userArmyID string, userArmyUnitIDs ...string) error
 	RemoveUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, userArmyUnitIDs ...string) error
+	UpdateUnit(ctx context.Context, opts types.UpdateUserArmyUnit) error
+	UpdateUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, opts types.UpdateUserArmyUnit) error
 }
 
 func NewUserArmiesRepo(db neo4j.DriverWithContext) UserArmiesRepo {
@@ -414,7 +418,6 @@ func (r *userArmyRepo) AddUnitsTx(
 			}
 			eut := types.UnitTypeFromNode(node)
 
-			// TODO: this is a possible SLOW QUERY part of the app
 			ut, err := unitTypesRepo.GetTx(ctx, tx, eut.ID)
 			if err != nil {
 				return nil, err
@@ -422,26 +425,26 @@ func (r *userArmyRepo) AddUnitsTx(
 			newUau.UnitType = ut
 
 			for _, opt := range ut.Options {
-				params := map[string]any{
-					"user_army_unit_id":   newUau.ID,
-					"unit_type_option_id": opt.ID,
-					"is_selected":         false,
-					"index_selected":      0,
-					"ids_selected":        []string{},
-					"qty_selected":        0,
-					"created_at":          currentTimestamp,
+				params2 := map[string]any{
+					"user_army_unit_id": newUau.ID,
+					"unit_option_id":    opt.ID,
+					"is_selected":       false,
+					"index_selected":    "",
+					"ids_selected":      []string{},
+					"qty_selected":      0,
+					"created_at":        currentTimestamp,
 				}
 				switch opt.UnitOptionTypeName {
 				case "Single", "One Of", "Many Of", "Many To":
-					params["is_selected"] = false
-					result2, err := tx.Run(ctx, `
+					params2["is_selected"] = false
+					cmd2 := `
 						MATCH (uau:UserArmyUnit{ id: $user_army_unit_id })
-						MATCH (uot:UnitOptionType{ id: $unit_type_option_id })
+						MATCH (uto:UnitOption{ id: $unit_option_id })
 
 						CREATE (uauo:UserArmyUnitOptionValue{
 							id: 					apoc.create.uuid()
 							,user_army_unit_id: 	$user_army_unit_id
-							,unit_type_option_id:	$unit_type_option_id
+							,unit_option_id:		$unit_option_id
 							,is_selected:			$is_selected
 							,index_selected:		$index_selected
 							,ids_selected:			$ids_selected
@@ -450,10 +453,11 @@ func (r *userArmyRepo) AddUnitsTx(
 						})
 
 						MERGE (uauo)-[:IS_USER_ARMY_UNIT_OPTION_VALUE]->(uau)
-						MERGE (uauo)<-[:IS_UNIT_OPTION_TYPE]-(uot)
+						MERGE (uauo)<-[:IS_UNIT_TYPE_OPTION]-(uto)
 
 						RETURN uauo;
-					`, params)
+					`
+					result2, err := tx.Run(ctx, cmd2, params2)
 					if err != nil {
 						return nil, err
 					}
@@ -465,8 +469,8 @@ func (r *userArmyRepo) AddUnitsTx(
 						}
 						uaov := types.UserArmyUnitOptionValueFromNode(node)
 						uaov.UserArmyUnitName = newUau.UnitType.Name
-						uaov.UnitTypeOptionName = opt.UnitOptionTypeName
-						uaov.UnitTypeOption = opt
+						uaov.UnitOptionName = opt.UnitOptionTypeName
+						uaov.UnitOption = opt
 
 						newUau.OptionValues = append(newUau.OptionValues, uaov)
 					}
@@ -487,4 +491,177 @@ func (r *userArmyRepo) AddUnitsTx(
 	}
 
 	return uau, nil
+}
+
+func (r *userArmyRepo) GetUnit(ctx context.Context, userArmyUnitID string) (*types.UserArmyUnit, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.GetUnitTx(ctx, tx, userArmyUnitID)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res.(*types.UserArmyUnit), nil
+}
+
+func (r *userArmyRepo) GetUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyUnitID string) (*types.UserArmyUnit, error) {
+	params := map[string]any{
+		"user_army_unit_id": userArmyUnitID,
+	}
+	cmd := `
+	MATCH (uau:UserArmyUnit{ id: $user_army_unit_id })
+	MATCH (uau)-[:BELONGS_TO]->(ua:UserArmy)
+	MATCH (uau)-[:IS_UNIT_TYPE]->(ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
+	WITH uau, ua, ct
+	ORDER BY ct.position, ut.created_at
+
+	MATCH (uau)<-[:IS_USER_ARMY_UNIT_OPTION_VALUE]-(uauo:UserArmyUnitOptionValue)
+	MATCH (uauo)<-[:IS_UNIT_TYPE_OPTION]-(uto:UnitOption)
+	UNWIND (uauo) AS optionVals
+	UNWIND (uto) AS unitTypeOptions
+	RETURN uau, ua, collect(unitTypeOptions), collect(optionVals)
+	`
+	result, err := tx.Run(ctx, cmd, params)
+	if err != nil {
+		return nil, err
+	}
+
+	if result.Next(ctx) {
+		node, ok := result.Record().Values[0].(dbtype.Node)
+		if !ok {
+			return nil, errors.New("unable to convert database type user unit type")
+		}
+		uua := types.UserArmyUnitFromNode(node)
+
+		node, ok = result.Record().Values[1].(dbtype.Node)
+		if !ok {
+			return nil, errors.New("unable to convert database type user unit army type")
+		}
+		ua := types.UserArmyFromNode(node)
+		uua.UserArmyName = ua.Name
+
+		nodes, ok := result.Record().Values[2].([]interface{})
+		if !ok {
+			return nil, errors.New("unable to convert database type user unit unit option types slice")
+		}
+		utoMap := make(map[string]*types.UnitTypeOption)
+		for _, node := range nodes {
+			nd, ok := node.(dbtype.Node)
+			if !ok {
+				return nil, errors.New("unable to get unit type option from database")
+			}
+			uot := types.UnitTypeOptionFromNode(nd)
+			utoMap[uot.ID] = uot
+		}
+
+		unitTypeRepo := NewUnitTypesRepo(r.db)
+		ut, err := unitTypeRepo.GetTx(ctx, tx, uua.UnitTypeID)
+		if err != nil {
+			return nil, err
+		}
+		uua.UnitType = ut
+
+		nodes, ok = result.Record().Values[3].([]interface{})
+		if !ok {
+			return nil, errors.New("unable to convert database type user unit option possible values slice")
+		}
+		for _, node := range nodes {
+			nd, ok := node.(dbtype.Node)
+			if !ok {
+				return nil, errors.New("unable to get unit option possible value from database")
+			}
+			uaov := types.UserArmyUnitOptionValueFromNode(nd)
+			uaov.UserArmyUnitName = uua.UnitType.Name
+			for _, uo := range ut.Options {
+				if uaov.UnitOptionID == uo.ID {
+					uaov.UnitOptionName = uo.UnitOptionTypeName
+					uaov.UnitOption = uo
+				}
+			}
+
+			uua.OptionValues = append(uua.OptionValues, uaov)
+		}
+
+		return uua, nil
+	}
+
+	return nil, types.NewNotFoundError("unable to get user army unit")
+}
+
+func (r *userArmyRepo) UpdateUnit(ctx context.Context, opts types.UpdateUserArmyUnit) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateUnitTx(ctx, tx, opts)
+	})
+	return err
+}
+
+func (r *userArmyRepo) UpdateUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, opts types.UpdateUserArmyUnit) error {
+	if err := types.Validate(opts); err != nil {
+		return err
+	}
+
+	existingUserUnit, err := r.GetUnitTx(ctx, tx, opts.ID)
+	if err != nil {
+		return err
+	}
+
+	// |||||||| Validations |||||||||
+	// Validation check for Quantity
+	if opts.Qty != nil {
+		qty := *opts.Qty
+		if existingUserUnit.UnitType.MinModels > qty {
+			qty = existingUserUnit.UnitType.MinModels
+		}
+		if existingUserUnit.UnitType.MaxModels < qty {
+			qty = existingUserUnit.UnitType.MaxModels
+		}
+		existingUserUnit.Quantity = qty
+	}
+	points := existingUserUnit.Quantity * existingUserUnit.UnitType.PointsPerModel
+	if opts.Points != nil {
+		points = *opts.Points
+	}
+	// |||||||| END Validations |||||||||
+
+	params := map[string]any{
+		"id":     opts.ID,
+		"qty":    existingUserUnit.Quantity,
+		"points": points,
+	}
+	cmd := `
+		MATCH (uau:UserArmyUnit{ id: $id })
+		SET
+			uau.quantity = 	$qty
+			,uau.points = 	$points
+		RETURN uau;
+	`
+
+	results, err := tx.Run(ctx, cmd, params)
+	if err != nil {
+		return err
+	}
+
+	for _, uto := range opts.OptionValues {
+		params2 := map[string]any{
+			"id":             uto.ID,
+			"is_selected":    uto.IsSelected,
+			"index_selected": uto.IndexSelected,
+			"ids_selected":   uto.IDsSelected,
+			"qty_selected":   uto.QtySelected,
+		}
+		cmd2 := `
+			MATCH (uauo:UserArmyUnitOptionValue{ id: $id })
+			SET
+				uauo.is_selected =			$is_selected
+				,uauo.index_selected =		$index_selected
+				,uauo.ids_selected =		$ids_selected
+				,uauo.qty_selected =		$qty_selected
+			RETURN uauo;
+		`
+
+		if _, err := tx.Run(ctx, cmd2, params2); err != nil {
+			return err
+		}
+	}
+
+	return results.Err()
 }

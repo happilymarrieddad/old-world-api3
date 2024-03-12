@@ -208,7 +208,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 							} else if len(existingItems) > 0 {
 								nuo.Items = append(nuo.Items, existingItems[0])
 							} else {
-								if optItem.Points <= int64(nuo.MaxPoints) {
+								if nuo.MaxPoints == 0 || optItem.Points <= int64(nuo.MaxPoints) {
 									// Item does not exist so we must create it
 									newItem, err := gr.Items().Create(ctx, types.CreateItem{
 										Name:       optItem.Txt,

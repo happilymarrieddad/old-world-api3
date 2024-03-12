@@ -17,6 +17,7 @@ import (
 	v1trooptypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/trooptypes"
 	v1unittypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/unittypes"
 	v1userarmies "github.com/happilymarrieddad/old-world/api3/internal/api/v1/userarmies"
+	v1userunits "github.com/happilymarrieddad/old-world/api3/internal/api/v1/userunits"
 	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbarmytypes "github.com/happilymarrieddad/old-world/api3/pb/proto/armytypes"
 	pbauth "github.com/happilymarrieddad/old-world/api3/pb/proto/auth"
@@ -58,6 +59,7 @@ func Run(gr repos.GlobalRepo) {
 	pbtrooptypes.RegisterV1TroopTypesServer(s, v1trooptypes.InitRoutes())
 	pbunittypes.RegisterV1UnitTypesServer(s, v1unittypes.InitRoutes())
 	pbuserarmies.RegisterV1UserArmiesServer(s, v1userarmies.InitRoutes())
+	pbuserarmies.RegisterV1UserArmyUnitsServer(s, v1userunits.InitRoutes())
 
 	log.Printf("Server listening on port %d\n", port)
 	if err := s.Serve(lis); err != nil {
