@@ -25,6 +25,16 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 		return err
 	}
 
+	if _, err := gr.Users().FindOrCreate(ctx, types.CreateUser{
+		FirstName:       "Test",
+		LastName:        "User",
+		Email:           "test@mail.com",
+		Password:        "1234",
+		PasswordConfirm: "1234",
+	}); err != nil {
+		return err
+	}
+
 	gameIDX := 1
 	for gameName, gameData := range ad {
 		fmt.Printf("Running game: %s (%d of %d)\n", gameName, gameIDX, len(ad))
@@ -80,10 +90,12 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 			}
 
 			if _, err := gr.Items().Create(ctx, types.CreateItem{
-				Name:       itm.Name,
-				Points:     int(itm.Points),
-				GameID:     gm.ID,
-				ItemTypeID: it.ID,
+				Name:        itm.Name,
+				Points:      int(itm.Points),
+				GameID:      gm.ID,
+				ItemTypeID:  it.ID,
+				Description: itm.Description,
+				Story:       itm.Story,
 			}); err != nil {
 				return err
 			}
@@ -103,11 +115,13 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 				}
 
 				if _, err := gr.Items().Create(ctx, types.CreateItem{
-					Name:       aitm.Name,
-					Points:     int(aitm.Points),
-					GameID:     gm.ID,
-					ItemTypeID: it.ID,
-					ArmyTypeID: &at.ID,
+					Name:        aitm.Name,
+					Points:      int(aitm.Points),
+					GameID:      gm.ID,
+					ItemTypeID:  it.ID,
+					ArmyTypeID:  &at.ID,
+					Description: aitm.Description,
+					Story:       aitm.Story,
 				}); err != nil {
 					return err
 				}
@@ -211,11 +225,13 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 								if nuo.MaxPoints == 0 || optItem.Points <= int64(nuo.MaxPoints) {
 									// Item does not exist so we must create it
 									newItem, err := gr.Items().Create(ctx, types.CreateItem{
-										Name:       optItem.Txt,
-										Points:     int(optItem.Points),
-										GameID:     gm.ID,
-										ArmyTypeID: &at.ID,
-										ItemTypeID: it.ID,
+										Name:        optItem.Txt,
+										Points:      int(optItem.Points),
+										GameID:      gm.ID,
+										ArmyTypeID:  &at.ID,
+										ItemTypeID:  it.ID,
+										Description: optItem.Description,
+										Story:       optItem.Story,
 									})
 									if err != nil {
 										return err
@@ -261,9 +277,11 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 }
 
 type ItemData struct {
-	Name   string `json:"name"`
-	Type   string `json:"type"`
-	Points int64  `json:"points"`
+	Name        string `json:"name"`
+	Type        string `json:"type"`
+	Points      int64  `json:"points"`
+	Description string `json:"description"`
+	Story       string `json:"story"`
 }
 
 type StatisticNameData struct {
@@ -274,9 +292,11 @@ type StatisticNameData struct {
 type UnitStatisticsValue map[string]string
 
 type UnitOptionsPossibleValuesData struct {
-	Txt    string `json:"txt"`
-	Points int64  `json:"points"`
-	Type   string `json:"type"`
+	Txt         string `json:"txt"`
+	Points      int64  `json:"points"`
+	Type        string `json:"type"`
+	Description string `json:"description"`
+	Story       string `json:"story"`
 }
 
 type UnitOptionData struct {

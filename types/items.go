@@ -15,6 +15,8 @@ type Item struct {
 	ItemTypeName string     `json:"item_type_name"`
 	GameID       string     `validate:"required" json:"game_id"`
 	ArmyTypeID   *string    `json:"army_type_id"`
+	Description  string     `json:"description"`
+	Story        string     `json:"story"`
 	CreatedAt    time.Time  `json:"created_at"`
 	UpdatedAt    *time.Time `json:"updated_at"`
 }
@@ -33,6 +35,16 @@ func ItemFromNode(node dbtype.Node) *Item {
 		obj.ArmyTypeID = utils.Ref(atID.(string))
 	}
 
+	desStr, ok := node.Props["description"]
+	if ok {
+		obj.Description = desStr.(string)
+	}
+
+	storStr, ok := node.Props["story"]
+	if ok {
+		obj.Story = storStr.(string)
+	}
+
 	timeRaw, ok := node.Props["created_at"].(int64)
 	if ok {
 		obj.CreatedAt = time.Unix(timeRaw, 0)
@@ -47,10 +59,12 @@ func ItemFromNode(node dbtype.Node) *Item {
 }
 
 type CreateItem struct {
-	Name       string  `validate:"required" json:"name"`
-	Points     int     `validate:"required" json:"points"`
-	GameID     string  `validate:"required" json:"game_id"`
-	ArmyTypeID *string `json:"army_type_id"`
-	ItemTypeID string  `validate:"required" json:"item_type_id"`
-	Debug      bool
+	Name        string  `validate:"required" json:"name"`
+	Points      int     `validate:"required" json:"points"`
+	GameID      string  `validate:"required" json:"game_id"`
+	ArmyTypeID  *string `json:"army_type_id"`
+	ItemTypeID  string  `validate:"required" json:"item_type_id"`
+	Description string  `json:"description"`
+	Story       string  `json:"story"`
+	Debug       bool
 }

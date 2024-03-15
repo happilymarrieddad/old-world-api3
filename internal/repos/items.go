@@ -188,6 +188,8 @@ func (r *itemsRepo) CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, i
 		"item_type_id": itm.ItemTypeID,
 		"created_at":   time.Now().UTC().Unix(),
 		"updated_at":   time.Now().UTC().Unix(),
+		"description":  itm.Description,
+		"story":        itm.Story,
 	}
 
 	var mergeQryAdd string
@@ -211,8 +213,10 @@ func (r *itemsRepo) CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, i
 			,item_type_id:  $item_type_id
 		})
 		ON CREATE
-			SET i.created_at = $created_at,
-			i.id = apoc.create.uuid()
+			SET i.created_at = 	$created_at
+			,i.id = 			apoc.create.uuid()
+			,i.description = 	$description
+			,i.story = 			$story
 			%s
 		ON MATCH
 			SET i.updated_at = $updated_at
