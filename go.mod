@@ -12,8 +12,6 @@ require (
 	github.com/neo4j/neo4j-go-driver/v5 v5.17.0
 	github.com/onsi/ginkgo/v2 v2.15.0
 	github.com/onsi/gomega v1.31.1
-	github.com/philips/go-bindata-assetfs v0.0.0-20150624150248-3dcc96556217
-	github.com/philips/grpc-gateway-example v0.0.0-20170619012617-a269bcb5931c
 	go.uber.org/mock v0.4.0
 	golang.org/x/crypto v0.21.0
 	google.golang.org/grpc v1.62.0
