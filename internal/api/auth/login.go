@@ -2,7 +2,7 @@ package auth
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	"github.com/happilymarrieddad/old-world/api3/internal/jwt"
@@ -13,17 +13,18 @@ import (
 func (s *grpcHandler) Login(ctx context.Context, req *pbauth.LoginRequest) (reply *pbauth.LoginReply, err error) {
 	gr, err := interceptors.GetGlobalRepoFromContext(ctx)
 	if err != nil {
+		log.Println("unable to get global repo from context")
 		return nil, err
 	}
 
 	usr, err := gr.Users().GetByEmail(ctx, req.Email)
 	if err != nil {
-		fmt.Println("login GetByEmail failed with err: ", err.Error())
+		log.Println("login GetByEmail failed with err: ", err.Error())
 		return nil, err
 	}
 
 	if !usr.PasswordMatches(req.Password) {
-		fmt.Println("login password does not match")
+		log.Println("login password does not match")
 		return nil, types.NewUnauthorizedError("unauthorized")
 	}
 

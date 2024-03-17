@@ -90,3 +90,9 @@ func UserArmyFromNode(node dbtype.Node) *UserArmy {
 
 	return obj
 }
+
+type UpdateUserArmy struct {
+	ID     string
+	Name   *string
+	Points *int64
+}
