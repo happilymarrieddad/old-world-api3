@@ -13,6 +13,7 @@ import (
 
 var unauthorizedRoutes = []string{
 	"/auth.Auth/Login",
+	"/auth.Auth/CreateUser",
 }
 
 func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {

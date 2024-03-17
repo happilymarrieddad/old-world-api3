@@ -180,6 +180,8 @@ func (ut *UnitType) GetPbUnitType() *pbunittypes.UnitType {
 				GameId:       itm.GameID,
 				ArmyTypeId:   atId,
 				CreatedAt:    timestamppb.New(itm.CreatedAt.UTC()),
+				Description:  itm.Description,
+				Story:        itm.Story,
 			})
 		}
 

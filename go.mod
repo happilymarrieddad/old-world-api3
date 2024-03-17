@@ -8,6 +8,7 @@ require (
 	github.com/go-playground/validator/v10 v10.18.0
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.19.1
 	github.com/inconshreveable/log15 v2.16.0+incompatible
 	github.com/neo4j/neo4j-go-driver/v5 v5.17.0
 	github.com/onsi/ginkgo/v2 v2.15.0
@@ -20,6 +21,8 @@ require (
 
 require (
 	github.com/golang/protobuf v1.5.3 // indirect
+	github.com/rogpeppe/go-internal v1.12.0 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240125205218-1f4bbc51befe // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240304161311-37d4d3c04a78 // indirect
 )
 

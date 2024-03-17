@@ -2,9 +2,9 @@
 // versions:
 // 	protoc-gen-go v1.33.0
 // 	protoc        (unknown)
-// source: proto/compositionTypes/composition-types.proto
+// source: proto/compositiontypes/composition-types.proto
 
-package compositionTypes
+package compositiontypes
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -33,7 +33,7 @@ type GetCompositionTypeRequest struct {
 func (x *GetCompositionTypeRequest) Reset() {
 	*x = GetCompositionTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[0]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +46,7 @@ func (x *GetCompositionTypeRequest) String() string {
 func (*GetCompositionTypeRequest) ProtoMessage() {}
 
 func (x *GetCompositionTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[0]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +59,7 @@ func (x *GetCompositionTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCompositionTypeRequest.ProtoReflect.Descriptor instead.
 func (*GetCompositionTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{0}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *GetCompositionTypeRequest) GetJWT() string {
@@ -90,7 +90,7 @@ type GetCompositionTypesRequest struct {
 func (x *GetCompositionTypesRequest) Reset() {
 	*x = GetCompositionTypesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[1]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -103,7 +103,7 @@ func (x *GetCompositionTypesRequest) String() string {
 func (*GetCompositionTypesRequest) ProtoMessage() {}
 
 func (x *GetCompositionTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[1]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +116,7 @@ func (x *GetCompositionTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCompositionTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetCompositionTypesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{1}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetCompositionTypesRequest) GetJWT() string {
@@ -159,7 +159,7 @@ type GetCompositionTypesReply struct {
 func (x *GetCompositionTypesReply) Reset() {
 	*x = GetCompositionTypesReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[2]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -172,7 +172,7 @@ func (x *GetCompositionTypesReply) String() string {
 func (*GetCompositionTypesReply) ProtoMessage() {}
 
 func (x *GetCompositionTypesReply) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[2]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -185,7 +185,7 @@ func (x *GetCompositionTypesReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetCompositionTypesReply.ProtoReflect.Descriptor instead.
 func (*GetCompositionTypesReply) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{2}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetCompositionTypesReply) GetCompositionTypes() []*CompositionType {
@@ -215,7 +215,7 @@ type CreateCompositionTypeRequest struct {
 func (x *CreateCompositionTypeRequest) Reset() {
 	*x = CreateCompositionTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[3]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -228,7 +228,7 @@ func (x *CreateCompositionTypeRequest) String() string {
 func (*CreateCompositionTypeRequest) ProtoMessage() {}
 
 func (x *CreateCompositionTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[3]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +241,7 @@ func (x *CreateCompositionTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateCompositionTypeRequest.ProtoReflect.Descriptor instead.
 func (*CreateCompositionTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{3}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *CreateCompositionTypeRequest) GetJWT() string {
@@ -278,7 +278,7 @@ type UpdateCompositionTypeRequest struct {
 func (x *UpdateCompositionTypeRequest) Reset() {
 	*x = UpdateCompositionTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[4]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -291,7 +291,7 @@ func (x *UpdateCompositionTypeRequest) String() string {
 func (*UpdateCompositionTypeRequest) ProtoMessage() {}
 
 func (x *UpdateCompositionTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[4]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -304,7 +304,7 @@ func (x *UpdateCompositionTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateCompositionTypeRequest.ProtoReflect.Descriptor instead.
 func (*UpdateCompositionTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{4}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *UpdateCompositionTypeRequest) GetJWT() string {
@@ -340,7 +340,7 @@ type DeleteCompositionTypeRequest struct {
 func (x *DeleteCompositionTypeRequest) Reset() {
 	*x = DeleteCompositionTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[5]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -353,7 +353,7 @@ func (x *DeleteCompositionTypeRequest) String() string {
 func (*DeleteCompositionTypeRequest) ProtoMessage() {}
 
 func (x *DeleteCompositionTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[5]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -366,7 +366,7 @@ func (x *DeleteCompositionTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteCompositionTypeRequest.ProtoReflect.Descriptor instead.
 func (*DeleteCompositionTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{5}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *DeleteCompositionTypeRequest) GetJWT() string {
@@ -397,7 +397,7 @@ type CompositionType struct {
 func (x *CompositionType) Reset() {
 	*x = CompositionType{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[6]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -410,7 +410,7 @@ func (x *CompositionType) String() string {
 func (*CompositionType) ProtoMessage() {}
 
 func (x *CompositionType) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[6]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -423,7 +423,7 @@ func (x *CompositionType) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompositionType.ProtoReflect.Descriptor instead.
 func (*CompositionType) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{6}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *CompositionType) GetId() string {
@@ -463,7 +463,7 @@ type EmptyReply struct {
 func (x *EmptyReply) Reset() {
 	*x = EmptyReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[7]
+		mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[7]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -476,7 +476,7 @@ func (x *EmptyReply) String() string {
 func (*EmptyReply) ProtoMessage() {}
 
 func (x *EmptyReply) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_compositionTypes_composition_types_proto_msgTypes[7]
+	mi := &file_proto_compositiontypes_composition_types_proto_msgTypes[7]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -489,14 +489,14 @@ func (x *EmptyReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EmptyReply.ProtoReflect.Descriptor instead.
 func (*EmptyReply) Descriptor() ([]byte, []int) {
-	return file_proto_compositionTypes_composition_types_proto_rawDescGZIP(), []int{7}
+	return file_proto_compositiontypes_composition_types_proto_rawDescGZIP(), []int{7}
 }
 
-var File_proto_compositionTypes_composition_types_proto protoreflect.FileDescriptor
+var File_proto_compositiontypes_composition_types_proto protoreflect.FileDescriptor
 
-var file_proto_compositionTypes_composition_types_proto_rawDesc = []byte{
+var file_proto_compositiontypes_composition_types_proto_rawDesc = []byte{
 	0x0a, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x73, 0x69, 0x74,
-	0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x73, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x73, 0x69,
+	0x69, 0x6f, 0x6e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x73, 0x69,
 	0x74, 0x69, 0x6f, 0x6e, 0x2d, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f,
 	0x12, 0x10, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69, 0x6f, 0x6e, 0x74, 0x79, 0x70,
 	0x65, 0x73, 0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
@@ -585,23 +585,23 @@ var file_proto_compositionTypes_composition_types_proto_rawDesc = []byte{
 	0x70, 0x69, 0x6c, 0x79, 0x6d, 0x61, 0x72, 0x72, 0x69, 0x65, 0x64, 0x64, 0x61, 0x64, 0x2f, 0x6f,
 	0x6c, 0x64, 0x2d, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2f, 0x61, 0x70, 0x69, 0x33, 0x2f, 0x70, 0x62,
 	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x63, 0x6f, 0x6d, 0x70, 0x6f, 0x73, 0x69, 0x74, 0x69,
-	0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x6e, 0x74, 0x79, 0x70, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
-	file_proto_compositionTypes_composition_types_proto_rawDescOnce sync.Once
-	file_proto_compositionTypes_composition_types_proto_rawDescData = file_proto_compositionTypes_composition_types_proto_rawDesc
+	file_proto_compositiontypes_composition_types_proto_rawDescOnce sync.Once
+	file_proto_compositiontypes_composition_types_proto_rawDescData = file_proto_compositiontypes_composition_types_proto_rawDesc
 )
 
-func file_proto_compositionTypes_composition_types_proto_rawDescGZIP() []byte {
-	file_proto_compositionTypes_composition_types_proto_rawDescOnce.Do(func() {
-		file_proto_compositionTypes_composition_types_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_compositionTypes_composition_types_proto_rawDescData)
+func file_proto_compositiontypes_composition_types_proto_rawDescGZIP() []byte {
+	file_proto_compositiontypes_composition_types_proto_rawDescOnce.Do(func() {
+		file_proto_compositiontypes_composition_types_proto_rawDescData = protoimpl.X.CompressGZIP(file_proto_compositiontypes_composition_types_proto_rawDescData)
 	})
-	return file_proto_compositionTypes_composition_types_proto_rawDescData
+	return file_proto_compositiontypes_composition_types_proto_rawDescData
 }
 
-var file_proto_compositionTypes_composition_types_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
-var file_proto_compositionTypes_composition_types_proto_goTypes = []interface{}{
+var file_proto_compositiontypes_composition_types_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
+var file_proto_compositiontypes_composition_types_proto_goTypes = []interface{}{
 	(*GetCompositionTypeRequest)(nil),    // 0: compositiontypes.GetCompositionTypeRequest
 	(*GetCompositionTypesRequest)(nil),   // 1: compositiontypes.GetCompositionTypesRequest
 	(*GetCompositionTypesReply)(nil),     // 2: compositiontypes.GetCompositionTypesReply
@@ -612,7 +612,7 @@ var file_proto_compositionTypes_composition_types_proto_goTypes = []interface{}{
 	(*EmptyReply)(nil),                   // 7: compositiontypes.EmptyReply
 	(*timestamppb.Timestamp)(nil),        // 8: google.protobuf.Timestamp
 }
-var file_proto_compositionTypes_composition_types_proto_depIdxs = []int32{
+var file_proto_compositiontypes_composition_types_proto_depIdxs = []int32{
 	6, // 0: compositiontypes.GetCompositionTypesReply.compositionTypes:type_name -> compositiontypes.CompositionType
 	8, // 1: compositiontypes.CompositionType.createdAt:type_name -> google.protobuf.Timestamp
 	1, // 2: compositiontypes.V1CompositionTypes.GetCompositionTypes:input_type -> compositiontypes.GetCompositionTypesRequest
@@ -632,13 +632,13 @@ var file_proto_compositionTypes_composition_types_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_proto_compositionTypes_composition_types_proto_init() }
-func file_proto_compositionTypes_composition_types_proto_init() {
-	if File_proto_compositionTypes_composition_types_proto != nil {
+func init() { file_proto_compositiontypes_composition_types_proto_init() }
+func file_proto_compositiontypes_composition_types_proto_init() {
+	if File_proto_compositiontypes_composition_types_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_proto_compositionTypes_composition_types_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCompositionTypeRequest); i {
 			case 0:
 				return &v.state
@@ -650,7 +650,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCompositionTypesRequest); i {
 			case 0:
 				return &v.state
@@ -662,7 +662,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GetCompositionTypesReply); i {
 			case 0:
 				return &v.state
@@ -674,7 +674,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CreateCompositionTypeRequest); i {
 			case 0:
 				return &v.state
@@ -686,7 +686,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateCompositionTypeRequest); i {
 			case 0:
 				return &v.state
@@ -698,7 +698,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteCompositionTypeRequest); i {
 			case 0:
 				return &v.state
@@ -710,7 +710,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*CompositionType); i {
 			case 0:
 				return &v.state
@@ -722,7 +722,7 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 				return nil
 			}
 		}
-		file_proto_compositionTypes_composition_types_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
+		file_proto_compositiontypes_composition_types_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EmptyReply); i {
 			case 0:
 				return &v.state
@@ -739,18 +739,18 @@ func file_proto_compositionTypes_composition_types_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_proto_compositionTypes_composition_types_proto_rawDesc,
+			RawDescriptor: file_proto_compositiontypes_composition_types_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_compositionTypes_composition_types_proto_goTypes,
-		DependencyIndexes: file_proto_compositionTypes_composition_types_proto_depIdxs,
-		MessageInfos:      file_proto_compositionTypes_composition_types_proto_msgTypes,
+		GoTypes:           file_proto_compositiontypes_composition_types_proto_goTypes,
+		DependencyIndexes: file_proto_compositiontypes_composition_types_proto_depIdxs,
+		MessageInfos:      file_proto_compositiontypes_composition_types_proto_msgTypes,
 	}.Build()
-	File_proto_compositionTypes_composition_types_proto = out.File
-	file_proto_compositionTypes_composition_types_proto_rawDesc = nil
-	file_proto_compositionTypes_composition_types_proto_goTypes = nil
-	file_proto_compositionTypes_composition_types_proto_depIdxs = nil
+	File_proto_compositiontypes_composition_types_proto = out.File
+	file_proto_compositiontypes_composition_types_proto_rawDesc = nil
+	file_proto_compositiontypes_composition_types_proto_goTypes = nil
+	file_proto_compositiontypes_composition_types_proto_depIdxs = nil
 }

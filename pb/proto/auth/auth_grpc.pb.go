@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Auth_Login_FullMethodName    = "/auth.Auth/Login"
-	Auth_Validate_FullMethodName = "/auth.Auth/Validate"
-	Auth_Refresh_FullMethodName  = "/auth.Auth/Refresh"
+	Auth_Login_FullMethodName      = "/auth.Auth/Login"
+	Auth_Validate_FullMethodName   = "/auth.Auth/Validate"
+	Auth_Refresh_FullMethodName    = "/auth.Auth/Refresh"
+	Auth_CreateUser_FullMethodName = "/auth.Auth/CreateUser"
 )
 
 // AuthClient is the client API for Auth service.
@@ -31,6 +32,7 @@ type AuthClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginReply, error)
 	Validate(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*ValidateReply, error)
 	Refresh(ctx context.Context, in *JWTRequest, opts ...grpc.CallOption) (*LoginReply, error)
+	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*LoginReply, error)
 }
 
 type authClient struct {
@@ -68,6 +70,15 @@ func (c *authClient) Refresh(ctx context.Context, in *JWTRequest, opts ...grpc.C
 	return out, nil
 }
 
+func (c *authClient) CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*LoginReply, error) {
+	out := new(LoginReply)
+	err := c.cc.Invoke(ctx, Auth_CreateUser_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthServer is the server API for Auth service.
 // All implementations must embed UnimplementedAuthServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type AuthServer interface {
 	Login(context.Context, *LoginRequest) (*LoginReply, error)
 	Validate(context.Context, *JWTRequest) (*ValidateReply, error)
 	Refresh(context.Context, *JWTRequest) (*LoginReply, error)
+	CreateUser(context.Context, *CreateUserRequest) (*LoginReply, error)
 	mustEmbedUnimplementedAuthServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedAuthServer) Validate(context.Context, *JWTRequest) (*Validate
 }
 func (UnimplementedAuthServer) Refresh(context.Context, *JWTRequest) (*LoginReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Refresh not implemented")
+}
+func (UnimplementedAuthServer) CreateUser(context.Context, *CreateUserRequest) (*LoginReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
 func (UnimplementedAuthServer) mustEmbedUnimplementedAuthServer() {}
 
@@ -158,6 +173,24 @@ func _Auth_Refresh_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Auth_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateUserRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthServer).CreateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Auth_CreateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthServer).CreateUser(ctx, req.(*CreateUserRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Auth_ServiceDesc is the grpc.ServiceDesc for Auth service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var Auth_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Refresh",
 			Handler:    _Auth_Refresh_Handler,
+		},
+		{
+			MethodName: "CreateUser",
+			Handler:    _Auth_CreateUser_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
