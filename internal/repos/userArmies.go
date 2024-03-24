@@ -28,6 +28,8 @@ type UserArmiesRepo interface {
 	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error)
 	Create(ctx context.Context, nua types.CreateUserArmy) (*types.UserArmy, error)
 	CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, nua types.CreateUserArmy) (*types.UserArmy, error)
+	Update(ctx context.Context, obj types.UpdateUserArmy) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, obj types.UpdateUserArmy) error
 	GetUnit(ctx context.Context, userArmyUnitID string) (*types.UserArmyUnit, error)
 	GetUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyUnitID string) (*types.UserArmyUnit, error)
 	AddUnits(ctx context.Context, userArmyID string, uaus ...*types.CreateUserArmyUnit) ([]*types.UserArmyUnit, error)
@@ -334,6 +336,49 @@ func (r *userArmyRepo) RemoveUnitsTx(ctx context.Context, tx neo4j.ManagedTransa
 	WHERE uau.id IN $ids
 	DETACH DELETE (uau)
 	`
+
+	result, err := tx.Run(ctx, cmd, params)
+	if err != nil {
+		return err
+	}
+
+	return result.Err()
+}
+
+func (r *userArmyRepo) Update(ctx context.Context, obj types.UpdateUserArmy) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, obj)
+	})
+	return err
+}
+
+func (r *userArmyRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, obj types.UpdateUserArmy) error {
+	if obj.Name == nil && obj.Points == nil {
+		return nil
+	}
+
+	params := map[string]any{
+		"user_army_id": obj.ID,
+	}
+	cmd := `
+	MATCH (ua:UserArmy{ id: $user_army_id })
+	`
+
+	var setQry string
+	if obj.Name != nil {
+		setQry += "SET ua.name = $name"
+		params["name"] = *obj.Name
+	}
+
+	if obj.Points != nil {
+		params["points"] = *obj.Points
+		if len(setQry) == 0 {
+			setQry = "SET ua.points = $points"
+		} else {
+			setQry += " ,ua.points = $points"
+		}
+	}
+	cmd += " " + setQry + ` RETURN ua;`
 
 	result, err := tx.Run(ctx, cmd, params)
 	if err != nil {

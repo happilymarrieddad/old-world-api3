@@ -173,3 +173,127 @@ func (mr *MockUserArmiesRepoMockRecorder) GetTx(ctx, tx, userID, userArmyID any)
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTx", reflect.TypeOf((*MockUserArmiesRepo)(nil).GetTx), ctx, tx, userID, userArmyID)
 }
+
+// GetUnit mocks base method.
+func (m *MockUserArmiesRepo) GetUnit(ctx context.Context, userArmyUnitID string) (*types.UserArmyUnit, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUnit", ctx, userArmyUnitID)
+	ret0, _ := ret[0].(*types.UserArmyUnit)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUnit indicates an expected call of GetUnit.
+func (mr *MockUserArmiesRepoMockRecorder) GetUnit(ctx, userArmyUnitID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnit", reflect.TypeOf((*MockUserArmiesRepo)(nil).GetUnit), ctx, userArmyUnitID)
+}
+
+// GetUnitTx mocks base method.
+func (m *MockUserArmiesRepo) GetUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyUnitID string) (*types.UserArmyUnit, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetUnitTx", ctx, tx, userArmyUnitID)
+	ret0, _ := ret[0].(*types.UserArmyUnit)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetUnitTx indicates an expected call of GetUnitTx.
+func (mr *MockUserArmiesRepoMockRecorder) GetUnitTx(ctx, tx, userArmyUnitID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetUnitTx", reflect.TypeOf((*MockUserArmiesRepo)(nil).GetUnitTx), ctx, tx, userArmyUnitID)
+}
+
+// RemoveUnits mocks base method.
+func (m *MockUserArmiesRepo) RemoveUnits(ctx context.Context, userArmyID string, userArmyUnitIDs ...string) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, userArmyID}
+	for _, a := range userArmyUnitIDs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RemoveUnits", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RemoveUnits indicates an expected call of RemoveUnits.
+func (mr *MockUserArmiesRepoMockRecorder) RemoveUnits(ctx, userArmyID any, userArmyUnitIDs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, userArmyID}, userArmyUnitIDs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUnits", reflect.TypeOf((*MockUserArmiesRepo)(nil).RemoveUnits), varargs...)
+}
+
+// RemoveUnitsTx mocks base method.
+func (m *MockUserArmiesRepo) RemoveUnitsTx(ctx context.Context, tx neo4j.ManagedTransaction, userArmyID string, userArmyUnitIDs ...string) error {
+	m.ctrl.T.Helper()
+	varargs := []any{ctx, tx, userArmyID}
+	for _, a := range userArmyUnitIDs {
+		varargs = append(varargs, a)
+	}
+	ret := m.ctrl.Call(m, "RemoveUnitsTx", varargs...)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// RemoveUnitsTx indicates an expected call of RemoveUnitsTx.
+func (mr *MockUserArmiesRepoMockRecorder) RemoveUnitsTx(ctx, tx, userArmyID any, userArmyUnitIDs ...any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	varargs := append([]any{ctx, tx, userArmyID}, userArmyUnitIDs...)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveUnitsTx", reflect.TypeOf((*MockUserArmiesRepo)(nil).RemoveUnitsTx), varargs...)
+}
+
+// Update mocks base method.
+func (m *MockUserArmiesRepo) Update(ctx context.Context, obj types.UpdateUserArmy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockUserArmiesRepoMockRecorder) Update(ctx, obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUserArmiesRepo)(nil).Update), ctx, obj)
+}
+
+// UpdateTx mocks base method.
+func (m *MockUserArmiesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, obj types.UpdateUserArmy) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, obj)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockUserArmiesRepoMockRecorder) UpdateTx(ctx, tx, obj any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockUserArmiesRepo)(nil).UpdateTx), ctx, tx, obj)
+}
+
+// UpdateUnit mocks base method.
+func (m *MockUserArmiesRepo) UpdateUnit(ctx context.Context, opts types.UpdateUserArmyUnit) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUnit", ctx, opts)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUnit indicates an expected call of UpdateUnit.
+func (mr *MockUserArmiesRepoMockRecorder) UpdateUnit(ctx, opts any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnit", reflect.TypeOf((*MockUserArmiesRepo)(nil).UpdateUnit), ctx, opts)
+}
+
+// UpdateUnitTx mocks base method.
+func (m *MockUserArmiesRepo) UpdateUnitTx(ctx context.Context, tx neo4j.ManagedTransaction, opts types.UpdateUserArmyUnit) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUnitTx", ctx, tx, opts)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUnitTx indicates an expected call of UpdateUnitTx.
+func (mr *MockUserArmiesRepoMockRecorder) UpdateUnitTx(ctx, tx, opts any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUnitTx", reflect.TypeOf((*MockUserArmiesRepo)(nil).UpdateUnitTx), ctx, tx, opts)
+}

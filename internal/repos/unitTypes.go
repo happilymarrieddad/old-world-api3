@@ -341,6 +341,8 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 func (r *unitTypesRepo) getUnitOptionsFromUnitTypeByID(
 	ctx context.Context, tx neo4j.ManagedTransaction, unitTypeID string,
 ) ([]*types.UnitTypeOption, error) {
+	itRepo := NewItemTypesRepo(r.db)
+
 	params := map[string]any{
 		"unit_type_id": unitTypeID,
 	}
@@ -404,9 +406,9 @@ func (r *unitTypesRepo) getUnitOptionsFromUnitTypeByID(
 
 			result2, err := tx.Run(ctx, `
 			MATCH (uo:UnitOption{ id: $unit_type_option_id })
-			MATCH (i:Item)<-[rel:IS_OPTION_ITEM]-(uo)
+			MATCH (it:ItemType)<-[:IS_ITEM_TYPE]-(i:Item)<-[rel:IS_OPTION_ITEM]-(uo)
 			WITH i
-			ORDER BY i.points DESC
+			ORDER BY it.position, i.points DESC
 			UNWIND (i) AS items
 			RETURN collect(items)
 			`, map[string]any{
@@ -428,6 +430,17 @@ func (r *unitTypesRepo) getUnitOptionsFromUnitTypeByID(
 						return nil, errors.New("unable to get unit unit type option item")
 					}
 					it := types.ItemFromNode(node)
+
+					its, _, err := itRepo.Find(ctx, &FindItemTypeOpts{
+						GameID: it.GameID,
+						ID:     []string{it.ItemTypeID},
+					})
+					if err != nil {
+						return nil, err
+					} else if len(its) > 0 {
+						it.ItemTypeName = its[0].Name
+					}
+
 					uto.Items = append(uto.Items, it)
 				}
 			}

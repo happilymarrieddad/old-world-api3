@@ -25,6 +25,7 @@ const (
 	V1UserArmies_DestroyUserArmy_FullMethodName = "/userarmies.V1UserArmies/DestroyUserArmy"
 	V1UserArmies_AddUnit_FullMethodName         = "/userarmies.V1UserArmies/AddUnit"
 	V1UserArmies_RemoveUnit_FullMethodName      = "/userarmies.V1UserArmies/RemoveUnit"
+	V1UserArmies_UpdateUserArmy_FullMethodName  = "/userarmies.V1UserArmies/UpdateUserArmy"
 )
 
 // V1UserArmiesClient is the client API for V1UserArmies service.
@@ -37,6 +38,7 @@ type V1UserArmiesClient interface {
 	DestroyUserArmy(ctx context.Context, in *DestroyUserArmyRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	AddUnit(ctx context.Context, in *AddUnitRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	RemoveUnit(ctx context.Context, in *RemoveUnitRequest, opts ...grpc.CallOption) (*EmptyReply, error)
+	UpdateUserArmy(ctx context.Context, in *UpdateUserArmyRequest, opts ...grpc.CallOption) (*GetUserArmyReply, error)
 }
 
 type v1UserArmiesClient struct {
@@ -101,6 +103,15 @@ func (c *v1UserArmiesClient) RemoveUnit(ctx context.Context, in *RemoveUnitReque
 	return out, nil
 }
 
+func (c *v1UserArmiesClient) UpdateUserArmy(ctx context.Context, in *UpdateUserArmyRequest, opts ...grpc.CallOption) (*GetUserArmyReply, error) {
+	out := new(GetUserArmyReply)
+	err := c.cc.Invoke(ctx, V1UserArmies_UpdateUserArmy_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // V1UserArmiesServer is the server API for V1UserArmies service.
 // All implementations must embed UnimplementedV1UserArmiesServer
 // for forward compatibility
@@ -111,6 +122,7 @@ type V1UserArmiesServer interface {
 	DestroyUserArmy(context.Context, *DestroyUserArmyRequest) (*EmptyReply, error)
 	AddUnit(context.Context, *AddUnitRequest) (*EmptyReply, error)
 	RemoveUnit(context.Context, *RemoveUnitRequest) (*EmptyReply, error)
+	UpdateUserArmy(context.Context, *UpdateUserArmyRequest) (*GetUserArmyReply, error)
 	mustEmbedUnimplementedV1UserArmiesServer()
 }
 
@@ -135,6 +147,9 @@ func (UnimplementedV1UserArmiesServer) AddUnit(context.Context, *AddUnitRequest)
 }
 func (UnimplementedV1UserArmiesServer) RemoveUnit(context.Context, *RemoveUnitRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveUnit not implemented")
+}
+func (UnimplementedV1UserArmiesServer) UpdateUserArmy(context.Context, *UpdateUserArmyRequest) (*GetUserArmyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUserArmy not implemented")
 }
 func (UnimplementedV1UserArmiesServer) mustEmbedUnimplementedV1UserArmiesServer() {}
 
@@ -257,6 +272,24 @@ func _V1UserArmies_RemoveUnit_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _V1UserArmies_UpdateUserArmy_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateUserArmyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1UserArmiesServer).UpdateUserArmy(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1UserArmies_UpdateUserArmy_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1UserArmiesServer).UpdateUserArmy(ctx, req.(*UpdateUserArmyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // V1UserArmies_ServiceDesc is the grpc.ServiceDesc for V1UserArmies service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -287,6 +320,10 @@ var V1UserArmies_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RemoveUnit",
 			Handler:    _V1UserArmies_RemoveUnit_Handler,
+		},
+		{
+			MethodName: "UpdateUserArmy",
+			Handler:    _V1UserArmies_UpdateUserArmy_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

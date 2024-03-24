@@ -14,6 +14,7 @@ import (
 	reflect "reflect"
 
 	types "github.com/happilymarrieddad/old-world/api3/types"
+	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -69,4 +70,19 @@ func (m *MockUnitOptionTypesRepo) FindOrCreate(ctx context.Context, at types.Cre
 func (mr *MockUnitOptionTypesRepoMockRecorder) FindOrCreate(ctx, at any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreate", reflect.TypeOf((*MockUnitOptionTypesRepo)(nil).FindOrCreate), ctx, at)
+}
+
+// FindOrCreateTx mocks base method.
+func (m *MockUnitOptionTypesRepo) FindOrCreateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.CreateUnitOptionType) (*types.UnitOptionType, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindOrCreateTx", ctx, tx, at)
+	ret0, _ := ret[0].(*types.UnitOptionType)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// FindOrCreateTx indicates an expected call of FindOrCreateTx.
+func (mr *MockUnitOptionTypesRepoMockRecorder) FindOrCreateTx(ctx, tx, at any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreateTx", reflect.TypeOf((*MockUnitOptionTypesRepo)(nil).FindOrCreateTx), ctx, tx, at)
 }
