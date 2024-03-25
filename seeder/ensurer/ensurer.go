@@ -7,6 +7,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	"github.com/happilymarrieddad/old-world/api3/types"
 )
@@ -252,7 +253,9 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 					if err != nil {
 						return err
 					} else if len(parent) == 0 {
-						return errors.New("somehow parent was created then can't be found??")
+						spew.Dump(unitType)
+						fmt.Println(at.ID)
+						return errors.New("somehow parent was created then can't be found? JSON is most certainly bad somewhere")
 					}
 
 					nut.UnitTypeID = parent[0].ID
