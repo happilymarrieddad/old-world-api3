@@ -90,7 +90,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 				return fmt.Errorf("unable to find item type Name: %s Type: %s", itm.Name, itm.Type)
 			}
 
-			if _, err := gr.Items().Create(ctx, types.CreateItem{
+			if _, err := gr.Items().FindOrCreate(ctx, types.CreateItem{
 				Name:        itm.Name,
 				Points:      int(itm.Points),
 				GameID:      gm.ID,
@@ -115,7 +115,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 					return fmt.Errorf("unable to find item type 2: Name: %s Type: %s", aitm.Name, aitm.Type)
 				}
 
-				if _, err := gr.Items().Create(ctx, types.CreateItem{
+				if _, err := gr.Items().FindOrCreate(ctx, types.CreateItem{
 					Name:        aitm.Name,
 					Points:      int(aitm.Points),
 					GameID:      gm.ID,
@@ -225,7 +225,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 							} else {
 								if nuo.MaxPoints == 0 || optItem.Points <= int64(nuo.MaxPoints) {
 									// Item does not exist so we must create it
-									newItem, err := gr.Items().Create(ctx, types.CreateItem{
+									newItem, err := gr.Items().FindOrCreate(ctx, types.CreateItem{
 										Name:        optItem.Txt,
 										Points:      int(optItem.Points),
 										GameID:      gm.ID,

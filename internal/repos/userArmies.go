@@ -93,11 +93,11 @@ func (r *userArmyRepo) FindTx(
 	}
 
 	var limitOffsetQry string
+	if opts.Offset > 0 {
+		limitOffsetQry += fmt.Sprintf(" SKIP %d", opts.Offset)
+	}
 	if opts.Limit > 0 {
 		limitOffsetQry += fmt.Sprintf(" LIMIT %d", opts.Limit)
-	}
-	if opts.Offset > 0 {
-		limitOffsetQry += fmt.Sprintf(" OFFSET %d", opts.Offset)
 	}
 
 	comp := `WHERE`

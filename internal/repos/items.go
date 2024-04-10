@@ -28,10 +28,14 @@ type FindItemsOpts struct {
 type ItemsRepo interface {
 	Get(ctx context.Context, id, gameID string) (*types.Item, error)
 	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id, gameID string) (*types.Item, error)
+	GetByName(ctx context.Context, gameID string, armyTypeID *string, name string) (*types.Item, error)
+	GetByNameTx(ctx context.Context, tx neo4j.ManagedTransaction, gameID string, armyTypeID *string, name string) (*types.Item, error)
 	Find(ctx context.Context, opts *FindItemsOpts) ([]*types.Item, error)
 	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindItemsOpts) ([]*types.Item, error)
 	Create(ctx context.Context, itm types.CreateItem) (*types.Item, error)
 	CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.CreateItem) (*types.Item, error)
+	FindOrCreate(ctx context.Context, itm types.CreateItem) (*types.Item, error)
+	FindOrCreateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.CreateItem) (*types.Item, error)
 }
 
 func NewItemsRepo(db neo4j.DriverWithContext) ItemsRepo {
@@ -58,6 +62,31 @@ func (r *itemsRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id, 
 		return nil, err
 	} else if len(res) == 0 {
 		return nil, types.NewNotFoundError("items")
+	}
+
+	return res[0], nil
+}
+
+func (r *itemsRepo) GetByName(ctx context.Context, gameID string, armyTypeID *string, name string) (*types.Item, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.GetByNameTx(ctx, tx, gameID, armyTypeID, name)
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return res.(*types.Item), nil
+}
+
+func (r *itemsRepo) GetByNameTx(ctx context.Context, tx neo4j.ManagedTransaction, gameID string, armyTypeID *string, name string) (*types.Item, error) {
+	res, err := r.FindTx(ctx, tx, &FindItemsOpts{
+		GameID: gameID, ArmyTypeID: armyTypeID,
+		Names: []string{name}, Limit: 1,
+	})
+	if err != nil {
+		return nil, err
+	} else if len(res) == 0 {
+		return nil, types.NewNotFoundError("item not found")
 	}
 
 	return res[0], nil
@@ -260,4 +289,27 @@ func (r *itemsRepo) CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, i
 	}
 
 	return nil, result.Err()
+}
+
+func (r *itemsRepo) FindOrCreate(ctx context.Context, itm types.CreateItem) (*types.Item, error) {
+	res, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.FindOrCreateTx(ctx, tx, itm)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res.(*types.Item), nil
+}
+
+func (r *itemsRepo) FindOrCreateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.CreateItem) (*types.Item, error) {
+	eItem, err := r.GetByNameTx(ctx, tx, itm.GameID, itm.ArmyTypeID, itm.Name)
+	if err != nil {
+		if types.IsNotFoundError(err) {
+			return r.CreateTx(ctx, tx, itm)
+		}
+
+		return nil, err
+	}
+
+	return eItem, nil
 }

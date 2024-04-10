@@ -36,5 +36,6 @@ func (s *grpcHandler) Validate(ctx context.Context, req *pbauth.JWTRequest) (rep
 		Email:     user.Email,
 	}
 
+	log.Println("successfully validated token")
 	return reply, nil
 }
