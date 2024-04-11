@@ -36,6 +36,8 @@ type ItemsRepo interface {
 	CreateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.CreateItem) (*types.Item, error)
 	FindOrCreate(ctx context.Context, itm types.CreateItem) (*types.Item, error)
 	FindOrCreateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.CreateItem) (*types.Item, error)
+	Update(ctx context.Context, itm types.UpdateItem) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.UpdateItem) error
 }
 
 func NewItemsRepo(db neo4j.DriverWithContext) ItemsRepo {
@@ -44,6 +46,38 @@ func NewItemsRepo(db neo4j.DriverWithContext) ItemsRepo {
 
 type itemsRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *itemsRepo) Update(ctx context.Context, itm types.UpdateItem) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, itm)
+	})
+	return err
+}
+
+func (r *itemsRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.UpdateItem) error {
+	if err := types.Validate(itm); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (itm:Item{id: $id})
+			SET itm.name = $name
+				,itm.points = $points
+				,itm.description = $description
+				,itm.story = $story
+			RETURN itm
+		`, map[string]interface{}{
+		"id":          itm.ID,
+		"name":        itm.Name,
+		"points":      itm.Points,
+		"description": itm.Description,
+		"story":       itm.Story,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }
 
 func (r *itemsRepo) Get(ctx context.Context, id, gameID string) (*types.Item, error) {

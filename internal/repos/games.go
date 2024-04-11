@@ -16,6 +16,8 @@ import (
 type GamesRepo interface {
 	Find(ctx context.Context, limit, offset int) ([]*types.Game, error)
 	FindOrCreate(ctx context.Context, name string) (*types.Game, error)
+	Update(ctx context.Context, gm types.UpdateGame) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, gm types.UpdateGame) error
 }
 
 func NewGamesRepo(db neo4j.DriverWithContext) GamesRepo {
@@ -24,6 +26,32 @@ func NewGamesRepo(db neo4j.DriverWithContext) GamesRepo {
 
 type gamesRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *gamesRepo) Update(ctx context.Context, gm types.UpdateGame) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, gm)
+	})
+	return err
+}
+
+func (r *gamesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, gm types.UpdateGame) error {
+	if err := types.Validate(gm); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (gm:Game{id: $id})
+			SET gm.name = $name
+			RETURN gm
+		`, map[string]interface{}{
+		"id":   gm.ID,
+		"name": gm.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }
 
 func (r *gamesRepo) Find(ctx context.Context, limit, offset int) ([]*types.Game, error) {

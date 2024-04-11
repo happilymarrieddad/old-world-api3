@@ -36,3 +36,8 @@ func GameFromNode(node dbtype.Node) *Game {
 type CreateGame struct {
 	Name string `validate:"required" json:"name"`
 }
+
+type UpdateGame struct {
+	ID   string `validate:"required" json:"id"`
+	Name string `validate:"required" json:"name"`
+}

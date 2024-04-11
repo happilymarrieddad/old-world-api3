@@ -11,6 +11,7 @@ import (
 	v1armytypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/armytypes"
 	v1compositiontypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/compositiontypes"
 	v1games "github.com/happilymarrieddad/old-world/api3/internal/api/v1/games"
+	v1items "github.com/happilymarrieddad/old-world/api3/internal/api/v1/items"
 	v1itemtypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/itemtypes"
 	v1optiontypes "github.com/happilymarrieddad/old-world/api3/internal/api/v1/optiontypes"
 	v1statistics "github.com/happilymarrieddad/old-world/api3/internal/api/v1/statistics"
@@ -23,6 +24,7 @@ import (
 	pbauth "github.com/happilymarrieddad/old-world/api3/pb/proto/auth"
 	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
 	pbgames "github.com/happilymarrieddad/old-world/api3/pb/proto/games"
+	pbitems "github.com/happilymarrieddad/old-world/api3/pb/proto/items"
 	pbitemtypes "github.com/happilymarrieddad/old-world/api3/pb/proto/itemtypes"
 	pboptiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/optiontypes"
 	pbstatistics "github.com/happilymarrieddad/old-world/api3/pb/proto/statistics"
@@ -60,6 +62,7 @@ func Run(gr repos.GlobalRepo) {
 	pbunittypes.RegisterV1UnitTypesServer(s, v1unittypes.InitRoutes())
 	pbuserarmies.RegisterV1UserArmiesServer(s, v1userarmies.InitRoutes())
 	pbuserarmies.RegisterV1UserArmyUnitsServer(s, v1userunits.InitRoutes())
+	pbitems.RegisterV1ItemsServer(s, v1items.InitRoutes())
 
 	log.Printf("Server listening on port %d\n", port)
 	if err := s.Serve(lis); err != nil {

@@ -33,7 +33,7 @@ type V1ItemTypesClient interface {
 	GetItemTypes(ctx context.Context, in *GetItemTypesRequest, opts ...grpc.CallOption) (*GetItemTypesReply, error)
 	GetItemType(ctx context.Context, in *GetItemTypeRequest, opts ...grpc.CallOption) (*ItemType, error)
 	CreateItemType(ctx context.Context, in *CreateItemTypeRequest, opts ...grpc.CallOption) (*ItemType, error)
-	UpdateItemType(ctx context.Context, in *UpdateItemTypeRequest, opts ...grpc.CallOption) (*ItemType, error)
+	UpdateItemType(ctx context.Context, in *UpdateItemTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteItemType(ctx context.Context, in *DeleteItemTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
@@ -72,8 +72,8 @@ func (c *v1ItemTypesClient) CreateItemType(ctx context.Context, in *CreateItemTy
 	return out, nil
 }
 
-func (c *v1ItemTypesClient) UpdateItemType(ctx context.Context, in *UpdateItemTypeRequest, opts ...grpc.CallOption) (*ItemType, error) {
-	out := new(ItemType)
+func (c *v1ItemTypesClient) UpdateItemType(ctx context.Context, in *UpdateItemTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
 	err := c.cc.Invoke(ctx, V1ItemTypes_UpdateItemType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ type V1ItemTypesServer interface {
 	GetItemTypes(context.Context, *GetItemTypesRequest) (*GetItemTypesReply, error)
 	GetItemType(context.Context, *GetItemTypeRequest) (*ItemType, error)
 	CreateItemType(context.Context, *CreateItemTypeRequest) (*ItemType, error)
-	UpdateItemType(context.Context, *UpdateItemTypeRequest) (*ItemType, error)
+	UpdateItemType(context.Context, *UpdateItemTypeRequest) (*EmptyReply, error)
 	DeleteItemType(context.Context, *DeleteItemTypeRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1ItemTypesServer()
 }
@@ -115,7 +115,7 @@ func (UnimplementedV1ItemTypesServer) GetItemType(context.Context, *GetItemTypeR
 func (UnimplementedV1ItemTypesServer) CreateItemType(context.Context, *CreateItemTypeRequest) (*ItemType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateItemType not implemented")
 }
-func (UnimplementedV1ItemTypesServer) UpdateItemType(context.Context, *UpdateItemTypeRequest) (*ItemType, error) {
+func (UnimplementedV1ItemTypesServer) UpdateItemType(context.Context, *UpdateItemTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateItemType not implemented")
 }
 func (UnimplementedV1ItemTypesServer) DeleteItemType(context.Context, *DeleteItemTypeRequest) (*EmptyReply, error) {

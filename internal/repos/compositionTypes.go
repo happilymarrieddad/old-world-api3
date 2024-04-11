@@ -13,10 +13,19 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
 )
 
+type FindCompositionTypesOpts struct {
+	GameID string
+	Limit  int
+	Offset int
+	IDs    []string
+}
+
 //go:generate mockgen -source=./compositionTypes.go -destination=./mocks/CompositionTypesRepo.go -package=mock_repos CompositionTypesRepo
 type CompositionTypesRepo interface {
-	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error)
+	Find(ctx context.Context, opts *FindCompositionTypesOpts) ([]*types.CompositionType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateCompositionType) (*types.CompositionType, error)
+	Update(ctx context.Context, at types.UpdateCompositionType) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.UpdateCompositionType) error
 }
 
 func NewCompositionTypesRepo(db neo4j.DriverWithContext) CompositionTypesRepo {
@@ -27,26 +36,49 @@ type compositionTypesRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error) {
+func (r *compositionTypesRepo) Find(ctx context.Context, opts *FindCompositionTypesOpts) ([]*types.CompositionType, int64, error) {
+	if err := types.Validate(opts); err != nil {
+		return nil, 0, err
+	}
+
 	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		var matchQry string
 		var limitQry string
 		var offsetQry string
+		var whereQry string
 
-		if limit > 0 {
-			limitQry = fmt.Sprintf("LIMIT %d", limit)
+		params := make(map[string]any)
+
+		if opts.Limit > 0 {
+			limitQry = fmt.Sprintf("LIMIT %d", opts.Limit)
 		}
 
-		if offset > 0 {
-			offsetQry = fmt.Sprintf("SKIP %d", offset)
+		if opts.Offset > 0 {
+			offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
+		}
+
+		if len(opts.GameID) > 0 {
+			params["game_id"] = opts.GameID
+			matchQry = "(g:Game{ id: $game_id })<-[:BELONGS_TO]-"
+		}
+
+		if len(opts.IDs) > 0 {
+			comp := "WHERE"
+			if len(whereQry) > 0 {
+				comp = "AND"
+			}
+			whereQry += comp + " ct.id IN $ids"
+			params["ids"] = opts.IDs
 		}
 
 		result, err := tx.Run(ctx, fmt.Sprintf(`
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(ct:CompositionType)
+			MATCH %s(ct:CompositionType)
+			%s
 			RETURN ct
 			ORDER BY ct.name
 			%s %s;
-		`, offsetQry, limitQry), map[string]any{"game_id": gameID})
+		`, matchQry, whereQry, offsetQry, limitQry), params)
 		if err != nil {
 			return nil, err
 		}
@@ -60,10 +92,10 @@ func (r *compositionTypesRepo) Find(ctx context.Context, gameID string, limit, o
 			ats = append(ats, types.CompositionTypeFromNode(node))
 		}
 
-		result, err = tx.Run(ctx, `
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(n:CompositionType)
+		result, err = tx.Run(ctx, fmt.Sprintf(`
+			MATCH %s(n:CompositionType)
 			RETURN count(n) as count
-		`, map[string]any{"game_id": gameID})
+		`, matchQry), params)
 		if err != nil {
 			return nil, err
 		}
@@ -185,4 +217,30 @@ func (r *compositionTypesRepo) create(ctx context.Context, at types.CreateCompos
 	}
 
 	return res.(*types.CompositionType), nil
+}
+
+func (r *compositionTypesRepo) Update(ctx context.Context, at types.UpdateCompositionType) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, at)
+	})
+	return err
+}
+
+func (r *compositionTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, ct types.UpdateCompositionType) error {
+	if err := types.Validate(ct); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (ct:CompositionType{id: $id})
+			SET ct.name = $name
+			RETURN ct
+		`, map[string]interface{}{
+		"id":   ct.ID,
+		"name": ct.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }

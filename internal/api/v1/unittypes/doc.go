@@ -19,10 +19,6 @@ func (h *grpcHandler) GetUnitType(ctx context.Context, req *pbunittypes.GetUnitT
 	return nil, types.NewNotImplementedError()
 }
 
-func (h *grpcHandler) UpdateUnitType(ctx context.Context, req *pbunittypes.UpdateUnitTypeRequest) (res *pbunittypes.UnitType, err error) {
-	return nil, types.NewNotImplementedError()
-}
-
 func (h *grpcHandler) DeleteUnitType(ctx context.Context, req *pbunittypes.DeleteUnitTypeRequest) (res *pbunittypes.EmptyReply, err error) {
 	return nil, types.NewNotImplementedError()
 }

@@ -210,6 +210,14 @@ type CreateUnitType struct {
 	UnitOptions       []*UnitTypeOption       `json:"unit_options"`
 }
 
+type UpdateUnitType struct {
+	ID             string `validate:"required" json:"id"`
+	Name           string `validate:"required" json:"name"`
+	PointsPerModel int    `validate:"required" json:"points_per_model"`
+	MinModels      int    `validate:"required" json:"min_models"`
+	MaxModels      int    `validate:"required" json:"max_models"`
+}
+
 type CreateChildUnitType struct {
 	UnitTypeID string                  `json:"unit_type_id"`
 	Name       string                  `validate:"required" json:"name"`

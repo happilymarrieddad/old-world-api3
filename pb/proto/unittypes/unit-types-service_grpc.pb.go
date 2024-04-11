@@ -34,7 +34,7 @@ type V1UnitTypesClient interface {
 	GetUnitTypes(ctx context.Context, in *GetUnitTypesRequest, opts ...grpc.CallOption) (*GetUnitTypesReply, error)
 	GetUnitType(ctx context.Context, in *GetUnitTypeRequest, opts ...grpc.CallOption) (*UnitType, error)
 	CreateUnitType(ctx context.Context, in *CreateUnitTypeRequest, opts ...grpc.CallOption) (*UnitType, error)
-	UpdateUnitType(ctx context.Context, in *UpdateUnitTypeRequest, opts ...grpc.CallOption) (*UnitType, error)
+	UpdateUnitType(ctx context.Context, in *UpdateUnitTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteUnitType(ctx context.Context, in *DeleteUnitTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	GetBasicUnitTypesByArmyTypeID(ctx context.Context, in *ArmyTypeIdRequest, opts ...grpc.CallOption) (*ArmyTypeIdReply, error)
 }
@@ -74,8 +74,8 @@ func (c *v1UnitTypesClient) CreateUnitType(ctx context.Context, in *CreateUnitTy
 	return out, nil
 }
 
-func (c *v1UnitTypesClient) UpdateUnitType(ctx context.Context, in *UpdateUnitTypeRequest, opts ...grpc.CallOption) (*UnitType, error) {
-	out := new(UnitType)
+func (c *v1UnitTypesClient) UpdateUnitType(ctx context.Context, in *UpdateUnitTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
 	err := c.cc.Invoke(ctx, V1UnitTypes_UpdateUnitType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -108,7 +108,7 @@ type V1UnitTypesServer interface {
 	GetUnitTypes(context.Context, *GetUnitTypesRequest) (*GetUnitTypesReply, error)
 	GetUnitType(context.Context, *GetUnitTypeRequest) (*UnitType, error)
 	CreateUnitType(context.Context, *CreateUnitTypeRequest) (*UnitType, error)
-	UpdateUnitType(context.Context, *UpdateUnitTypeRequest) (*UnitType, error)
+	UpdateUnitType(context.Context, *UpdateUnitTypeRequest) (*EmptyReply, error)
 	DeleteUnitType(context.Context, *DeleteUnitTypeRequest) (*EmptyReply, error)
 	GetBasicUnitTypesByArmyTypeID(context.Context, *ArmyTypeIdRequest) (*ArmyTypeIdReply, error)
 	mustEmbedUnimplementedV1UnitTypesServer()
@@ -127,7 +127,7 @@ func (UnimplementedV1UnitTypesServer) GetUnitType(context.Context, *GetUnitTypeR
 func (UnimplementedV1UnitTypesServer) CreateUnitType(context.Context, *CreateUnitTypeRequest) (*UnitType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUnitType not implemented")
 }
-func (UnimplementedV1UnitTypesServer) UpdateUnitType(context.Context, *UpdateUnitTypeRequest) (*UnitType, error) {
+func (UnimplementedV1UnitTypesServer) UpdateUnitType(context.Context, *UpdateUnitTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUnitType not implemented")
 }
 func (UnimplementedV1UnitTypesServer) DeleteUnitType(context.Context, *DeleteUnitTypeRequest) (*EmptyReply, error) {

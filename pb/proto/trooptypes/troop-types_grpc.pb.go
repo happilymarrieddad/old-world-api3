@@ -22,8 +22,8 @@ const (
 	V1TroopTypes_GetTroopTypes_FullMethodName   = "/trooptypes.V1TroopTypes/GetTroopTypes"
 	V1TroopTypes_GetTroopType_FullMethodName    = "/trooptypes.V1TroopTypes/GetTroopType"
 	V1TroopTypes_CreateTroopType_FullMethodName = "/trooptypes.V1TroopTypes/CreateTroopType"
-	V1TroopTypes_UpdateTroopType_FullMethodName = "/trooptypes.V1TroopTypes/UpdateTroopType"
 	V1TroopTypes_DeleteTroopType_FullMethodName = "/trooptypes.V1TroopTypes/DeleteTroopType"
+	V1TroopTypes_UpdateTroopType_FullMethodName = "/trooptypes.V1TroopTypes/UpdateTroopType"
 )
 
 // V1TroopTypesClient is the client API for V1TroopTypes service.
@@ -33,8 +33,8 @@ type V1TroopTypesClient interface {
 	GetTroopTypes(ctx context.Context, in *GetTroopTypesRequest, opts ...grpc.CallOption) (*GetTroopTypesReply, error)
 	GetTroopType(ctx context.Context, in *GetTroopTypeRequest, opts ...grpc.CallOption) (*TroopType, error)
 	CreateTroopType(ctx context.Context, in *CreateTroopTypeRequest, opts ...grpc.CallOption) (*TroopType, error)
-	UpdateTroopType(ctx context.Context, in *UpdateTroopTypeRequest, opts ...grpc.CallOption) (*TroopType, error)
 	DeleteTroopType(ctx context.Context, in *DeleteTroopTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
+	UpdateTroopType(ctx context.Context, in *UpdateTroopTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
 type v1TroopTypesClient struct {
@@ -72,18 +72,18 @@ func (c *v1TroopTypesClient) CreateTroopType(ctx context.Context, in *CreateTroo
 	return out, nil
 }
 
-func (c *v1TroopTypesClient) UpdateTroopType(ctx context.Context, in *UpdateTroopTypeRequest, opts ...grpc.CallOption) (*TroopType, error) {
-	out := new(TroopType)
-	err := c.cc.Invoke(ctx, V1TroopTypes_UpdateTroopType_FullMethodName, in, out, opts...)
+func (c *v1TroopTypesClient) DeleteTroopType(ctx context.Context, in *DeleteTroopTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
+	err := c.cc.Invoke(ctx, V1TroopTypes_DeleteTroopType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *v1TroopTypesClient) DeleteTroopType(ctx context.Context, in *DeleteTroopTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+func (c *v1TroopTypesClient) UpdateTroopType(ctx context.Context, in *UpdateTroopTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
 	out := new(EmptyReply)
-	err := c.cc.Invoke(ctx, V1TroopTypes_DeleteTroopType_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, V1TroopTypes_UpdateTroopType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -97,8 +97,8 @@ type V1TroopTypesServer interface {
 	GetTroopTypes(context.Context, *GetTroopTypesRequest) (*GetTroopTypesReply, error)
 	GetTroopType(context.Context, *GetTroopTypeRequest) (*TroopType, error)
 	CreateTroopType(context.Context, *CreateTroopTypeRequest) (*TroopType, error)
-	UpdateTroopType(context.Context, *UpdateTroopTypeRequest) (*TroopType, error)
 	DeleteTroopType(context.Context, *DeleteTroopTypeRequest) (*EmptyReply, error)
+	UpdateTroopType(context.Context, *UpdateTroopTypeRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1TroopTypesServer()
 }
 
@@ -115,11 +115,11 @@ func (UnimplementedV1TroopTypesServer) GetTroopType(context.Context, *GetTroopTy
 func (UnimplementedV1TroopTypesServer) CreateTroopType(context.Context, *CreateTroopTypeRequest) (*TroopType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateTroopType not implemented")
 }
-func (UnimplementedV1TroopTypesServer) UpdateTroopType(context.Context, *UpdateTroopTypeRequest) (*TroopType, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateTroopType not implemented")
-}
 func (UnimplementedV1TroopTypesServer) DeleteTroopType(context.Context, *DeleteTroopTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTroopType not implemented")
+}
+func (UnimplementedV1TroopTypesServer) UpdateTroopType(context.Context, *UpdateTroopTypeRequest) (*EmptyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateTroopType not implemented")
 }
 func (UnimplementedV1TroopTypesServer) mustEmbedUnimplementedV1TroopTypesServer() {}
 
@@ -188,24 +188,6 @@ func _V1TroopTypes_CreateTroopType_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _V1TroopTypes_UpdateTroopType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateTroopTypeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(V1TroopTypesServer).UpdateTroopType(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: V1TroopTypes_UpdateTroopType_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(V1TroopTypesServer).UpdateTroopType(ctx, req.(*UpdateTroopTypeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _V1TroopTypes_DeleteTroopType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteTroopTypeRequest)
 	if err := dec(in); err != nil {
@@ -220,6 +202,24 @@ func _V1TroopTypes_DeleteTroopType_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(V1TroopTypesServer).DeleteTroopType(ctx, req.(*DeleteTroopTypeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _V1TroopTypes_UpdateTroopType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateTroopTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1TroopTypesServer).UpdateTroopType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1TroopTypes_UpdateTroopType_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1TroopTypesServer).UpdateTroopType(ctx, req.(*UpdateTroopTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -244,12 +244,12 @@ var V1TroopTypes_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _V1TroopTypes_CreateTroopType_Handler,
 		},
 		{
-			MethodName: "UpdateTroopType",
-			Handler:    _V1TroopTypes_UpdateTroopType_Handler,
-		},
-		{
 			MethodName: "DeleteTroopType",
 			Handler:    _V1TroopTypes_DeleteTroopType_Handler,
+		},
+		{
+			MethodName: "UpdateTroopType",
+			Handler:    _V1TroopTypes_UpdateTroopType_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

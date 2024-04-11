@@ -14,6 +14,7 @@ import (
 	reflect "reflect"
 
 	types "github.com/happilymarrieddad/old-world/api3/types"
+	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -68,4 +69,32 @@ func (m *MockGamesRepo) FindOrCreate(ctx context.Context, name string) (*types.G
 func (mr *MockGamesRepoMockRecorder) FindOrCreate(ctx, name any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreate", reflect.TypeOf((*MockGamesRepo)(nil).FindOrCreate), ctx, name)
+}
+
+// Update mocks base method.
+func (m *MockGamesRepo) Update(ctx context.Context, gm types.UpdateGame) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, gm)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockGamesRepoMockRecorder) Update(ctx, gm any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockGamesRepo)(nil).Update), ctx, gm)
+}
+
+// UpdateTx mocks base method.
+func (m *MockGamesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, gm types.UpdateGame) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, gm)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockGamesRepoMockRecorder) UpdateTx(ctx, tx, gm any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockGamesRepo)(nil).UpdateTx), ctx, tx, gm)
 }

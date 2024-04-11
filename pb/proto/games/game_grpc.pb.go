@@ -22,6 +22,7 @@ const (
 	V1Games_GetGames_FullMethodName   = "/games.V1Games/GetGames"
 	V1Games_CreateGame_FullMethodName = "/games.V1Games/CreateGame"
 	V1Games_DeleteGame_FullMethodName = "/games.V1Games/DeleteGame"
+	V1Games_UpdateGame_FullMethodName = "/games.V1Games/UpdateGame"
 )
 
 // V1GamesClient is the client API for V1Games service.
@@ -31,6 +32,7 @@ type V1GamesClient interface {
 	GetGames(ctx context.Context, in *GetGamesRequest, opts ...grpc.CallOption) (*GetGamesReply, error)
 	CreateGame(ctx context.Context, in *CreateGameRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteGame(ctx context.Context, in *DeleteGameRequest, opts ...grpc.CallOption) (*EmptyReply, error)
+	UpdateGame(ctx context.Context, in *UpdateGameRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
 type v1GamesClient struct {
@@ -68,6 +70,15 @@ func (c *v1GamesClient) DeleteGame(ctx context.Context, in *DeleteGameRequest, o
 	return out, nil
 }
 
+func (c *v1GamesClient) UpdateGame(ctx context.Context, in *UpdateGameRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
+	err := c.cc.Invoke(ctx, V1Games_UpdateGame_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // V1GamesServer is the server API for V1Games service.
 // All implementations must embed UnimplementedV1GamesServer
 // for forward compatibility
@@ -75,6 +86,7 @@ type V1GamesServer interface {
 	GetGames(context.Context, *GetGamesRequest) (*GetGamesReply, error)
 	CreateGame(context.Context, *CreateGameRequest) (*EmptyReply, error)
 	DeleteGame(context.Context, *DeleteGameRequest) (*EmptyReply, error)
+	UpdateGame(context.Context, *UpdateGameRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1GamesServer()
 }
 
@@ -90,6 +102,9 @@ func (UnimplementedV1GamesServer) CreateGame(context.Context, *CreateGameRequest
 }
 func (UnimplementedV1GamesServer) DeleteGame(context.Context, *DeleteGameRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteGame not implemented")
+}
+func (UnimplementedV1GamesServer) UpdateGame(context.Context, *UpdateGameRequest) (*EmptyReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateGame not implemented")
 }
 func (UnimplementedV1GamesServer) mustEmbedUnimplementedV1GamesServer() {}
 
@@ -158,6 +173,24 @@ func _V1Games_DeleteGame_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _V1Games_UpdateGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateGameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1GamesServer).UpdateGame(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1Games_UpdateGame_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1GamesServer).UpdateGame(ctx, req.(*UpdateGameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // V1Games_ServiceDesc is the grpc.ServiceDesc for V1Games service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -176,6 +209,10 @@ var V1Games_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteGame",
 			Handler:    _V1Games_DeleteGame_Handler,
+		},
+		{
+			MethodName: "UpdateGame",
+			Handler:    _V1Games_UpdateGame_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -37,6 +37,8 @@ type UnitTypesRepo interface {
 	FindOrCreate(ctx context.Context, at types.CreateUnitType) (*types.UnitType, error)
 	EnsureChildUnitTypeExists(ctx context.Context, ncut types.CreateChildUnitType) error
 	EnsureChildUnitTypeExistsTx(ctx context.Context, tx neo4j.ManagedTransaction, ncut types.CreateChildUnitType) error
+	Update(ctx context.Context, ut types.UpdateUnitType) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, ut types.UpdateUnitType) error
 }
 
 func NewUnitTypesRepo(db neo4j.DriverWithContext) UnitTypesRepo {
@@ -45,6 +47,38 @@ func NewUnitTypesRepo(db neo4j.DriverWithContext) UnitTypesRepo {
 
 type unitTypesRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *unitTypesRepo) Update(ctx context.Context, ut types.UpdateUnitType) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, ut)
+	})
+	return err
+}
+
+func (r *unitTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, ut types.UpdateUnitType) error {
+	if err := types.Validate(ut); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (ut:UnitType{id: $id})
+			SET ut.name = $name
+				,ut.points_per_model = $pointsPerModel
+				,ut.min_models = $minModels
+				,ut.max_models = $maxModels
+			RETURN ut
+		`, map[string]interface{}{
+		"id":             ut.ID,
+		"name":           ut.Name,
+		"pointsPerModel": ut.PointsPerModel,
+		"minModels":      ut.MinModels,
+		"maxModels":      ut.MaxModels,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }
 
 func (r *unitTypesRepo) Get(ctx context.Context, id string) (*types.UnitType, error) {
@@ -433,7 +467,7 @@ func (r *unitTypesRepo) getUnitOptionsFromUnitTypeByID(
 
 					its, _, err := itRepo.Find(ctx, &FindItemTypeOpts{
 						GameID: it.GameID,
-						ID:     []string{it.ItemTypeID},
+						IDs:    []string{it.ItemTypeID},
 					})
 					if err != nil {
 						return nil, err

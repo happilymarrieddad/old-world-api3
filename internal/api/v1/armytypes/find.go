@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
+	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbarmytypes "github.com/happilymarrieddad/old-world/api3/pb/proto/armytypes"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -14,7 +15,11 @@ func (h *grpcHandler) GetArmyTypes(ctx context.Context, req *pbarmytypes.GetArmy
 		return nil, err
 	}
 
-	ats, count, err := gr.ArmyTypes().Find(ctx, req.GameId, int(req.Limit), int(req.Offset))
+	ats, count, err := gr.ArmyTypes().Find(ctx, &repos.FindArmyTypeOpts{
+		GameID: req.GetGameId(),
+		Limit:  int(req.Limit),
+		Offset: int(req.Offset),
+	})
 	if err != nil {
 		return nil, err
 	}

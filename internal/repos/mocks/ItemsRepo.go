@@ -191,3 +191,31 @@ func (mr *MockItemsRepoMockRecorder) GetTx(ctx, tx, id, gameID any) *gomock.Call
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTx", reflect.TypeOf((*MockItemsRepo)(nil).GetTx), ctx, tx, id, gameID)
 }
+
+// Update mocks base method.
+func (m *MockItemsRepo) Update(ctx context.Context, itm types.UpdateItem) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, itm)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockItemsRepoMockRecorder) Update(ctx, itm any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockItemsRepo)(nil).Update), ctx, itm)
+}
+
+// UpdateTx mocks base method.
+func (m *MockItemsRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itm types.UpdateItem) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, itm)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockItemsRepoMockRecorder) UpdateTx(ctx, tx, itm any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockItemsRepo)(nil).UpdateTx), ctx, tx, itm)
+}

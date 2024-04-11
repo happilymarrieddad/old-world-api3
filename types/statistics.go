@@ -44,3 +44,9 @@ type CreateStatistic struct {
 	Display string `validate:"required" json:"display"`
 	GameID  string `validate:"required" json:"game_id"`
 }
+
+type UpdateStatistic struct {
+	ID      string `validate:"required" json:"id"`
+	Name    string `validate:"required" json:"name"`
+	Display string `validate:"required" json:"display"`
+}

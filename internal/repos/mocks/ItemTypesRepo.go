@@ -15,6 +15,7 @@ import (
 
 	repos "github.com/happilymarrieddad/old-world/api3/internal/repos"
 	types "github.com/happilymarrieddad/old-world/api3/types"
+	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -70,4 +71,32 @@ func (m *MockItemTypesRepo) FindOrCreate(ctx context.Context, at types.CreateIte
 func (mr *MockItemTypesRepoMockRecorder) FindOrCreate(ctx, at any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreate", reflect.TypeOf((*MockItemTypesRepo)(nil).FindOrCreate), ctx, at)
+}
+
+// Update mocks base method.
+func (m *MockItemTypesRepo) Update(ctx context.Context, itmTp types.UpdateItemType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, itmTp)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockItemTypesRepoMockRecorder) Update(ctx, itmTp any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockItemTypesRepo)(nil).Update), ctx, itmTp)
+}
+
+// UpdateTx mocks base method.
+func (m *MockItemTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itmTp types.UpdateItemType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, itmTp)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockItemTypesRepoMockRecorder) UpdateTx(ctx, tx, itmTp any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockItemTypesRepo)(nil).UpdateTx), ctx, tx, itmTp)
 }

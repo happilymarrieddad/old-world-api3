@@ -33,7 +33,7 @@ type V1ArmyTypesClient interface {
 	GetArmyTypes(ctx context.Context, in *GetArmyTypesRequest, opts ...grpc.CallOption) (*GetArmyTypesReply, error)
 	GetArmyType(ctx context.Context, in *GetArmyTypeRequest, opts ...grpc.CallOption) (*ArmyType, error)
 	CreateArmyType(ctx context.Context, in *CreateArmyTypeRequest, opts ...grpc.CallOption) (*ArmyType, error)
-	UpdateArmyType(ctx context.Context, in *UpdateArmyTypeRequest, opts ...grpc.CallOption) (*ArmyType, error)
+	UpdateArmyType(ctx context.Context, in *UpdateArmyTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteArmyType(ctx context.Context, in *DeleteArmyTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
@@ -72,8 +72,8 @@ func (c *v1ArmyTypesClient) CreateArmyType(ctx context.Context, in *CreateArmyTy
 	return out, nil
 }
 
-func (c *v1ArmyTypesClient) UpdateArmyType(ctx context.Context, in *UpdateArmyTypeRequest, opts ...grpc.CallOption) (*ArmyType, error) {
-	out := new(ArmyType)
+func (c *v1ArmyTypesClient) UpdateArmyType(ctx context.Context, in *UpdateArmyTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
 	err := c.cc.Invoke(ctx, V1ArmyTypes_UpdateArmyType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ type V1ArmyTypesServer interface {
 	GetArmyTypes(context.Context, *GetArmyTypesRequest) (*GetArmyTypesReply, error)
 	GetArmyType(context.Context, *GetArmyTypeRequest) (*ArmyType, error)
 	CreateArmyType(context.Context, *CreateArmyTypeRequest) (*ArmyType, error)
-	UpdateArmyType(context.Context, *UpdateArmyTypeRequest) (*ArmyType, error)
+	UpdateArmyType(context.Context, *UpdateArmyTypeRequest) (*EmptyReply, error)
 	DeleteArmyType(context.Context, *DeleteArmyTypeRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1ArmyTypesServer()
 }
@@ -115,7 +115,7 @@ func (UnimplementedV1ArmyTypesServer) GetArmyType(context.Context, *GetArmyTypeR
 func (UnimplementedV1ArmyTypesServer) CreateArmyType(context.Context, *CreateArmyTypeRequest) (*ArmyType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateArmyType not implemented")
 }
-func (UnimplementedV1ArmyTypesServer) UpdateArmyType(context.Context, *UpdateArmyTypeRequest) (*ArmyType, error) {
+func (UnimplementedV1ArmyTypesServer) UpdateArmyType(context.Context, *UpdateArmyTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateArmyType not implemented")
 }
 func (UnimplementedV1ArmyTypesServer) DeleteArmyType(context.Context, *DeleteArmyTypeRequest) (*EmptyReply, error) {
