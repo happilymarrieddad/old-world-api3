@@ -13,6 +13,7 @@ import (
 	context "context"
 	reflect "reflect"
 
+	repos "github.com/happilymarrieddad/old-world/api3/internal/repos"
 	types "github.com/happilymarrieddad/old-world/api3/types"
 	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
@@ -42,9 +43,9 @@ func (m *MockCompositionTypesRepo) EXPECT() *MockCompositionTypesRepoMockRecorde
 }
 
 // Find mocks base method.
-func (m *MockCompositionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error) {
+func (m *MockCompositionTypesRepo) Find(ctx context.Context, opts *repos.FindCompositionTypesOpts) ([]*types.CompositionType, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", ctx, gameID, limit, offset)
+	ret := m.ctrl.Call(m, "Find", ctx, opts)
 	ret0, _ := ret[0].([]*types.CompositionType)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -52,9 +53,9 @@ func (m *MockCompositionTypesRepo) Find(ctx context.Context, gameID string, limi
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockCompositionTypesRepoMockRecorder) Find(ctx, gameID, limit, offset any) *gomock.Call {
+func (mr *MockCompositionTypesRepoMockRecorder) Find(ctx, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCompositionTypesRepo)(nil).Find), ctx, gameID, limit, offset)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCompositionTypesRepo)(nil).Find), ctx, opts)
 }
 
 // FindOrCreate mocks base method.
