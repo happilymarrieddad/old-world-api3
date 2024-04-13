@@ -15,17 +15,48 @@ func (h *grpcHandler) CreateUnitType(ctx context.Context, req *pbunittypes.Creat
 		return nil, err
 	}
 
-	ut, err := gr.UnitTypes().FindOrCreate(ctx, types.CreateUnitType{
+	parentUnitTypeID := req.GetUnitTypeId()
+
+	newUnitType := types.CreateUnitType{
 		Name:              req.GetName(),
 		GameID:            req.GetGameId(),
 		ArmyTypeID:        req.GetArmyTypeId(),
 		TroopTypeID:       req.GetTroopTypeId(),
 		CompositionTypeID: req.GetCompositionTypeId(),
-		UnitTypeID:        req.GetUnitTypeId(),
+		UnitTypeID:        parentUnitTypeID,
 		PointsPerModel:    int(req.GetPointsPerModel()),
 		MinModels:         int(req.GetMinModels()),
 		MaxModels:         int(req.GetMaxModels()),
-	})
+	}
+
+	// TODO: add statistics to the CreateUnitTypeRequest object so it can be added instead
+	if len(parentUnitTypeID) > 0 {
+		put, err := gr.UnitTypes().Get(ctx, parentUnitTypeID)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, stat := range put.Statistics {
+			newUnitType.Statistics = append(newUnitType.Statistics, &types.CreateUnitStatistics{
+				Display: stat.Statistic.Display,
+				Value:   stat.Value,
+			})
+		}
+	} else {
+		stats, _, err := gr.Statistics().Find(ctx, req.GetGameId(), 100, 0)
+		if err != nil {
+			return nil, err
+		}
+
+		for _, stat := range stats {
+			newUnitType.Statistics = append(newUnitType.Statistics, &types.CreateUnitStatistics{
+				Display: stat.Display,
+				Value:   "-",
+			})
+		}
+	}
+
+	ut, err := gr.UnitTypes().FindOrCreate(ctx, newUnitType)
 	if err != nil {
 		return nil, err
 	}

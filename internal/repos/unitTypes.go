@@ -39,6 +39,8 @@ type UnitTypesRepo interface {
 	EnsureChildUnitTypeExistsTx(ctx context.Context, tx neo4j.ManagedTransaction, ncut types.CreateChildUnitType) error
 	Update(ctx context.Context, ut types.UpdateUnitType) error
 	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, ut types.UpdateUnitType) error
+	Destroy(ctx context.Context, id string) error
+	DestroyTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) error
 }
 
 func NewUnitTypesRepo(db neo4j.DriverWithContext) UnitTypesRepo {
@@ -61,24 +63,62 @@ func (r *unitTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransactio
 		return err
 	}
 
+	if _, err := tx.Run(ctx, `
+		MATCH ()<-[rel1:IS_TROOP_TYPE]-(ut:UnitType{id: $id})-[rel2:IS_COMPOSITION_TYPE]->()
+		DELETE rel1, rel2
+	`, map[string]any{
+		"id": ut.ID,
+	}); err != nil {
+		return err
+	}
+
 	result, err := tx.Run(ctx, `
+			MATCH (tt:TroopType{id: $troopTypeId})
+			MATCH (ct:CompositionType{id: $compositionTypeId})
 			MATCH (ut:UnitType{id: $id})
+
 			SET ut.name = $name
 				,ut.points_per_model = $pointsPerModel
 				,ut.min_models = $minModels
 				,ut.max_models = $maxModels
+				,ut.troop_type_id = $troopTypeId
+				,ut.composition_type_id = $compositionTypeId
+			
+			MERGE (tt)<-[:IS_TROOP_TYPE]-(ut)
+			MERGE (ct)<-[:IS_COMPOSITION_TYPE]-(ut)
+
 			RETURN ut
 		`, map[string]interface{}{
-		"id":             ut.ID,
-		"name":           ut.Name,
-		"pointsPerModel": ut.PointsPerModel,
-		"minModels":      ut.MinModels,
-		"maxModels":      ut.MaxModels,
+		"id":                ut.ID,
+		"name":              ut.Name,
+		"pointsPerModel":    ut.PointsPerModel,
+		"minModels":         ut.MinModels,
+		"maxModels":         ut.MaxModels,
+		"troopTypeId":       ut.TroopTypeID,
+		"compositionTypeId": ut.CompositionTypeID,
 	})
 	if err != nil {
 		return err
+	} else if result.Err() != nil {
+		return result.Err()
 	}
-	return result.Err()
+
+	for _, stat := range ut.UpdateStatistics {
+		if _, err := tx.Run(ctx, `
+			MATCH (us:UnitStatistic{id: $id})
+			
+			SET us.value = $value
+
+			RETURN us
+		`, map[string]any{
+			"id":    stat.ID,
+			"value": stat.Value,
+		}); err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
 
 func (r *unitTypesRepo) Get(ctx context.Context, id string) (*types.UnitType, error) {
@@ -125,7 +165,8 @@ func (r *unitTypesRepo) GetNamesByArmyTypeID(ctx context.Context, armyTypeID str
 		cmd := `
 			MATCH (at:ArmyType{id: $army_type_id})<-[:BELONGS_TO]-(ut:UnitType)
 			MATCH (ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
-			RETURN ut, ct
+			MATCH (ut)-[:IS_TROOP_TYPE]->(tt:TroopType)
+			RETURN ut, ct, tt
 			ORDER BY ct.position, ut.created_at;
 		`
 		params := map[string]any{
@@ -150,6 +191,13 @@ func (r *unitTypesRepo) GetNamesByArmyTypeID(ctx context.Context, armyTypeID str
 			}
 			ct := types.CompositionTypeFromNode(node)
 			ut.CompositionTypeName = ct.Name
+
+			node, ok = result.Record().Values[2].(dbtype.Node)
+			if !ok {
+				return nil, types.NewInternalServerError("unable to convert unit type database object")
+			}
+			tt := types.TroopTypeFromNode(node)
+			ut.TroopTypeName = tt.Name
 
 			uts = append(uts, ut)
 		}
@@ -275,7 +323,7 @@ func (r *unitTypesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction,
 		ut := types.UnitTypeFromNode(node)
 		node, ok = result.Record().Values[1].(dbtype.Node)
 		if !ok {
-			return nil, 0, errors.New("unable to convert trool type node from database type")
+			return nil, 0, errors.New("unable to convert troop type node from database type")
 		}
 		tt := types.TroopTypeFromNode(node)
 		ut.TroopTypeID = tt.ID
@@ -810,4 +858,23 @@ func (r *unitTypesRepo) create(ctx context.Context, ut types.CreateUnitType) (*t
 	}
 
 	return newUt.(*types.UnitType), nil
+}
+
+func (r *unitTypesRepo) Destroy(ctx context.Context, id string) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.DestroyTx(ctx, tx, id)
+	})
+	return err
+}
+
+func (r *unitTypesRepo) DestroyTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) error {
+	params := map[string]any{
+		"id": id,
+	}
+	cmd := `MATCH (n:UnitType{id: $id}) DETACH DELETE n;`
+	if _, err := tx.Run(ctx, cmd, params); err != nil {
+		return err
+	}
+
+	return nil
 }

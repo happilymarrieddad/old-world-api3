@@ -47,7 +47,7 @@ func main() {
 		panic(errors.WithMessage(err, "unable to marshal data"))
 	}
 
-	//clearAllData(ctx, driver)
+	clearAllData(ctx, driver)
 
 	if err := ensurer.EnsureData(ctx, gr, ad); err != nil {
 		panic(err)

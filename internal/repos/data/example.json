@@ -17,7 +17,8 @@
 			"Monstrous Cavalry (character)", "Monstrous Infantry (character)", "Heavy Infantry", "Regular Infantry",
 			"Monstrous Infantry", "Swarms", "War Beasts","Heavy Cavalry", "Monstrous Cavalry", "Behemoth", "War Machine",
 			"Light Cavalry", "Heavy Infantry (character)", "Light Cavalry (character)", "Heavy Chariot", "Monstrous Creature",
-			"War Machine (character)", "Behemoth (character)", "Light Chariot", "Heavy Chariot (named character)"
+			"War Machine (character)", "Behemoth (character)", "Light Chariot", "Heavy Chariot (named character)",
+			"Light Cavalry (named character)"
 		],
 		"composition_types": ["Characters", "Core", "Special", "Rare", "Mercenaries"],
         "item_types": [
@@ -1224,6 +1225,51 @@
 						"parent_unit_type_name":"",
 						"troop_type_name": "Behemoth",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -1328,19 +1374,8 @@
 								"txt": "May take Naptha Bombs", "unit_option_type_name":"Single",
 								"points":15, "per_model": false
 							}, {
-								"txt": "May take one of the following", "unit_option_type_name":"One Of",
-								"points": 0, "per_model": false, "possible_values": [
-									{"type": "Upgrades", "txt": "1 Blood of Hashut", "points": 20},
-									{"type": "Upgrades", "txt": "2 Blood of Hashut", "points": 40},
-									{"type": "Upgrades", "txt": "3 Blood of Hashut", "points": 60},
-									{"type": "Upgrades", "txt": "4 Blood of Hashut", "points": 80},
-									{"type": "Upgrades", "txt": "5 Blood of Hashut", "points": 100},
-									{"type": "Upgrades", "txt": "6 Blood of Hashut", "points": 120},
-									{"type": "Upgrades", "txt": "7 Blood of Hashut", "points": 140},
-									{"type": "Upgrades", "txt": "8 Blood of Hashut", "points": 160},
-									{"type": "Upgrades", "txt": "9 Blood of Hashut", "points": 180},
-									{"type": "Upgrades", "txt": "10 Blood of Hashut", "points": 200}
-								]
+								"txt": "Blood of Hashut", "unit_option_type_name":"Many To",
+								"points": 20, "per_model": false
 							}, {
 								"txt": "May be a level 4 Wizard", "unit_option_type_name":"Single",
 								"points":30, "per_model": false
@@ -1379,19 +1414,8 @@
 								"txt": "May take Naptha Bombs", "unit_option_type_name":"Single",
 								"points":15, "per_model": false
 							}, {
-								"txt": "May take one of the following", "unit_option_type_name":"One Of",
-								"points": 0, "per_model": false, "possible_values": [
-									{"type": "Upgrades", "txt": "1 Blood of Hashut", "points": 20},
-									{"type": "Upgrades", "txt": "2 Blood of Hashut", "points": 40},
-									{"type": "Upgrades", "txt": "3 Blood of Hashut", "points": 60},
-									{"type": "Upgrades", "txt": "4 Blood of Hashut", "points": 80},
-									{"type": "Upgrades", "txt": "5 Blood of Hashut", "points": 100},
-									{"type": "Upgrades", "txt": "6 Blood of Hashut", "points": 120},
-									{"type": "Upgrades", "txt": "7 Blood of Hashut", "points": 140},
-									{"type": "Upgrades", "txt": "8 Blood of Hashut", "points": 160},
-									{"type": "Upgrades", "txt": "9 Blood of Hashut", "points": 180},
-									{"type": "Upgrades", "txt": "10 Blood of Hashut", "points": 200}
-								]
+								"txt": "Blood of Hashut", "unit_option_type_name":"Many To",
+								"points": 20, "per_model": false
 							}, {
 								"txt": "May be a level 2 Wizard", "unit_option_type_name":"Single",
 								"points":30, "per_model": false
@@ -1963,6 +1987,51 @@
 						"parent_unit_type_name":"Hobgoblin Bolt Thrower",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Special"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -4118,6 +4187,51 @@
 						"parent_unit_type_name":"Repeater Bolt Thrower",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -5802,6 +5916,51 @@
 						"parent_unit_type_name":"Flame Cannon",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -7086,6 +7245,51 @@
 						"parent_unit_type_name":"Helstorm Rocket Battery",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -8006,6 +8210,51 @@
 						"parent_unit_type_name":"Eagle-Claw Bolt Thrower",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -8906,6 +9155,51 @@
 						"parent_unit_type_name":"Field Trebuchet",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
                 ]
             },
@@ -9879,6 +10173,51 @@
 						"parent_unit_type_name":"Border Princes Bombard",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -10850,6 +11189,51 @@
 						"parent_unit_type_name":"Field Trebuchet",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -11530,6 +11914,51 @@
 						"parent_unit_type_name":"Troglodon",
 						"troop_type_name": "Behemoth",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -11538,8 +11967,16 @@
 				"name": "Orcs & Goblin Tribes",
 				"items":[
 					{"type": "Magic Weapons", "points": 75, "name": "Battleaxe of the Last Big Waaagh!",
-						"description": "S+2 AP -2 (Extra Attacks(+D6), Magical Attacks, Requires Two Hands, Strike Last)",
+						"description": "S+2 AP -2 ( Extra Attacks(+D6), Magical Attacks, Requires Two Hands, Strike Last)",
 						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Bigger, Choppier Axe",
+						"description": "S+2 AP -2 (Killing Blow, Magical Attacks, Requires Two Hands, Strikes Last)",
+						"story": "While Warbosses love having a big, choppy axe, there is nothing they love more than a bigger, choppier axe!"
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Martog's Best Basha",
+						"description": "+1WS +1I S+1 AP -2 (Magical Attacks, Requires Two Hands)",
+						"story": "Warboss Martog the Mauler was renowned for his vast collection of 'legitmateley acquired' weapon. The most prized of which was a massive Dwarfen hammer, covered with intricately carved runes and (since Martog's acquisition of the weapon) plenty of Dwarfen blood."
 					},
 					{"type": "Magic Weapons", "points": 40, "name": "Porko's Pigstikka",
 						"description": "S+1 AP -1 (Armour Bane(1), Magical Attacks) - See Rulebook for more rules.",
@@ -11548,6 +11985,14 @@
 					{"type": "Magic Weapons", "points": 35, "name": "Da Choppiest Choppa",
 						"description": "S+1 AP -3 (Magical Attacks)",
 						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 30, "name": "Da Akrit Axe",
+						"description": "S+1 (Armour Bane(1), Magical Attacks) - Re-roll failed to Hit and Str modifier first round of combat",
+						"story": "In battle, this weapon seems to writhe in the hands of the wielder, seeking out the enemy's most vulnerable spirit."
+					},
+					{"type": "Magic Weapons", "points": 25, "name": "Backstaber's Blade",
+						"description": "S+1 AP -1 Magical Attacks - (Night)/Goblin Bosses only. Re-roll to Wound on enemy flanks. Re-roll To Hit and Wound if on enemy rear.",
+						"story": "Being bigger and meaner than most, Orcs are happy to fight anyone, anymore. Goblins on the other hand, are far happier sticking the pointy end of their blades into their foe's back."
 					},
 					{"type": "Magic Weapons", "points": 15, "name": "Wollopa's One Hit Wunda",
 						"description": "S10 AP -3 (Magical Attacks, Strike First) - Single Use.",
@@ -11558,14 +12003,30 @@
 						"description": "Improve Armour by +1. Regeneration 5+.",
 						"story": ""
 					},
+					{"type": "Magic Armour", "points": 35, "name": "Dead 'Ard Armour",
+						"description": "(Black)/Orc Bosses only. Full Plate Armour. +1 T.",
+						"story": "This battle-scarred armour is made up of thick armour plates capable of turning aside the most telling of blows."
+					},
 					{"type": "Magic Armour", "points": 30, "name": "Armour of Mork",
 						"description": "Heavy Armour. Magic Resistance (-2).",
 						"story": ""
 					},
+					{"type": "Magic Armour", "points": 20, "name": "Spiteful Shield",
+						"description": "Shield. Any enemy rolls natural 1 (To Hit/To Wound) enemy siffers S4 hit.",
+						"story": "Possessed by an angry spirit and adorned with an enchanted maw filled with razor-sharp teeth, this shield snaps and snarls at unwary opponents."
+					},
 
+					{"type": "Talismans", "points": 45, "name": "Sparkly Wizard Finda",
+						"description": "Magic Resistance (-2) and Hatred (enemy wizards) special rules.",
+						"story": "Disappointingly, this arcane gem has never helped find a single sparkly Wizard, though it does shine brightly when used to beat one to a bloodly pulp!"
+					},
 					{"type": "Talismans", "points": 35, "name": "Glowy Green Amulet",
 						"description": "For dispels. See rulebook for details.",
 						"story": ""
+					},
+					{"type": "Talismans", "points": 35, "name": "Effigy of Mork",
+						"description": "Any model that directs its attacks against the bearer of the Effigy of Mork during the Combat phase suffers -1 modifier to its roll to Hit.",
+						"story": "Be it a string of lucky escapes, arcane enchantments, or perhaps the divine intervention of the cunning (yet brutal) Mork, this small trinket seems to keep the wearer out of danger."
 					},
 					{"type": "Talismans", "points": 20, "name": "The Collar of Zorga",
 						"description": "-1 roll To Hit from 'beasts of burden'. See rulebook for more details.",
@@ -11584,13 +12045,41 @@
 						"description": "+1 Strength when charging.",
 						"story": ""
 					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Angry Lads Flag",
+						"description": "Gains Frenzy special rule.",
+						"story": "Those who fight under Da Angry Lads Flag hurl themselves at the enemy with careless abandon."
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Spider Banner",
+						"description": "Gains Poisened Attacks special rule. If unit already has poisoned attacks then rule is improved to 5+ instead of 6+",
+						"story": "Created by the Forest Goblins of the Rootgrubba tribe, this unsettling banner depicts their fearsom arachnid god, whom the tribe reveres alongside Gork and Mork."
+					},
+					{"type": "Magic Standards", "points": 25, "name": "Da Banner of Da Nomadz",
+						"description": "Re-roll natural 1's for Charge/Flee/Pursuit rolls.",
+						"story": "Through their Waaagh! takes them the length and breath of the known world, those who carry this banner seldom seem to tire and are constantly on the move."
+					},
 					{"type": "Magic Standards", "points": 20, "name": "Guff's Windy Banner",
 						"description": "Re-roll any failed Panic tests.",
 						"story": ""
 					},
+					{"type": "Magic Standards", "points": 20, "name": "Banner of the Wildz",
+						"description": "Gains Move through Cover special rule.",
+						"story": "The multitude of natural elements used in the construction of this ramshackle standard seem to possess some minor magical enchantment, allowing those who carry it to traverse through foetid swamps, dense forests and rocky slopes without pause."
+					},
 
 					{"type": "Enchanted Items", "points": 50, "name": "Big Boss 'At",
 						"description": "Unit makes a Leadership test and if passed gain Unbreakable. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 50, "name": "Necklace of Blessed Teef",
+						"description": "Re-roll any Armour/Ward/Regeneration Save rolls of natural 1.",
+						"story": "Plucked from the jaws of enemies and fashioned into crude jewellery, the teef that hand from this necklace have been bleesed by Mork (or possibly Gork) to protect the wearer as they thunder into battle."
+					},
+					{"type": "Enchanted Items", "points": 30, "name": "Grisly Trophy Rack",
+						"description": "Black/Orc/Goblin/Night Goblin bosses only. All enemy units within 6\" suffer -1 to Leadership",
+						"story": "Covered in the decaying scalps and flayed skulls of conquered enemies, this totem is a foul reminder of the fate that awaits those who fall to the boss' blade."
+					},
+					{"type": "Enchanted Items", "points": 25, "name": "Da Thinkin' Orc's At",
+						"description": "I+1. Wearer and unit joined not subjecet to Impetuous special rule.",
 						"story": ""
 					},
 					{"type": "Enchanted Items", "points": 15, "name": "'Eadbuttin' 'At",
@@ -11602,8 +12091,16 @@
 						"story": ""
 					},
 
+					{"type": "Arcane Items", "points": 55, "name": "Staff of Baduumm",
+						"description": "+D3 to any casting roll. If natural double 1 OR 6 results in 5\" blast over bearer S6 AP-1 hit. See rulebook for details.",
+						"story": "Once carried by the famous Orc Shaman Baduumm, this charred wooden staff still contains large reserves of the raw Waaagh! power that evaporatd its namesake."
+					},
 					{"type": "Arcane Items", "points": 40, "name": "Glittering Wotnots",
 						"description": "If roll 4-6, the caster and their unit suffer the spell instead. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 40, "name": "Idol of Gork",
+						"description": "Increases range of spells by 3\". Once per turn, re-roll a Casting roll.",
 						"story": ""
 					},
 					{"type": "Arcane Items", "points": 35, "name": "Buzgob's Knobbly Staff",
@@ -11613,10 +12110,40 @@
 					{"type": "Arcane Items", "points": 30, "name": "Idol of Mork",
 						"description": "Increase dispel range by 3\". Once per a turn may re-roll Dispel roll.",
 						"story": ""
+					},
+					{"type": "Arcane Items", "points": 25, "name": "Da Hag's Brew",
+						"description": "Orc/Goblin/Night Goblin shamans only. May know spells from Lore of Troll magic as well.",
+						"story": ""
 					}
 				],
 				"unit_types":[
 					{
+                        "name": "Kiknik Toofsnatcha",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "8"},
+						"points_per_model": 105, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
+                        "name": "Chompa",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "4", "T": "-",
+							"W": "-", "I": "3", "A": "2", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Kiknik Toofsnatcha",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters"
+                    }, {
+                        "name": "Ogdruz Swampdigga",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 195, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
                         "name": "Black Orc Warboss",
 						"unit_statistics": { "M": "4", "WS": "7", "BS": "3", "S": "5", "T": "5",
 							"W": "3", "I": "6", "A": "4", "Ld": "9"},
@@ -11640,11 +12167,21 @@
 								"points": 0, "per_model": false, "possible_values": [
 									{"type": "Mounts", "txt": "War Boar", "points": 16},
 									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
-									{"type": "Mounts", "txt": "Wyvern", "points": 130}
+									{"type": "Mounts", "txt": "Wyvern", "points": 130},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
 								]
 							}, {
 								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
 								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
 							}
 						]
                     }, {
@@ -11670,7 +12207,8 @@
 								"txt": "May be mounted", "unit_option_type_name":"One Of",
 								"points": 0, "per_model": false, "possible_values": [
 									{"type": "Mounts", "txt": "War Boar", "points": 16},
-									{"type": "Mounts", "txt": "Boar Chariot", "points": 90}
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
 								]
 							}, {
 								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
@@ -11681,6 +12219,15 @@
 							}, {
 								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
 								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
 							}
 						]
                     }, {
@@ -11714,11 +12261,21 @@
 								"points": 0, "per_model": false, "possible_values": [
 									{"type": "Mounts", "txt": "War Boar", "points": 16},
 									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
-									{"type": "Mounts", "txt": "Wyvern", "points": 130}
+									{"type": "Mounts", "txt": "Wyvern", "points": 130},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
 								]
 							}, {
 								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
 								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
 							}
 						]
                     }, {
@@ -11751,7 +12308,8 @@
 								"txt": "May be mounted", "unit_option_type_name":"One Of",
 								"points": 0, "per_model": false, "possible_values": [
 									{"type": "Mounts", "txt": "War Boar", "points": 16},
-									{"type": "Mounts", "txt": "Boar Chariot", "points": 90}
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
 								]
 							}, {
 								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
@@ -11762,6 +12320,15 @@
 							}, {
 								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
 								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
 							}
 						]
                     }, {
@@ -12784,7 +13351,2215 @@
 						"parent_unit_type_name":"Goblin Rock Lobber",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+					}, {
+                        "name": "Troll Hag",
+						"unit_statistics": { "M": "5", "WS": "2", "BS": "2", "S": "6", "T": "5",
+							"W": "6", "I": "2", "A": "3", "Ld": "8"},
+						"points_per_model": 235, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth (character)",
+						"composition_type_name": "Rare",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Troll Magic", "points": 0}
+								]
+							}, {
+								"txt": "Be a Lvl 2 Wizard", "unit_option_type_name":"Single",
+								"points": 35, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
+                    }
+				]
+			},
+			{
+				"done": true,
+				"name": "Orcs & Goblin Tribes - Nomadic Waaagh!",
+				"items":[
+					{"type": "Magic Weapons", "points": 75, "name": "Battleaxe of the Last Big Waaagh!",
+						"description": "S+2 AP -2 ( Extra Attacks(+D6), Magical Attacks, Requires Two Hands, Strike Last)",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Bigger, Choppier Axe",
+						"description": "S+2 AP -2 (Killing Blow, Magical Attacks, Requires Two Hands, Strikes Last)",
+						"story": "While Warbosses love having a big, choppy axe, there is nothing they love more than a bigger, choppier axe!"
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Martog's Best Basha",
+						"description": "+1WS +1I S+1 AP -2 (Magical Attacks, Requires Two Hands)",
+						"story": "Warboss Martog the Mauler was renowned for his vast collection of 'legitmateley acquired' weapon. The most prized of which was a massive Dwarfen hammer, covered with intricately carved runes and (since Martog's acquisition of the weapon) plenty of Dwarfen blood."
+					},
+					{"type": "Magic Weapons", "points": 40, "name": "Porko's Pigstikka",
+						"description": "S+1 AP -1 (Armour Bane(1), Magical Attacks) - See Rulebook for more rules.",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 35, "name": "Da Choppiest Choppa",
+						"description": "S+1 AP -3 (Magical Attacks)",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 30, "name": "Da Akrit Axe",
+						"description": "S+1 (Armour Bane(1), Magical Attacks) - Re-roll failed to Hit and Str modifier first round of combat",
+						"story": "In battle, this weapon seems to writhe in the hands of the wielder, seeking out the enemy's most vulnerable spirit."
+					},
+					{"type": "Magic Weapons", "points": 25, "name": "Backstaber's Blade",
+						"description": "S+1 AP -1 Magical Attacks - (Night)/Goblin Bosses only. Re-roll to Wound on enemy flanks. Re-roll To Hit and Wound if on enemy rear.",
+						"story": "Being bigger and meaner than most, Orcs are happy to fight anyone, anymore. Goblins on the other hand, are far happier sticking the pointy end of their blades into their foe's back."
+					},
+					{"type": "Magic Weapons", "points": 15, "name": "Wollopa's One Hit Wunda",
+						"description": "S10 AP -3 (Magical Attacks, Strike First) - Single Use.",
+						"story": ""
+					},
+
+					{"type": "Magic Armour", "points": 40, "name": "Trollhide Trousers",
+						"description": "Improve Armour by +1. Regeneration 5+.",
+						"story": ""
+					},
+					{"type": "Magic Armour", "points": 35, "name": "Dead 'Ard Armour",
+						"description": "(Black)/Orc Bosses only. Full Plate Armour. +1 T.",
+						"story": "This battle-scarred armour is made up of thick armour plates capable of turning aside the most telling of blows."
+					},
+					{"type": "Magic Armour", "points": 30, "name": "Armour of Mork",
+						"description": "Heavy Armour. Magic Resistance (-2).",
+						"story": ""
+					},
+					{"type": "Magic Armour", "points": 20, "name": "Spiteful Shield",
+						"description": "Shield. Any enemy rolls natural 1 (To Hit/To Wound) enemy siffers S4 hit.",
+						"story": "Possessed by an angry spirit and adorned with an enchanted maw filled with razor-sharp teeth, this shield snaps and snarls at unwary opponents."
+					},
+
+					{"type": "Talismans", "points": 45, "name": "Sparkly Wizard Finda",
+						"description": "Magic Resistance (-2) and Hatred (enemy wizards) special rules.",
+						"story": "Disappointingly, this arcane gem has never helped find a single sparkly Wizard, though it does shine brightly when used to beat one to a bloodly pulp!"
+					},
+					{"type": "Talismans", "points": 35, "name": "Glowy Green Amulet",
+						"description": "For dispels. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Talismans", "points": 35, "name": "Effigy of Mork",
+						"description": "Any model that directs its attacks against the bearer of the Effigy of Mork during the Combat phase suffers -1 modifier to its roll to Hit.",
+						"story": "Be it a string of lucky escapes, arcane enchantments, or perhaps the divine intervention of the cunning (yet brutal) Mork, this small trinket seems to keep the wearer out of danger."
+					},
+					{"type": "Talismans", "points": 20, "name": "The Collar of Zorga",
+						"description": "-1 roll To Hit from 'beasts of burden'. See rulebook for more details.",
+						"story": ""
+					},
+
+					{"type": "Magic Standards", "points": 50, "name": "The Big Red Raggedy Flag",
+						"description": "+1 WS to unit and +1 combat result.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 40, "name": "Waaagth! Banner",
+						"description": "Max charge range +3\" and D3 to charge range.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Banner of Butchery",
+						"description": "+1 Strength when charging.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Angry Lads Flag",
+						"description": "Gains Frenzy special rule.",
+						"story": "Those who fight under Da Angry Lads Flag hurl themselves at the enemy with careless abandon."
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Spider Banner",
+						"description": "Gains Poisened Attacks special rule. If unit already has poisoned attacks then rule is improved to 5+ instead of 6+",
+						"story": "Created by the Forest Goblins of the Rootgrubba tribe, this unsettling banner depicts their fearsom arachnid god, whom the tribe reveres alongside Gork and Mork."
+					},
+					{"type": "Magic Standards", "points": 25, "name": "Da Banner of Da Nomadz",
+						"description": "Re-roll natural 1's for Charge/Flee/Pursuit rolls.",
+						"story": "Through their Waaagh! takes them the length and breath of the known world, those who carry this banner seldom seem to tire and are constantly on the move."
+					},
+					{"type": "Magic Standards", "points": 20, "name": "Guff's Windy Banner",
+						"description": "Re-roll any failed Panic tests.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 20, "name": "Banner of the Wildz",
+						"description": "Gains Move through Cover special rule.",
+						"story": "The multitude of natural elements used in the construction of this ramshackle standard seem to possess some minor magical enchantment, allowing those who carry it to traverse through foetid swamps, dense forests and rocky slopes without pause."
+					},
+
+					{"type": "Enchanted Items", "points": 50, "name": "Big Boss 'At",
+						"description": "Unit makes a Leadership test and if passed gain Unbreakable. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 50, "name": "Necklace of Blessed Teef",
+						"description": "Re-roll any Armour/Ward/Regeneration Save rolls of natural 1.",
+						"story": "Plucked from the jaws of enemies and fashioned into crude jewellery, the teef that hand from this necklace have been bleesed by Mork (or possibly Gork) to protect the wearer as they thunder into battle."
+					},
+					{"type": "Enchanted Items", "points": 30, "name": "Grisly Trophy Rack",
+						"description": "Black/Orc/Goblin/Night Goblin bosses only. All enemy units within 6\" suffer -1 to Leadership",
+						"story": "Covered in the decaying scalps and flayed skulls of conquered enemies, this totem is a foul reminder of the fate that awaits those who fall to the boss' blade."
+					},
+					{"type": "Enchanted Items", "points": 25, "name": "Da Thinkin' Orc's At",
+						"description": "I+1. Wearer and unit joined not subjecet to Impetuous special rule.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 15, "name": "'Eadbuttin' 'At",
+						"description": "Impact Hits (1). AP -2.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 10, "name": "Fungus Wine",
+						"description": "Night Goblin only. Give to unit. Gain Immune to Psychology. See details in rulebook.",
+						"story": ""
+					},
+
+					{"type": "Arcane Items", "points": 55, "name": "Staff of Baduumm",
+						"description": "+D3 to any casting roll. If natural double 1 OR 6 results in 5\" blast over bearer S6 AP-1 hit. See rulebook for details.",
+						"story": "Once carried by the famous Orc Shaman Baduumm, this charred wooden staff still contains large reserves of the raw Waaagh! power that evaporatd its namesake."
+					},
+					{"type": "Arcane Items", "points": 40, "name": "Glittering Wotnots",
+						"description": "If roll 4-6, the caster and their unit suffer the spell instead. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 40, "name": "Idol of Gork",
+						"description": "Increases range of spells by 3\". Once per turn, re-roll a Casting roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 35, "name": "Buzgob's Knobbly Staff",
+						"description": "Once per a turn, may re-roll a Casting roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 30, "name": "Idol of Mork",
+						"description": "Increase dispel range by 3\". Once per a turn may re-roll Dispel roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 25, "name": "Da Hag's Brew",
+						"description": "Orc/Goblin/Night Goblin shamans only. May know spells from Lore of Troll magic as well.",
+						"story": ""
 					}
+				],
+				"unit_types":[
+					{
+                        "name": "Kiknik Toofsnatcha",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "8"},
+						"points_per_model": 105, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
+                        "name": "Chompa",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "4", "T": "-",
+							"W": "-", "I": "3", "A": "2", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Kiknik Toofsnatcha",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters"
+                    }, {
+                        "name": "Ogdruz Swampdigga",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 195, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
+                        "name": "Black Orc Warboss",
+						"unit_statistics": { "M": "4", "WS": "7", "BS": "3", "S": "5", "T": "5",
+							"W": "3", "I": "6", "A": "4", "Ld": "9"},
+						"points_per_model": 135, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Wyvern", "points": 130},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Black Orc Bigboss",
+						"unit_statistics": { "M": "4", "WS": "6", "BS": "3", "S": "4", "T": "5",
+							"W": "2", "I": "5", "A": "3", "Ld": "8"},
+						"points_per_model": 75, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Orc Warboss",
+						"unit_statistics": { "M": "4", "WS": "6", "BS": "2", "S": "5", "T": "5",
+							"W": "3", "I": "5", "A": "5", "Ld": "8"},
+						"points_per_model": 110, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 8}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Wyvern", "points": 130},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Orc Weirdnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 140, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May have", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 0},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 5}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Orc Bigboss",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "2", "S": "4", "T": "5",
+							"W": "2", "I": "4", "A": "4", "Ld": "7"},
+						"points_per_model": 55, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 8}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Orc Weirdnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 140, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May have", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 0},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 5}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Orc Weirdboy",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "2", "S": "3", "T": "4",
+							"W": "2", "I": "3", "A": "1", "Ld": "7"},
+						"points_per_model": 65, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May have", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 0},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 5}
+								]
+							}, {
+								"txt": "May be a Level 2 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Goblin Warboss",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "7"},
+						"points_per_model": 60, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Gigantic Spider", "points": 35},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Goblin Bigboss",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "4", "T": "4",
+							"W": "2", "I": "4", "A": "3", "Ld": "6"},
+						"points_per_model": 35, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Gigantic Spider", "points": 35},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}
+						]
+                    }, {
+                        "name": "Goblin Oddnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "3", "T": "4",
+							"W": "3", "I": "4", "A": "2", "Ld": "7"},
+						"points_per_model": 135, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53},
+									{"type": "Mounts", "txt": "Arachnarok Spider", "points": 310}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Goblin Oddgit",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "3", "S": "3", "T": "3",
+							"W": "2", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 60, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May be a Level 2 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Night Goblin Warboss",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "6"},
+						"points_per_model": 55, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted on a Giant Cave Squiq", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Night Goblin Bigboss",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "4", "T": "4",
+							"W": "2", "I": "4", "A": "3", "Ld": "5"},
+						"points_per_model": 30, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted on a Giant Cave Squiq", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}
+						]
+                    }, {
+                        "name": "Night Goblin Oddnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "3", "T": "4",
+							"W": "3", "I": "4", "A": "2", "Ld": "7"},
+						"points_per_model": 130, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Illusion", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Night Goblin Oddgit",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "3", "S": "3", "T": "3",
+							"W": "2", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 55, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Illusion", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be a Level 2 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Goblin Wolf Riders",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "1", "Ld": "5"},
+						"points_per_model": 10, "min_models":5, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Cavalry Spears", "points": 0},
+									{"type": "Ranged Weapons", "txt": "Replace shields with shortbows", "points": 0}
+								]
+							}, {
+								"txt": "May have Light Armour", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "May have the Feigned Flight special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "May have the Reserve Move special rule", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "2", "Ld": "6"},
+						"points_per_model": 7, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Giant Wolf",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+					}, {
+						"name": "Goblin Wolf Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "4",
+							"W": "3", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 53, "min_models":1, "max_models":5,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May add a third Giant Wolf", "unit_option_type_name":"Many To",
+								"points": 5, "per_model": true
+							}, {
+								"txt": "May include a standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}
+						]
+					}, {
+						"name": "Goblin Crew",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 0, "min_models":2, "max_models":3,
+						"parent_unit_type_name":"Goblin Wolf Chariot",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Core"
+					}, {
+						"name": "Giant Wolf",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Chariot",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Core"
+					}, {
+                        "name": "Orc Boar Boys",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 15, "min_models":4, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Cavalry Spears", "points": 1},
+									{"type": "Armours", "txt": "Shields", "points": 1}
+								]
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 2}
+								]
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 8, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Boss may purchase magic items up to 25pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 25
+							}, {
+								"txt": "Have the Big 'Uns special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "Replace the Close Order special rule with Skirmishers", "unit_option_type_name":"Single",
+								"points": 0, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "2", "Ld": "7"},
+						"points_per_model": 8, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+						"name": "Black Orc Boar Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "5",
+							"W": "4", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 130, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+					}, {
+						"name": "Black Orc Crew",
+						"unit_statistics": { "M": "-", "WS": "4", "BS": "3", "S": "4", "T": "4",
+							"W": "-", "I": "3", "A": "1", "Ld": "8"},
+						"points_per_model": 0, "min_models":2, "max_models":2,
+						"parent_unit_type_name":"Black Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Core"
+					}, {
+						"name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":2, "max_models":2,
+						"parent_unit_type_name":"Black Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Core"
+					}, {
+						"name": "Orc Boar Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "5",
+							"W": "4", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 90, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May add a third Orc crew member", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May have the Frenzy special rule", "unit_option_type_name":"Single",
+								"points": 4, "per_model": false
+							}, {
+								"txt": "Must frenzy third crew if others are frenzied", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If frenzied, may have the Warpaint special rule", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+					}, {
+						"name": "Orc Crew",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "7"},
+						"points_per_model": 0, "min_models":2, "max_models":3,
+						"parent_unit_type_name":"Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special"
+					}, {
+                        "name": "Orc Boar Boys",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 15, "min_models":4, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Cavalry Spears", "points": 1},
+									{"type": "Armours", "txt": "Shields", "points": 1}
+								]
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 2}
+								]
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 8, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Boss may purchase magic items up to 25pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 25
+							}, {
+								"txt": "Have the Big 'Uns special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "Replace the Close Order special rule with Skirmishers", "unit_option_type_name":"Single",
+								"points": 0, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "2", "Ld": "7"},
+						"points_per_model": 8, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special"
+                    }, {
+                        "name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special"
+                    }, {
+						"name": "Snotling Pump Wagon",
+						"unit_statistics": { "M": "2D6", "WS": "-", "BS": "-", "S": "4", "T": "4",
+							"W": "3", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 35, "min_models":1, "max_models":6,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "Snotling Crew (x6)",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "2", "S": "2", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "4"},
+						"points_per_model": 0, "min_models":6, "max_models":6,
+						"parent_unit_type_name":"Snotling Pump Wagon",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "Black Orc Boar Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "5",
+							"W": "4", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 130, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Rare",
+						"options": [
+							{
+								"txt": "Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+					}, {
+						"name": "Black Orc Crew",
+						"unit_statistics": { "M": "-", "WS": "4", "BS": "3", "S": "4", "T": "4",
+							"W": "-", "I": "3", "A": "1", "Ld": "8"},
+						"points_per_model": 0, "min_models":2, "max_models":2,
+						"parent_unit_type_name":"Black Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Rare"
+					}, {
+						"name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":2, "max_models":2,
+						"parent_unit_type_name":"Black Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Rare"
+					}, {
+						"name": "Giant",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "6", "T": "6",
+							"W": "6", "I": "2", "A": "*", "Ld": "10"},
+						"points_per_model": 200, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth",
+						"composition_type_name": "Rare"
+					}, {
+                        "name": "Troll Hag",
+						"unit_statistics": { "M": "5", "WS": "2", "BS": "2", "S": "6", "T": "5",
+							"W": "6", "I": "2", "A": "3", "Ld": "8"},
+						"points_per_model": 235, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth (character)",
+						"composition_type_name": "Rare",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Troll Magic", "points": 0}
+								]
+							}, {
+								"txt": "Be a Lvl 2 Wizard", "unit_option_type_name":"Single",
+								"points": 35, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
+                    }, {
+                        "name": "Bonegrinder Giants",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "7", "T": "6",
+							"W": "8", "I": "3", "A": "*", "Ld": "10"},
+						"points_per_model": 300, "min_models": 1, "max_models": 1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth",
+						"composition_type_name": "Mercenaries",
+						"options": []
+                    }
+				]
+			},
+			{
+				"done": true,
+				"name": "Orcs & Goblin Tribes - Troll Horde",
+				"items":[
+					{"type": "Magic Weapons", "points": 75, "name": "Battleaxe of the Last Big Waaagh!",
+						"description": "S+2 AP -2 ( Extra Attacks(+D6), Magical Attacks, Requires Two Hands, Strike Last)",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Bigger, Choppier Axe",
+						"description": "S+2 AP -2 (Killing Blow, Magical Attacks, Requires Two Hands, Strikes Last)",
+						"story": "While Warbosses love having a big, choppy axe, there is nothing they love more than a bigger, choppier axe!"
+					},
+					{"type": "Magic Weapons", "points": 55, "name": "Martog's Best Basha",
+						"description": "+1WS +1I S+1 AP -2 (Magical Attacks, Requires Two Hands)",
+						"story": "Warboss Martog the Mauler was renowned for his vast collection of 'legitmateley acquired' weapon. The most prized of which was a massive Dwarfen hammer, covered with intricately carved runes and (since Martog's acquisition of the weapon) plenty of Dwarfen blood."
+					},
+					{"type": "Magic Weapons", "points": 40, "name": "Porko's Pigstikka",
+						"description": "S+1 AP -1 (Armour Bane(1), Magical Attacks) - See Rulebook for more rules.",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 35, "name": "Da Choppiest Choppa",
+						"description": "S+1 AP -3 (Magical Attacks)",
+						"story": ""
+					},
+					{"type": "Magic Weapons", "points": 30, "name": "Da Akrit Axe",
+						"description": "S+1 (Armour Bane(1), Magical Attacks) - Re-roll failed to Hit and Str modifier first round of combat",
+						"story": "In battle, this weapon seems to writhe in the hands of the wielder, seeking out the enemy's most vulnerable spirit."
+					},
+					{"type": "Magic Weapons", "points": 25, "name": "Backstaber's Blade",
+						"description": "S+1 AP -1 Magical Attacks - (Night)/Goblin Bosses only. Re-roll to Wound on enemy flanks. Re-roll To Hit and Wound if on enemy rear.",
+						"story": "Being bigger and meaner than most, Orcs are happy to fight anyone, anymore. Goblins on the other hand, are far happier sticking the pointy end of their blades into their foe's back."
+					},
+					{"type": "Magic Weapons", "points": 15, "name": "Wollopa's One Hit Wunda",
+						"description": "S10 AP -3 (Magical Attacks, Strike First) - Single Use.",
+						"story": ""
+					},
+
+					{"type": "Magic Armour", "points": 40, "name": "Trollhide Trousers",
+						"description": "Improve Armour by +1. Regeneration 5+.",
+						"story": ""
+					},
+					{"type": "Magic Armour", "points": 35, "name": "Dead 'Ard Armour",
+						"description": "(Black)/Orc Bosses only. Full Plate Armour. +1 T.",
+						"story": "This battle-scarred armour is made up of thick armour plates capable of turning aside the most telling of blows."
+					},
+					{"type": "Magic Armour", "points": 30, "name": "Armour of Mork",
+						"description": "Heavy Armour. Magic Resistance (-2).",
+						"story": ""
+					},
+					{"type": "Magic Armour", "points": 20, "name": "Spiteful Shield",
+						"description": "Shield. Any enemy rolls natural 1 (To Hit/To Wound) enemy siffers S4 hit.",
+						"story": "Possessed by an angry spirit and adorned with an enchanted maw filled with razor-sharp teeth, this shield snaps and snarls at unwary opponents."
+					},
+
+					{"type": "Talismans", "points": 45, "name": "Sparkly Wizard Finda",
+						"description": "Magic Resistance (-2) and Hatred (enemy wizards) special rules.",
+						"story": "Disappointingly, this arcane gem has never helped find a single sparkly Wizard, though it does shine brightly when used to beat one to a bloodly pulp!"
+					},
+					{"type": "Talismans", "points": 35, "name": "Glowy Green Amulet",
+						"description": "For dispels. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Talismans", "points": 35, "name": "Effigy of Mork",
+						"description": "Any model that directs its attacks against the bearer of the Effigy of Mork during the Combat phase suffers -1 modifier to its roll to Hit.",
+						"story": "Be it a string of lucky escapes, arcane enchantments, or perhaps the divine intervention of the cunning (yet brutal) Mork, this small trinket seems to keep the wearer out of danger."
+					},
+					{"type": "Talismans", "points": 20, "name": "The Collar of Zorga",
+						"description": "-1 roll To Hit from 'beasts of burden'. See rulebook for more details.",
+						"story": ""
+					},
+
+					{"type": "Magic Standards", "points": 50, "name": "The Big Red Raggedy Flag",
+						"description": "+1 WS to unit and +1 combat result.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 40, "name": "Waaagth! Banner",
+						"description": "Max charge range +3\" and D3 to charge range.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Banner of Butchery",
+						"description": "+1 Strength when charging.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Angry Lads Flag",
+						"description": "Gains Frenzy special rule.",
+						"story": "Those who fight under Da Angry Lads Flag hurl themselves at the enemy with careless abandon."
+					},
+					{"type": "Magic Standards", "points": 35, "name": "Da Spider Banner",
+						"description": "Gains Poisened Attacks special rule. If unit already has poisoned attacks then rule is improved to 5+ instead of 6+",
+						"story": "Created by the Forest Goblins of the Rootgrubba tribe, this unsettling banner depicts their fearsom arachnid god, whom the tribe reveres alongside Gork and Mork."
+					},
+					{"type": "Magic Standards", "points": 25, "name": "Da Banner of Da Nomadz",
+						"description": "Re-roll natural 1's for Charge/Flee/Pursuit rolls.",
+						"story": "Through their Waaagh! takes them the length and breath of the known world, those who carry this banner seldom seem to tire and are constantly on the move."
+					},
+					{"type": "Magic Standards", "points": 20, "name": "Guff's Windy Banner",
+						"description": "Re-roll any failed Panic tests.",
+						"story": ""
+					},
+					{"type": "Magic Standards", "points": 20, "name": "Banner of the Wildz",
+						"description": "Gains Move through Cover special rule.",
+						"story": "The multitude of natural elements used in the construction of this ramshackle standard seem to possess some minor magical enchantment, allowing those who carry it to traverse through foetid swamps, dense forests and rocky slopes without pause."
+					},
+
+					{"type": "Enchanted Items", "points": 50, "name": "Big Boss 'At",
+						"description": "Unit makes a Leadership test and if passed gain Unbreakable. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 50, "name": "Necklace of Blessed Teef",
+						"description": "Re-roll any Armour/Ward/Regeneration Save rolls of natural 1.",
+						"story": "Plucked from the jaws of enemies and fashioned into crude jewellery, the teef that hand from this necklace have been bleesed by Mork (or possibly Gork) to protect the wearer as they thunder into battle."
+					},
+					{"type": "Enchanted Items", "points": 30, "name": "Grisly Trophy Rack",
+						"description": "Black/Orc/Goblin/Night Goblin bosses only. All enemy units within 6\" suffer -1 to Leadership",
+						"story": "Covered in the decaying scalps and flayed skulls of conquered enemies, this totem is a foul reminder of the fate that awaits those who fall to the boss' blade."
+					},
+					{"type": "Enchanted Items", "points": 25, "name": "Da Thinkin' Orc's At",
+						"description": "I+1. Wearer and unit joined not subjecet to Impetuous special rule.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 15, "name": "'Eadbuttin' 'At",
+						"description": "Impact Hits (1). AP -2.",
+						"story": ""
+					},
+					{"type": "Enchanted Items", "points": 10, "name": "Fungus Wine",
+						"description": "Night Goblin only. Give to unit. Gain Immune to Psychology. See details in rulebook.",
+						"story": ""
+					},
+
+					{"type": "Arcane Items", "points": 55, "name": "Staff of Baduumm",
+						"description": "+D3 to any casting roll. If natural double 1 OR 6 results in 5\" blast over bearer S6 AP-1 hit. See rulebook for details.",
+						"story": "Once carried by the famous Orc Shaman Baduumm, this charred wooden staff still contains large reserves of the raw Waaagh! power that evaporatd its namesake."
+					},
+					{"type": "Arcane Items", "points": 40, "name": "Glittering Wotnots",
+						"description": "If roll 4-6, the caster and their unit suffer the spell instead. See rulebook for details.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 40, "name": "Idol of Gork",
+						"description": "Increases range of spells by 3\". Once per turn, re-roll a Casting roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 35, "name": "Buzgob's Knobbly Staff",
+						"description": "Once per a turn, may re-roll a Casting roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 30, "name": "Idol of Mork",
+						"description": "Increase dispel range by 3\". Once per a turn may re-roll Dispel roll.",
+						"story": ""
+					},
+					{"type": "Arcane Items", "points": 25, "name": "Da Hag's Brew",
+						"description": "Orc/Goblin/Night Goblin shamans only. May know spells from Lore of Troll magic as well.",
+						"story": ""
+					}
+				],
+				"unit_types":[
+					{
+                        "name": "Kiknik Toofsnatcha",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "8"},
+						"points_per_model": 105, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
+                        "name": "Chompa",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "4", "T": "-",
+							"W": "-", "I": "3", "A": "2", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Kiknik Toofsnatcha",
+						"troop_type_name": "Light Cavalry (named character)",
+						"composition_type_name": "Characters"
+                    }, {
+                        "name": "Ogdruz Swampdigga",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 195, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (named character)",
+						"composition_type_name": "Characters",
+						"options": []
+                    }, {
+                        "name": "Orc Warboss",
+						"unit_statistics": { "M": "4", "WS": "6", "BS": "2", "S": "5", "T": "5",
+							"W": "3", "I": "5", "A": "5", "Ld": "8"},
+						"points_per_model": 110, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 8}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Wyvern", "points": 130},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Orc Bigboss",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "2", "S": "4", "T": "5",
+							"W": "2", "I": "4", "A": "4", "Ld": "7"},
+						"points_per_model": 55, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take a shield", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 3},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 8}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "War Boar", "points": 16},
+									{"type": "Mounts", "txt": "Boar Chariot", "points": 90},
+									{"type": "Mounts", "txt": "Back Orc Boar Chariot", "points": 130}
+								]
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take an additional hand weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 1, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - Any number take a great weapon (up to two)", "unit_option_type_name":"Many To",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If mounted on Black Orc Boar Chariot - May have a standard", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+                    }, {
+                        "name": "Orc Weirdnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "2", "S": "4", "T": "5",
+							"W": "3", "I": "4", "A": "2", "Ld": "8"},
+						"points_per_model": 140, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May have", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 0},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 5}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Orc Weirdboy",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "2", "S": "3", "T": "4",
+							"W": "2", "I": "3", "A": "1", "Ld": "7"},
+						"points_per_model": 65, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May have", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 0},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 5}
+								]
+							}, {
+								"txt": "May be a Level 2 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Goblin Warboss",
+						"unit_statistics": { "M": "4", "WS": "5", "BS": "3", "S": "4", "T": "4",
+							"W": "3", "I": "5", "A": "4", "Ld": "7"},
+						"points_per_model": 60, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Gigantic Spider", "points": 35},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Goblin Bigboss",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "4", "T": "4",
+							"W": "2", "I": "4", "A": "3", "Ld": "6"},
+						"points_per_model": 35, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "May take one of the following weapons", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapon", "points": 4},
+									{"type": "Melee Weapons", "txt": "Cavalry Spear (if appropriately mounted)", "points": 2}
+								]
+							}, {
+								"txt": "May take any of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Armours", "txt": "Shield", "points": 2},
+									{"type": "Armours", "txt": "Light Armour", "points": 3}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Gigantic Spider", "points": 35},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}, {
+								"txt": "May be upgraded to Battle Standard Bearer (1 per army)", "unit_option_type_name":"Single",
+								"points": 25, "per_model": false
+							}, {
+								"txt": "May purchase magic standard if Battle Standard Bearer", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 1000
+							}
+						]
+                    }, {
+                        "name": "Goblin Oddnob",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "3", "T": "4",
+							"W": "3", "I": "4", "A": "2", "Ld": "7"},
+						"points_per_model": 135, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53},
+									{"type": "Mounts", "txt": "Arachnarok Spider", "points": 310}
+								]
+							}, {
+								"txt": "May be a Level 4 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 100pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 100
+							}
+						]
+                    }, {
+                        "name": "Goblin Oddgit",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "3", "S": "3", "T": "3",
+							"W": "2", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 60, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Elementalism", "points": 0},
+									{"type": "Magic Lore", "txt": "Waaagh! Magic", "points": 0}
+								]
+							}, {
+								"txt": "May be mounted", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Mounts", "txt": "Giant Wolf", "points": 10},
+									{"type": "Mounts", "txt": "Wolf Chariot", "points": 53}
+								]
+							}, {
+								"txt": "May be a Level 2 Wizard", "unit_option_type_name":"Single",
+								"points": 30, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Common Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "4"},
+						"points_per_model": 41, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+                        "name": "River Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "4", "I": "1", "A": "3", "Ld": "4"},
+						"points_per_model": 49, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+                        "name": "Stone Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "3", "I": "1", "A": "3", "Ld": "5"},
+						"points_per_model": 45, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+                        "name": "Orc Boys",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 5, "min_models":5, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Ranged Weapons", "txt": "Warbows", "points": 0},
+									{"type": "Melee Weapons", "txt": "Additional hand weapon", "points": 1},
+									{"type": "Melee Weapons", "txt": "Thrusting Spears", "points": 1},
+									{"type": "Melee Weapons", "txt": "Throwing Spears", "points": 1}
+								]
+							}, {
+								"txt": "May take shields", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Boss may purchase magic items up to 25pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 25
+							}, {
+								"txt": "Have the Big 'Uns special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "Replace the Close Order special rule with Skirmishers", "unit_option_type_name":"Single",
+								"points": 0, "per_model": true
+							}, {
+								"txt": "May replace light armour for one of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule & take Big Stabbas", "points": 5}
+								]
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "4", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "2", "Ld": "7"},
+						"points_per_model": 7, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boys",
+						"troop_type_name": "Regular Infantry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Goblins",
+						"unit_statistics": { "M": "4", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "2", "A": "1", "Ld": "5"},
+						"points_per_model": 3, "min_models":5, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Regular Infantry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Thrusting Spears", "points": 1},
+									{"type": "Ranged Weapons", "txt": "Replace shields with shortbows", "points": 1}
+								]
+							}, {
+								"txt": "May take light armour", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "May include 0-3 Nasty Skulkers", "unit_option_type_name":"Many To",
+								"points": 10, "per_model": true
+							}, {
+								"txt": "Replace the Close Order special rule with Skirmishers", "unit_option_type_name":"Single",
+								"points": 0, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "4", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "2", "A": "2", "Ld": "6"},
+						"points_per_model": 7, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblins",
+						"troop_type_name": "Regular Infantry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Nasty Skulker",
+						"unit_statistics": { "M": "4", "WS": "4", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "4", "A": "2", "Ld": "6"},
+						"points_per_model": 10, "min_models":1, "max_models":3,
+						"parent_unit_type_name":"Goblins",
+						"troop_type_name": "Regular Infantry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Goblin Spider Riders",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "1", "Ld": "5"},
+						"points_per_model": 12, "min_models":5, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May have Cavalry spears", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May have Shortbows", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May have Light Armour", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "2", "Ld": "6"},
+						"points_per_model": 7, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Spider Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Giant Spider",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "4", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Spider Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Goblin Wolf Riders",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "1", "Ld": "5"},
+						"points_per_model": 10, "min_models":5, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core",
+						"options": [
+							{
+								"txt": "May take one of the following", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Cavalry Spears", "points": 0},
+									{"type": "Ranged Weapons", "txt": "Replace shields with shortbows", "points": 0}
+								]
+							}, {
+								"txt": "May have Light Armour", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}, {
+								"txt": "May have the Feigned Flight special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "May have the Reserve Move special rule", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "3",
+							"W": "1", "I": "3", "A": "2", "Ld": "6"},
+						"points_per_model": 7, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+                    }, {
+                        "name": "Giant Wolf",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Riders",
+						"troop_type_name": "Light Cavalry",
+						"composition_type_name": "Core"
+					}, {
+                        "name": "Common Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "4"},
+						"points_per_model": 41, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+                        "name": "River Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "4", "I": "1", "A": "3", "Ld": "4"},
+						"points_per_model": 49, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+                        "name": "Stone Troll",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "5", "T": "4",
+							"W": "3", "I": "1", "A": "3", "Ld": "5"},
+						"points_per_model": 45, "min_models":1, "max_models":9,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Additional hand weapons", "points": 3},
+									{"type": "Melee Weapons", "txt": "Great Weapons", "points": 4}
+								]
+							}
+						]
+                    }, {
+						"name": "Goblin Wolf Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "4",
+							"W": "3", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 53, "min_models":1, "max_models":5,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May add a third Giant Wolf", "unit_option_type_name":"Many To",
+								"points": 5, "per_model": true
+							}, {
+								"txt": "May include a standard bearer", "unit_option_type_name":"Single",
+								"points": 5, "per_model": false
+							}
+						]
+					}, {
+						"name": "Goblin Crew",
+						"unit_statistics": { "M": "-", "WS": "2", "BS": "3", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 0, "min_models":2, "max_models":3,
+						"parent_unit_type_name":"Goblin Wolf Chariot",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "Giant Wolf",
+						"unit_statistics": { "M": "9", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Goblin Wolf Chariot",
+						"troop_type_name": "Light Chariot",
+						"composition_type_name": "Special"
+					}, {
+                        "name": "Orc Boar Boys",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "1", "Ld": "6"},
+						"points_per_model": 15, "min_models":4, "max_models":100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May take one of the following weapon", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Melee Weapons", "txt": "Cavalry Spears", "points": 1},
+									{"type": "Armours", "txt": "Shields", "points": 1}
+								]
+							}, {
+								"txt": "May replace light armour with", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": true, "possible_values": [
+									{"type": "Armours", "txt": "Heavy Armour", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy special rule", "points": 1},
+									{"type": "Special Rule", "txt": "Have the Frenzy & Warpaint special rules", "points": 2}
+								]
+							}, {
+								"txt": "Upgrade 1 model to Boss (champion)", "unit_option_type_name":"Single",
+								"points": 8, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Boss may purchase magic items up to 25pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 25
+							}, {
+								"txt": "Have the Big 'Uns special rule", "unit_option_type_name":"Single",
+								"points": 2, "per_model": true
+							}, {
+								"txt": "Replace the Close Order special rule with Skirmishers", "unit_option_type_name":"Single",
+								"points": 0, "per_model": true
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Boss",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "4",
+							"W": "1", "I": "3", "A": "2", "Ld": "7"},
+						"points_per_model": 8, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special"
+                    }, {
+                        "name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Boys",
+						"troop_type_name": "Heavy Cavalry",
+						"composition_type_name": "Special"
+                    }, {
+						"name": "Orc Boar Chariot",
+						"unit_statistics": { "M": "-", "WS": "-", "BS": "-", "S": "5", "T": "5",
+							"W": "4", "I": "-", "A": "-", "Ld": "-"},
+						"points_per_model": 90, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special",
+						"options": [
+							{
+								"txt": "May add a third Orc crew member", "unit_option_type_name":"Single",
+								"points": 1, "per_model": true
+							}, {
+								"txt": "May have the Frenzy special rule", "unit_option_type_name":"Single",
+								"points": 4, "per_model": false
+							}, {
+								"txt": "Must frenzy third crew if others are frenzied", "unit_option_type_name":"Single",
+								"points": 2, "per_model": false
+							}, {
+								"txt": "If frenzied, may have the Warpaint special rule", "unit_option_type_name":"Single",
+								"points": 10, "per_model": false
+							}
+						]
+					}, {
+						"name": "Orc Crew",
+						"unit_statistics": { "M": "-", "WS": "3", "BS": "3", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "7"},
+						"points_per_model": 0, "min_models":2, "max_models":3,
+						"parent_unit_type_name":"Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "War Boar",
+						"unit_statistics": { "M": "7", "WS": "3", "BS": "-", "S": "3", "T": "-",
+							"W": "-", "I": "3", "A": "1", "Ld": "-"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Orc Boar Chariot",
+						"troop_type_name": "Heavy Chariot",
+						"composition_type_name": "Special"
+					}, {
+						"name": "Giant",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "6", "T": "6",
+							"W": "6", "I": "2", "A": "*", "Ld": "10"},
+						"points_per_model": 200, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth",
+						"composition_type_name": "Rare"
+					}, {
+                        "name": "Troll Hag",
+						"unit_statistics": { "M": "5", "WS": "2", "BS": "2", "S": "6", "T": "5",
+							"W": "6", "I": "2", "A": "3", "Ld": "8"},
+						"points_per_model": 235, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth (character)",
+						"composition_type_name": "Characters",
+						"options": [
+							{
+								"txt": "Please choose Lore of Magic", "unit_option_type_name":"One Of",
+								"points": 0, "per_model": false, "possible_values": [
+									{"type": "Magic Lore", "txt": "Battle Magic", "points": 0},
+									{"type": "Magic Lore", "txt": "Troll Magic", "points": 0}
+								]
+							}, {
+								"txt": "Be a Lvl 2 Wizard", "unit_option_type_name":"Single",
+								"points": 35, "per_model": false
+							}, {
+								"txt": "May purchase magic items up to 50pts", "unit_option_type_name": "Many Of",
+								"points": 0, "per_model": false, "is_magic_items": true, "max_pts": 50
+							}
+						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
+                    }, {
+                        "name": "Bonegrinder Giants",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "1", "S": "7", "T": "6",
+							"W": "8", "I": "3", "A": "*", "Ld": "10"},
+						"points_per_model": 300, "min_models": 1, "max_models": 1,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Behemoth",
+						"composition_type_name": "Mercenaries",
+						"options": []
+                    }
 				]
 			},
 			{
@@ -13613,6 +16388,51 @@
 								"points": 3, "per_model": false
 							}
 						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -14286,6 +17106,51 @@
 						"parent_unit_type_name":"Plagueclaw Catapult",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -15162,6 +18027,51 @@
 						"parent_unit_type_name":"Casket of Skulls",
 						"troop_type_name": "War Machine",
 						"composition_type_name": "Rare"
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -18802,6 +21712,51 @@
 								"points":20, "per_model": false
 							}
 						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			},
@@ -19842,6 +22797,51 @@
 								]
 							}
 						]
+                    }, {
+                        "name": "Badlands Ogre Bulls",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "3", "Ld": "7"},
+						"points_per_model": 31, "min_models": 3, "max_models": 100,
+						"parent_unit_type_name":"",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries",
+						"options": [
+							{
+								"txt": "Any number may take an Additional hand weapon", "unit_option_type_name":"Many To",
+								"points": 3, "per_model": true
+							},
+							{
+								"txt": "Any number may take a Great Weapon", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							},
+							{
+								"txt": "Any number may take an Ironfist", "unit_option_type_name":"Many To",
+								"points": 4, "per_model": true
+							}, {
+								"txt": "Upgrade 1 model to a Crusher (champion)", "unit_option_type_name":"Single",
+								"points": 7, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to standard bearer", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "Upgrade 1 model to musician", "unit_option_type_name":"Single",
+								"points": 6, "per_model": false
+							}, {
+								"txt": "May purchase magic standard up to 50pts", "unit_option_type_name": "One Of",
+								"points": 0, "per_model": false, "is_magic_standards": true, "max_pts": 50
+							}, {
+								"txt": "Replace light armour with heavy armour", "unit_option_type_name":"Single",
+								"points": 4, "per_model": true
+							}
+						]
+                    }, {
+                        "name": "Crusher",
+						"unit_statistics": { "M": "6", "WS": "3", "BS": "2", "S": "4", "T": "4",
+							"W": "3", "I": "2", "A": "4", "Ld": "7"},
+						"points_per_model": 0, "min_models":1, "max_models":1,
+						"parent_unit_type_name":"Badlands Ogre Bulls",
+						"troop_type_name": "Monstrous Infantry",
+						"composition_type_name": "Mercenaries"
                     }
 				]
 			}
