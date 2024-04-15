@@ -129,7 +129,8 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 			}
 
 			unitTypeRepo := gr.UnitTypes()
-			for _, unitType := range armyData.UnitTypes {
+			for armyUnitTypeIdx, unitType := range armyData.UnitTypes {
+				fmt.Printf("Doing army: %s (%d of %d)\n", unitType.Name, armyUnitTypeIdx+1, len(armyData.UnitTypes))
 				tt, err := gr.TroopTypes().FindOrCreate(ctx, types.CreateTroopType{Name: unitType.TroopTypeName, GameID: gm.ID})
 				if err != nil {
 					return err
