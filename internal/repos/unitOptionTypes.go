@@ -17,6 +17,8 @@ type UnitOptionTypesRepo interface {
 	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.UnitOptionType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateUnitOptionType) (*types.UnitOptionType, error)
 	FindOrCreateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.CreateUnitOptionType) (*types.UnitOptionType, error)
+	Update(ctx context.Context, uot types.UpdateUnitOptionType) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, uot types.UpdateUnitOptionType) error
 }
 
 func NewUnitOptionTypesRepo(db neo4j.DriverWithContext) UnitOptionTypesRepo {
@@ -25,6 +27,32 @@ func NewUnitOptionTypesRepo(db neo4j.DriverWithContext) UnitOptionTypesRepo {
 
 type unitOptionTypesRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *unitOptionTypesRepo) Update(ctx context.Context, uot types.UpdateUnitOptionType) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, uot)
+	})
+	return err
+}
+
+func (r *unitOptionTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, uot types.UpdateUnitOptionType) error {
+	if err := types.Validate(uot); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (uot:UnitOptionType{id: $id})
+			SET uot.name = $name
+			RETURN uot
+		`, map[string]interface{}{
+		"id":   uot.ID,
+		"name": uot.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }
 
 func (r *unitOptionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.UnitOptionType, int64, error) {

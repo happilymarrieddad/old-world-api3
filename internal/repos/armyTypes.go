@@ -12,10 +12,19 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
 )
 
+type FindArmyTypeOpts struct {
+	GameID string
+	Limit  int
+	Offset int
+	IDs    []string
+}
+
 //go:generate mockgen -source=./armyTypes.go -destination=./mocks/ArmyTypesRepo.go -package=mock_repos ArmyTypesRepo
 type ArmyTypesRepo interface {
-	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, int64, error)
+	Find(ctx context.Context, opts *FindArmyTypeOpts) ([]*types.ArmyType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateArmyType) (*types.ArmyType, error)
+	Update(ctx context.Context, at types.UpdateArmyType) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.UpdateArmyType) error
 }
 
 func NewArmyTypesRepo(db neo4j.DriverWithContext) ArmyTypesRepo {
@@ -26,27 +35,45 @@ type armyTypesRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *armyTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.ArmyType, int64, error) {
+func (r *armyTypesRepo) Find(ctx context.Context, opts *FindArmyTypeOpts) ([]*types.ArmyType, int64, error) {
+	if err := types.Validate(opts); err != nil {
+		return nil, 0, err
+	}
+
 	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		var matchQry string
 		var limitQry string
 		var offsetQry string
+		var whereQry string
+		params := map[string]any{}
 
-		if limit > 0 {
-			limitQry = fmt.Sprintf("LIMIT %d", limit)
+		if opts.Limit > 0 {
+			limitQry = fmt.Sprintf("LIMIT %d", opts.Limit)
 		}
 
-		if offset > 0 {
-			offsetQry = fmt.Sprintf("SKIP %d", offset)
+		if opts.Offset > 0 {
+			offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
+		}
+
+		if len(opts.GameID) > 0 {
+			matchQry = "(g:Game{ id: $game_id })<-[:BELONGS_TO]-"
+			params["game_id"] = opts.GameID
+		}
+
+		if len(opts.IDs) > 0 {
+			whereQry += " AND at.id IN $ids"
+			params["ids"] = opts.IDs
 		}
 
 		result, err := tx.Run(ctx, fmt.Sprintf(`
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(at:ArmyType)
+			MATCH %s(at:ArmyType)
 			WHERE at.name <> 'All Armies'
+			%s
 			RETURN at
 			ORDER BY at.name
 			%s %s;
-		`, offsetQry, limitQry), map[string]any{"game_id": gameID})
+		`, matchQry, whereQry, offsetQry, limitQry), params)
 		if err != nil {
 			return nil, err
 		}
@@ -174,4 +201,30 @@ func (r *armyTypesRepo) create(ctx context.Context, at types.CreateArmyType) (*t
 	}
 
 	return res.(*types.ArmyType), nil
+}
+
+func (r *armyTypesRepo) Update(ctx context.Context, at types.UpdateArmyType) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, at)
+	})
+	return err
+}
+
+func (r *armyTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.UpdateArmyType) error {
+	if err := types.Validate(at); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (at:ArmyType{id: $id})
+			SET at.name = $name
+			RETURN at
+		`, map[string]interface{}{
+		"id":   at.ID,
+		"name": at.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }

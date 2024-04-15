@@ -33,7 +33,7 @@ type V1CompositionTypesClient interface {
 	GetCompositionTypes(ctx context.Context, in *GetCompositionTypesRequest, opts ...grpc.CallOption) (*GetCompositionTypesReply, error)
 	GetCompositionType(ctx context.Context, in *GetCompositionTypeRequest, opts ...grpc.CallOption) (*CompositionType, error)
 	CreateCompositionType(ctx context.Context, in *CreateCompositionTypeRequest, opts ...grpc.CallOption) (*CompositionType, error)
-	UpdateCompositionType(ctx context.Context, in *UpdateCompositionTypeRequest, opts ...grpc.CallOption) (*CompositionType, error)
+	UpdateCompositionType(ctx context.Context, in *UpdateCompositionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteCompositionType(ctx context.Context, in *DeleteCompositionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
@@ -72,8 +72,8 @@ func (c *v1CompositionTypesClient) CreateCompositionType(ctx context.Context, in
 	return out, nil
 }
 
-func (c *v1CompositionTypesClient) UpdateCompositionType(ctx context.Context, in *UpdateCompositionTypeRequest, opts ...grpc.CallOption) (*CompositionType, error) {
-	out := new(CompositionType)
+func (c *v1CompositionTypesClient) UpdateCompositionType(ctx context.Context, in *UpdateCompositionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
 	err := c.cc.Invoke(ctx, V1CompositionTypes_UpdateCompositionType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ type V1CompositionTypesServer interface {
 	GetCompositionTypes(context.Context, *GetCompositionTypesRequest) (*GetCompositionTypesReply, error)
 	GetCompositionType(context.Context, *GetCompositionTypeRequest) (*CompositionType, error)
 	CreateCompositionType(context.Context, *CreateCompositionTypeRequest) (*CompositionType, error)
-	UpdateCompositionType(context.Context, *UpdateCompositionTypeRequest) (*CompositionType, error)
+	UpdateCompositionType(context.Context, *UpdateCompositionTypeRequest) (*EmptyReply, error)
 	DeleteCompositionType(context.Context, *DeleteCompositionTypeRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1CompositionTypesServer()
 }
@@ -115,7 +115,7 @@ func (UnimplementedV1CompositionTypesServer) GetCompositionType(context.Context,
 func (UnimplementedV1CompositionTypesServer) CreateCompositionType(context.Context, *CreateCompositionTypeRequest) (*CompositionType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCompositionType not implemented")
 }
-func (UnimplementedV1CompositionTypesServer) UpdateCompositionType(context.Context, *UpdateCompositionTypeRequest) (*CompositionType, error) {
+func (UnimplementedV1CompositionTypesServer) UpdateCompositionType(context.Context, *UpdateCompositionTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCompositionType not implemented")
 }
 func (UnimplementedV1CompositionTypesServer) DeleteCompositionType(context.Context, *DeleteCompositionTypeRequest) (*EmptyReply, error) {

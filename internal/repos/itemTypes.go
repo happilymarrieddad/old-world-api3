@@ -18,13 +18,15 @@ type FindItemTypeOpts struct {
 	Limit  int
 	Offset int
 	Name   []string
-	ID     []string
+	IDs    []string
 }
 
 //go:generate mockgen -source=./itemTypes.go -destination=./mocks/ItemTypesRepo.go -package=mock_repos ItemTypesRepo
 type ItemTypesRepo interface {
 	Find(ctx context.Context, opts *FindItemTypeOpts) ([]*types.ItemType, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateItemType) (*types.ItemType, error)
+	Update(ctx context.Context, itmTp types.UpdateItemType) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itmTp types.UpdateItemType) error
 }
 
 func NewItemTypesRepo(db neo4j.DriverWithContext) ItemTypesRepo {
@@ -42,8 +44,10 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 
 	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		var matchQry string
 		var limitQry string
 		var offsetQry string
+		var whereQry string
 
 		if opts.Limit > 0 {
 			limitQry = fmt.Sprintf("LIMIT %d", opts.Limit)
@@ -54,8 +58,6 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 		}
 
 		params := make(map[string]any)
-		params["game_id"] = opts.GameID
-		var whereQry string
 		comp := "WHERE"
 		if len(opts.Name) > 0 {
 			whereQry += fmt.Sprintf(" %s it.name IN $names", comp)
@@ -63,19 +65,24 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 			comp = "AND"
 		}
 
-		if len(opts.ID) > 0 {
+		if len(opts.IDs) > 0 {
 			whereQry += fmt.Sprintf(" %s it.id IN $ids", comp)
-			params["ids"] = opts.ID
+			params["ids"] = opts.IDs
 			comp = "AND"
 		}
 
+		if len(opts.GameID) > 0 {
+			params["game_id"] = opts.GameID
+			matchQry = "(g:Game{ id: $game_id })<-[:BELONGS_TO]-"
+		}
+
 		result, err := tx.Run(ctx, fmt.Sprintf(`
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(it:ItemType)
+			MATCH %s(it:ItemType)
 			%s
 			RETURN it
 			ORDER BY it.name
 			%s %s;
-		`, whereQry, offsetQry, limitQry), params)
+		`, matchQry, whereQry, offsetQry, limitQry), params)
 		if err != nil {
 			return nil, err
 		}
@@ -89,10 +96,10 @@ func (r *itemTypesRepo) Find(ctx context.Context, opts *FindItemTypeOpts) ([]*ty
 			its = append(its, types.ItemTypeFromNode(node))
 		}
 
-		result, err = tx.Run(ctx, `
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(n:ItemType)
+		result, err = tx.Run(ctx, fmt.Sprintf(`
+			MATCH %s(n:ItemType)
 			RETURN count(n) as count
-		`, map[string]any{"game_id": opts.GameID})
+		`, matchQry), params)
 		if err != nil {
 			return nil, err
 		}
@@ -214,4 +221,30 @@ func (r *itemTypesRepo) create(ctx context.Context, at types.CreateItemType) (*t
 	}
 
 	return res.(*types.ItemType), nil
+}
+
+func (r *itemTypesRepo) Update(ctx context.Context, itmTp types.UpdateItemType) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, itmTp)
+	})
+	return err
+}
+
+func (r *itemTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, itmTp types.UpdateItemType) error {
+	if err := types.Validate(itmTp); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (itmTp:ItemType{id: $id})
+			SET itmTp.name = $name
+			RETURN itmTp
+		`, map[string]interface{}{
+		"id":   itmTp.ID,
+		"name": itmTp.Name,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
 }

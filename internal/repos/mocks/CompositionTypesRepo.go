@@ -13,7 +13,9 @@ import (
 	context "context"
 	reflect "reflect"
 
+	repos "github.com/happilymarrieddad/old-world/api3/internal/repos"
 	types "github.com/happilymarrieddad/old-world/api3/types"
+	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -41,9 +43,9 @@ func (m *MockCompositionTypesRepo) EXPECT() *MockCompositionTypesRepoMockRecorde
 }
 
 // Find mocks base method.
-func (m *MockCompositionTypesRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.CompositionType, int64, error) {
+func (m *MockCompositionTypesRepo) Find(ctx context.Context, opts *repos.FindCompositionTypesOpts) ([]*types.CompositionType, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", ctx, gameID, limit, offset)
+	ret := m.ctrl.Call(m, "Find", ctx, opts)
 	ret0, _ := ret[0].([]*types.CompositionType)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -51,9 +53,9 @@ func (m *MockCompositionTypesRepo) Find(ctx context.Context, gameID string, limi
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockCompositionTypesRepoMockRecorder) Find(ctx, gameID, limit, offset any) *gomock.Call {
+func (mr *MockCompositionTypesRepoMockRecorder) Find(ctx, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCompositionTypesRepo)(nil).Find), ctx, gameID, limit, offset)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockCompositionTypesRepo)(nil).Find), ctx, opts)
 }
 
 // FindOrCreate mocks base method.
@@ -69,4 +71,32 @@ func (m *MockCompositionTypesRepo) FindOrCreate(ctx context.Context, at types.Cr
 func (mr *MockCompositionTypesRepoMockRecorder) FindOrCreate(ctx, at any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreate", reflect.TypeOf((*MockCompositionTypesRepo)(nil).FindOrCreate), ctx, at)
+}
+
+// Update mocks base method.
+func (m *MockCompositionTypesRepo) Update(ctx context.Context, at types.UpdateCompositionType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, at)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockCompositionTypesRepoMockRecorder) Update(ctx, at any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockCompositionTypesRepo)(nil).Update), ctx, at)
+}
+
+// UpdateTx mocks base method.
+func (m *MockCompositionTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, at types.UpdateCompositionType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, at)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockCompositionTypesRepoMockRecorder) UpdateTx(ctx, tx, at any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockCompositionTypesRepo)(nil).UpdateTx), ctx, tx, at)
 }

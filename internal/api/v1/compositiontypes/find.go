@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
+	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -14,7 +15,9 @@ func (h *grpcHandler) GetCompositionTypes(ctx context.Context, req *pbcompositio
 		return nil, err
 	}
 
-	ats, count, err := gr.CompositionTypes().Find(ctx, req.GameId, int(req.Limit), int(req.Offset))
+	ats, count, err := gr.CompositionTypes().Find(ctx, &repos.FindCompositionTypesOpts{
+		GameID: req.GameId, Limit: int(req.Limit), Offset: int(req.Offset),
+	})
 	if err != nil {
 		return nil, err
 	}

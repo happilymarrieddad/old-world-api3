@@ -41,3 +41,8 @@ type CreateItemType struct {
 	Name   string `validate:"required" json:"name"`
 	GameID string `validate:"required" json:"game_id"`
 }
+
+type UpdateItemType struct {
+	ID   string `validate:"required" json:"id"`
+	Name string `validate:"required" json:"name"`
+}

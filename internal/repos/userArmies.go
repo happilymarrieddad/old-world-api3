@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -93,11 +94,11 @@ func (r *userArmyRepo) FindTx(
 	}
 
 	var limitOffsetQry string
+	if opts.Offset > 0 {
+		limitOffsetQry += fmt.Sprintf(" SKIP %d", opts.Offset)
+	}
 	if opts.Limit > 0 {
 		limitOffsetQry += fmt.Sprintf(" LIMIT %d", opts.Limit)
-	}
-	if opts.Offset > 0 {
-		limitOffsetQry += fmt.Sprintf(" OFFSET %d", opts.Offset)
 	}
 
 	comp := `WHERE`
@@ -556,14 +557,8 @@ func (r *userArmyRepo) GetUnitTx(ctx context.Context, tx neo4j.ManagedTransactio
 	MATCH (uau:UserArmyUnit{ id: $user_army_unit_id })
 	MATCH (uau)-[:BELONGS_TO]->(ua:UserArmy)
 	MATCH (uau)-[:IS_UNIT_TYPE]->(ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
-	WITH uau, ua, ct
+	RETURN uau, ua, ct
 	ORDER BY ct.position, ut.created_at
-
-	MATCH (uau)<-[:IS_USER_ARMY_UNIT_OPTION_VALUE]-(uauo:UserArmyUnitOptionValue)
-	MATCH (uauo)<-[:IS_UNIT_TYPE_OPTION]-(uto:UnitOption)
-	UNWIND (uauo) AS optionVals
-	UNWIND (uto) AS unitTypeOptions
-	RETURN uau, ua, collect(unitTypeOptions), collect(optionVals)
 	`
 	result, err := tx.Run(ctx, cmd, params)
 	if err != nil {
@@ -584,20 +579,6 @@ func (r *userArmyRepo) GetUnitTx(ctx context.Context, tx neo4j.ManagedTransactio
 		ua := types.UserArmyFromNode(node)
 		uua.UserArmyName = ua.Name
 
-		nodes, ok := result.Record().Values[2].([]interface{})
-		if !ok {
-			return nil, errors.New("unable to convert database type user unit unit option types slice")
-		}
-		utoMap := make(map[string]*types.UnitTypeOption)
-		for _, node := range nodes {
-			nd, ok := node.(dbtype.Node)
-			if !ok {
-				return nil, errors.New("unable to get unit type option from database")
-			}
-			uot := types.UnitTypeOptionFromNode(nd)
-			utoMap[uot.ID] = uot
-		}
-
 		unitTypeRepo := NewUnitTypesRepo(r.db)
 		ut, err := unitTypeRepo.GetTx(ctx, tx, uua.UnitTypeID)
 		if err != nil {
@@ -605,30 +586,62 @@ func (r *userArmyRepo) GetUnitTx(ctx context.Context, tx neo4j.ManagedTransactio
 		}
 		uua.UnitType = ut
 
-		nodes, ok = result.Record().Values[3].([]interface{})
-		if !ok {
-			return nil, errors.New("unable to convert database type user unit option possible values slice")
+		result2, err2 := tx.Run(ctx, `
+			MATCH (uau:UserArmyUnit{ id: $id })
+
+			OPTIONAL MATCH (uau)<-[:IS_USER_ARMY_UNIT_OPTION_VALUE]-(uauo:UserArmyUnitOptionValue)
+			OPTIONAL MATCH (uauo)<-[:IS_UNIT_TYPE_OPTION]-(uto:UnitOption)
+			UNWIND (uauo) AS optionVals
+			UNWIND (uto) AS unitTypeOptions
+			RETURN collect(unitTypeOptions), collect(optionVals)
+		`, map[string]any{
+			"id": uua.ID,
+		})
+		if err2 != nil {
+			return nil, err2
 		}
-		for _, node := range nodes {
-			nd, ok := node.(dbtype.Node)
+
+		for result2.Next(ctx) {
+			nodes, ok := result2.Record().Values[0].([]interface{})
 			if !ok {
-				return nil, errors.New("unable to get unit option possible value from database")
+				return nil, errors.New("unable to convert database type user unit unit option types slice")
 			}
-			uaov := types.UserArmyUnitOptionValueFromNode(nd)
-			uaov.UserArmyUnitName = uua.UnitType.Name
-			for _, uo := range ut.Options {
-				if uaov.UnitOptionID == uo.ID {
-					uaov.UnitOptionName = uo.UnitOptionTypeName
-					uaov.UnitOption = uo
+			utoMap := make(map[string]*types.UnitTypeOption)
+			for _, node := range nodes {
+				nd, ok := node.(dbtype.Node)
+				if !ok {
+					return nil, errors.New("unable to get unit type option from database")
 				}
+				uot := types.UnitTypeOptionFromNode(nd)
+				utoMap[uot.ID] = uot
 			}
 
-			uua.OptionValues = append(uua.OptionValues, uaov)
+			nodes, ok = result2.Record().Values[1].([]interface{})
+			if !ok {
+				return nil, errors.New("unable to convert database type user unit option possible values slice")
+			}
+			for _, node := range nodes {
+				nd, ok := node.(dbtype.Node)
+				if !ok {
+					return nil, errors.New("unable to get unit option possible value from database")
+				}
+				uaov := types.UserArmyUnitOptionValueFromNode(nd)
+				uaov.UserArmyUnitName = uua.UnitType.Name
+				for _, uo := range ut.Options {
+					if uaov.UnitOptionID == uo.ID {
+						uaov.UnitOptionName = uo.UnitOptionTypeName
+						uaov.UnitOption = uo
+					}
+				}
+
+				uua.OptionValues = append(uua.OptionValues, uaov)
+			}
 		}
 
 		return uua, nil
 	}
 
+	log.Println("unable to get user army unit '" + userArmyUnitID + "'")
 	return nil, types.NewNotFoundError("unable to get user army unit")
 }
 

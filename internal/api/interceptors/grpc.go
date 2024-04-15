@@ -3,7 +3,6 @@ package interceptors
 import (
 	"context"
 	"fmt"
-	"log"
 	"reflect"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/jwt"
@@ -15,6 +14,7 @@ import (
 var unauthorizedRoutes = []string{
 	"/auth.Auth/Login",
 	"/auth.Auth/CreateUser",
+	"/auth.Auth/Validate",
 }
 
 func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {
@@ -24,7 +24,7 @@ func GlobalRepoInjector(gr repos.GlobalRepo) grpc.UnaryServerInterceptor {
 		info *grpc.UnaryServerInfo,
 		handler grpc.UnaryHandler,
 	) (interface{}, error) {
-		log.Printf("route: %s", info.FullMethod)
+		//log.Printf("route: %s", info.FullMethod)
 		ctx = SetGlobalRepoOnContext(ctx, gr)
 
 		// check unauthorized routes

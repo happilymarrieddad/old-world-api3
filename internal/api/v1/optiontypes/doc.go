@@ -18,7 +18,3 @@ func InitRoutes() pboptiontypes.V1OptionTypesServer {
 func (h *grpcHandler) GetOptionType(ctx context.Context, req *pboptiontypes.GetOptionTypeRequest) (res *pboptiontypes.OptionType, err error) {
 	return nil, types.NewNotImplementedError()
 }
-
-func (h *grpcHandler) UpdateOptionType(ctx context.Context, req *pboptiontypes.UpdateOptionTypeRequest) (res *pboptiontypes.OptionType, err error) {
-	return nil, types.NewNotImplementedError()
-}

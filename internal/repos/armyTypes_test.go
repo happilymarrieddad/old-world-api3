@@ -61,13 +61,72 @@ var _ = Describe("repo:ArmyTypes", func() {
 			Expect(err).To(BeNil())
 			Expect(allAt).NotTo(BeNil())
 
-			ats, _, err := repo.Find(ctx, gm.ID, 10, 0)
+			ats, _, err := repo.Find(ctx, &repos.FindArmyTypeOpts{
+				GameID: gm.ID,
+				Limit:  10,
+			})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(3))
 
-			ats, _, err = repo.Find(ctx, gm.ID, 1, 0)
+			ats, _, err = repo.Find(ctx, &repos.FindArmyTypeOpts{
+				GameID: gm.ID,
+				Limit:  1,
+			})
 			Expect(err).To(BeNil())
 			Expect(ats).To(HaveLen(1))
+		})
+	})
+
+	Context("Update(Tx)", func() {
+		var (
+			existingAt *types.ArmyType
+		)
+		BeforeEach(func() {
+			at, err := repo.FindOrCreate(ctx, types.CreateArmyType{Name: "Bretonnia", GameID: gm.ID})
+			Expect(err).To(BeNil())
+			Expect(at.ID).NotTo(HaveLen(0))
+
+			at2, err := repo.FindOrCreate(ctx, types.CreateArmyType{Name: "Empire of Man", GameID: gm.ID})
+			Expect(err).To(BeNil())
+			Expect(at2.ID).NotTo(HaveLen(0))
+
+			at3, err := repo.FindOrCreate(ctx, types.CreateArmyType{Name: "Warriors of Chaos", GameID: gm.ID})
+			Expect(err).To(BeNil())
+			Expect(at3.ID).NotTo(HaveLen(0))
+
+			ats, _, err := repo.Find(ctx, &repos.FindArmyTypeOpts{
+				GameID: gm.ID,
+				Limit:  10,
+			})
+			Expect(err).To(BeNil())
+			Expect(ats).NotTo(BeEmpty())
+
+			existingAt = ats[0]
+		})
+
+		It("should update the name of an army type", func() {
+			newName := existingAt.Name + " updated"
+
+			Expect(repo.Update(ctx, types.UpdateArmyType{
+				ID:   existingAt.ID,
+				Name: newName,
+			})).To(Succeed())
+
+			ats, _, err := repo.Find(ctx, &repos.FindArmyTypeOpts{
+				GameID: gm.ID,
+				Limit:  10,
+			})
+			Expect(err).To(BeNil())
+			Expect(ats).NotTo(BeEmpty())
+
+			var found bool
+			for i := 0; i < len(ats); i++ {
+				if ats[i].ID == existingAt.ID {
+					found = true
+					Expect(ats[i].Name).To(Equal(newName))
+				}
+			}
+			Expect(found).To(BeTrue())
 		})
 	})
 })

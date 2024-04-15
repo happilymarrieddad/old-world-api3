@@ -21,6 +21,69 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type UpdateTroopTypeRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	JWT  string `protobuf:"bytes,1,opt,name=JWT,proto3" json:"JWT,omitempty"`
+	Id   string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
+	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *UpdateTroopTypeRequest) Reset() {
+	*x = UpdateTroopTypeRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[0]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateTroopTypeRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateTroopTypeRequest) ProtoMessage() {}
+
+func (x *UpdateTroopTypeRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[0]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateTroopTypeRequest.ProtoReflect.Descriptor instead.
+func (*UpdateTroopTypeRequest) Descriptor() ([]byte, []int) {
+	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *UpdateTroopTypeRequest) GetJWT() string {
+	if x != nil {
+		return x.JWT
+	}
+	return ""
+}
+
+func (x *UpdateTroopTypeRequest) GetId() string {
+	if x != nil {
+		return x.Id
+	}
+	return ""
+}
+
+func (x *UpdateTroopTypeRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 type GetTroopTypeRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -33,7 +96,7 @@ type GetTroopTypeRequest struct {
 func (x *GetTroopTypeRequest) Reset() {
 	*x = GetTroopTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[0]
+		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -46,7 +109,7 @@ func (x *GetTroopTypeRequest) String() string {
 func (*GetTroopTypeRequest) ProtoMessage() {}
 
 func (x *GetTroopTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[0]
+	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -59,7 +122,7 @@ func (x *GetTroopTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTroopTypeRequest.ProtoReflect.Descriptor instead.
 func (*GetTroopTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{0}
+	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *GetTroopTypeRequest) GetJWT() string {
@@ -90,7 +153,7 @@ type GetTroopTypesRequest struct {
 func (x *GetTroopTypesRequest) Reset() {
 	*x = GetTroopTypesRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[1]
+		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -103,7 +166,7 @@ func (x *GetTroopTypesRequest) String() string {
 func (*GetTroopTypesRequest) ProtoMessage() {}
 
 func (x *GetTroopTypesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[1]
+	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -116,7 +179,7 @@ func (x *GetTroopTypesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTroopTypesRequest.ProtoReflect.Descriptor instead.
 func (*GetTroopTypesRequest) Descriptor() ([]byte, []int) {
-	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{1}
+	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *GetTroopTypesRequest) GetJWT() string {
@@ -159,7 +222,7 @@ type GetTroopTypesReply struct {
 func (x *GetTroopTypesReply) Reset() {
 	*x = GetTroopTypesReply{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[2]
+		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -172,7 +235,7 @@ func (x *GetTroopTypesReply) String() string {
 func (*GetTroopTypesReply) ProtoMessage() {}
 
 func (x *GetTroopTypesReply) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[2]
+	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -185,7 +248,7 @@ func (x *GetTroopTypesReply) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetTroopTypesReply.ProtoReflect.Descriptor instead.
 func (*GetTroopTypesReply) Descriptor() ([]byte, []int) {
-	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{2}
+	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *GetTroopTypesReply) GetTroopTypes() []*TroopType {
@@ -215,7 +278,7 @@ type CreateTroopTypeRequest struct {
 func (x *CreateTroopTypeRequest) Reset() {
 	*x = CreateTroopTypeRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[3]
+		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[4]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -228,7 +291,7 @@ func (x *CreateTroopTypeRequest) String() string {
 func (*CreateTroopTypeRequest) ProtoMessage() {}
 
 func (x *CreateTroopTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[3]
+	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[4]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -241,7 +304,7 @@ func (x *CreateTroopTypeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateTroopTypeRequest.ProtoReflect.Descriptor instead.
 func (*CreateTroopTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{3}
+	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *CreateTroopTypeRequest) GetJWT() string {
@@ -261,69 +324,6 @@ func (x *CreateTroopTypeRequest) GetName() string {
 func (x *CreateTroopTypeRequest) GetGameId() string {
 	if x != nil {
 		return x.GameId
-	}
-	return ""
-}
-
-type UpdateTroopTypeRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	JWT  string `protobuf:"bytes,1,opt,name=JWT,proto3" json:"JWT,omitempty"`
-	Id   string `protobuf:"bytes,2,opt,name=id,proto3" json:"id,omitempty"`
-	Name string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-}
-
-func (x *UpdateTroopTypeRequest) Reset() {
-	*x = UpdateTroopTypeRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_proto_trooptypes_troop_types_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *UpdateTroopTypeRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*UpdateTroopTypeRequest) ProtoMessage() {}
-
-func (x *UpdateTroopTypeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_trooptypes_troop_types_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use UpdateTroopTypeRequest.ProtoReflect.Descriptor instead.
-func (*UpdateTroopTypeRequest) Descriptor() ([]byte, []int) {
-	return file_proto_trooptypes_troop_types_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *UpdateTroopTypeRequest) GetJWT() string {
-	if x != nil {
-		return x.JWT
-	}
-	return ""
-}
-
-func (x *UpdateTroopTypeRequest) GetId() string {
-	if x != nil {
-		return x.Id
-	}
-	return ""
-}
-
-func (x *UpdateTroopTypeRequest) GetName() string {
-	if x != nil {
-		return x.Name
 	}
 	return ""
 }
@@ -500,7 +500,12 @@ var file_proto_trooptypes_troop_types_proto_rawDesc = []byte{
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0a, 0x74, 0x72, 0x6f, 0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73,
 	0x1a, 0x1f, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
 	0x66, 0x2f, 0x74, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x22, 0x37, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70,
+	0x6f, 0x22, 0x4e, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72, 0x6f, 0x6f, 0x70,
+	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x4a,
+	0x57, 0x54, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x4a, 0x57, 0x54, 0x12, 0x0e, 0x0a,
+	0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a,
+	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d,
+	0x65, 0x22, 0x37, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70,
 	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x10, 0x0a, 0x03, 0x4a, 0x57, 0x54, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x4a, 0x57, 0x54, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64,
 	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x6e, 0x0a, 0x14, 0x47, 0x65,
@@ -522,12 +527,7 @@ var file_proto_trooptypes_troop_types_proto_rawDesc = []byte{
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x4a, 0x57, 0x54, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d,
 	0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x16, 0x0a,
 	0x06, 0x67, 0x61, 0x6d, 0x65, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x67,
-	0x61, 0x6d, 0x65, 0x49, 0x64, 0x22, 0x4e, 0x0a, 0x16, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54,
-	0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x10, 0x0a, 0x03, 0x4a, 0x57, 0x54, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x4a, 0x57,
-	0x54, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
-	0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x6e, 0x61, 0x6d, 0x65, 0x22, 0x3a, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54,
+	0x61, 0x6d, 0x65, 0x49, 0x64, 0x22, 0x3a, 0x0a, 0x16, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54,
 	0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x10, 0x0a, 0x03, 0x4a, 0x57, 0x54, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x4a, 0x57,
 	0x54, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69,
@@ -540,7 +540,7 @@ var file_proto_trooptypes_troop_types_proto_rawDesc = []byte{
 	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
 	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x09, 0x63, 0x72, 0x65, 0x61,
 	0x74, 0x65, 0x64, 0x41, 0x74, 0x22, 0x0c, 0x0a, 0x0a, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65,
-	0x70, 0x6c, 0x79, 0x32, 0x9e, 0x03, 0x0a, 0x0c, 0x56, 0x31, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54,
+	0x70, 0x6c, 0x79, 0x32, 0x9f, 0x03, 0x0a, 0x0c, 0x56, 0x31, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54,
 	0x79, 0x70, 0x65, 0x73, 0x12, 0x53, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x54, 0x72, 0x6f, 0x6f, 0x70,
 	0x54, 0x79, 0x70, 0x65, 0x73, 0x12, 0x20, 0x2e, 0x74, 0x72, 0x6f, 0x6f, 0x70, 0x74, 0x79, 0x70,
 	0x65, 0x73, 0x2e, 0x47, 0x65, 0x74, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x73,
@@ -556,21 +556,21 @@ var file_proto_trooptypes_troop_types_proto_rawDesc = []byte{
 	0x70, 0x65, 0x73, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54,
 	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x74, 0x72, 0x6f,
 	0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70,
-	0x65, 0x22, 0x00, 0x12, 0x4e, 0x0a, 0x0f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72, 0x6f,
-	0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x12, 0x22, 0x2e, 0x74, 0x72, 0x6f, 0x6f, 0x70, 0x74, 0x79,
-	0x70, 0x65, 0x73, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54,
-	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x74, 0x72, 0x6f,
-	0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70,
 	0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0f, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x72, 0x6f,
 	0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x12, 0x22, 0x2e, 0x74, 0x72, 0x6f, 0x6f, 0x70, 0x74, 0x79,
 	0x70, 0x65, 0x73, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x54, 0x72, 0x6f, 0x6f, 0x70, 0x54,
 	0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x74, 0x72, 0x6f,
 	0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65, 0x70,
-	0x6c, 0x79, 0x22, 0x00, 0x42, 0x41, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63,
-	0x6f, 0x6d, 0x2f, 0x68, 0x61, 0x70, 0x70, 0x69, 0x6c, 0x79, 0x6d, 0x61, 0x72, 0x72, 0x69, 0x65,
-	0x64, 0x64, 0x61, 0x64, 0x2f, 0x6f, 0x6c, 0x64, 0x2d, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2f, 0x61,
-	0x70, 0x69, 0x33, 0x2f, 0x70, 0x62, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x74, 0x72, 0x6f,
-	0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x79, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0f, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72,
+	0x6f, 0x6f, 0x70, 0x54, 0x79, 0x70, 0x65, 0x12, 0x22, 0x2e, 0x74, 0x72, 0x6f, 0x6f, 0x70, 0x74,
+	0x79, 0x70, 0x65, 0x73, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x54, 0x72, 0x6f, 0x6f, 0x70,
+	0x54, 0x79, 0x70, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e, 0x74, 0x72,
+	0x6f, 0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x2e, 0x45, 0x6d, 0x70, 0x74, 0x79, 0x52, 0x65,
+	0x70, 0x6c, 0x79, 0x22, 0x00, 0x42, 0x41, 0x5a, 0x3f, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e,
+	0x63, 0x6f, 0x6d, 0x2f, 0x68, 0x61, 0x70, 0x70, 0x69, 0x6c, 0x79, 0x6d, 0x61, 0x72, 0x72, 0x69,
+	0x65, 0x64, 0x64, 0x61, 0x64, 0x2f, 0x6f, 0x6c, 0x64, 0x2d, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2f,
+	0x61, 0x70, 0x69, 0x33, 0x2f, 0x70, 0x62, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x74, 0x72,
+	0x6f, 0x6f, 0x70, 0x74, 0x79, 0x70, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -587,11 +587,11 @@ func file_proto_trooptypes_troop_types_proto_rawDescGZIP() []byte {
 
 var file_proto_trooptypes_troop_types_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_proto_trooptypes_troop_types_proto_goTypes = []interface{}{
-	(*GetTroopTypeRequest)(nil),    // 0: trooptypes.GetTroopTypeRequest
-	(*GetTroopTypesRequest)(nil),   // 1: trooptypes.GetTroopTypesRequest
-	(*GetTroopTypesReply)(nil),     // 2: trooptypes.GetTroopTypesReply
-	(*CreateTroopTypeRequest)(nil), // 3: trooptypes.CreateTroopTypeRequest
-	(*UpdateTroopTypeRequest)(nil), // 4: trooptypes.UpdateTroopTypeRequest
+	(*UpdateTroopTypeRequest)(nil), // 0: trooptypes.UpdateTroopTypeRequest
+	(*GetTroopTypeRequest)(nil),    // 1: trooptypes.GetTroopTypeRequest
+	(*GetTroopTypesRequest)(nil),   // 2: trooptypes.GetTroopTypesRequest
+	(*GetTroopTypesReply)(nil),     // 3: trooptypes.GetTroopTypesReply
+	(*CreateTroopTypeRequest)(nil), // 4: trooptypes.CreateTroopTypeRequest
 	(*DeleteTroopTypeRequest)(nil), // 5: trooptypes.DeleteTroopTypeRequest
 	(*TroopType)(nil),              // 6: trooptypes.TroopType
 	(*EmptyReply)(nil),             // 7: trooptypes.EmptyReply
@@ -600,16 +600,16 @@ var file_proto_trooptypes_troop_types_proto_goTypes = []interface{}{
 var file_proto_trooptypes_troop_types_proto_depIdxs = []int32{
 	6, // 0: trooptypes.GetTroopTypesReply.troopTypes:type_name -> trooptypes.TroopType
 	8, // 1: trooptypes.TroopType.createdAt:type_name -> google.protobuf.Timestamp
-	1, // 2: trooptypes.V1TroopTypes.GetTroopTypes:input_type -> trooptypes.GetTroopTypesRequest
-	0, // 3: trooptypes.V1TroopTypes.GetTroopType:input_type -> trooptypes.GetTroopTypeRequest
-	3, // 4: trooptypes.V1TroopTypes.CreateTroopType:input_type -> trooptypes.CreateTroopTypeRequest
-	4, // 5: trooptypes.V1TroopTypes.UpdateTroopType:input_type -> trooptypes.UpdateTroopTypeRequest
-	5, // 6: trooptypes.V1TroopTypes.DeleteTroopType:input_type -> trooptypes.DeleteTroopTypeRequest
-	2, // 7: trooptypes.V1TroopTypes.GetTroopTypes:output_type -> trooptypes.GetTroopTypesReply
+	2, // 2: trooptypes.V1TroopTypes.GetTroopTypes:input_type -> trooptypes.GetTroopTypesRequest
+	1, // 3: trooptypes.V1TroopTypes.GetTroopType:input_type -> trooptypes.GetTroopTypeRequest
+	4, // 4: trooptypes.V1TroopTypes.CreateTroopType:input_type -> trooptypes.CreateTroopTypeRequest
+	5, // 5: trooptypes.V1TroopTypes.DeleteTroopType:input_type -> trooptypes.DeleteTroopTypeRequest
+	0, // 6: trooptypes.V1TroopTypes.UpdateTroopType:input_type -> trooptypes.UpdateTroopTypeRequest
+	3, // 7: trooptypes.V1TroopTypes.GetTroopTypes:output_type -> trooptypes.GetTroopTypesReply
 	6, // 8: trooptypes.V1TroopTypes.GetTroopType:output_type -> trooptypes.TroopType
 	6, // 9: trooptypes.V1TroopTypes.CreateTroopType:output_type -> trooptypes.TroopType
-	6, // 10: trooptypes.V1TroopTypes.UpdateTroopType:output_type -> trooptypes.TroopType
-	7, // 11: trooptypes.V1TroopTypes.DeleteTroopType:output_type -> trooptypes.EmptyReply
+	7, // 10: trooptypes.V1TroopTypes.DeleteTroopType:output_type -> trooptypes.EmptyReply
+	7, // 11: trooptypes.V1TroopTypes.UpdateTroopType:output_type -> trooptypes.EmptyReply
 	7, // [7:12] is the sub-list for method output_type
 	2, // [2:7] is the sub-list for method input_type
 	2, // [2:2] is the sub-list for extension type_name
@@ -624,7 +624,7 @@ func file_proto_trooptypes_troop_types_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_proto_trooptypes_troop_types_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetTroopTypeRequest); i {
+			switch v := v.(*UpdateTroopTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -636,7 +636,7 @@ func file_proto_trooptypes_troop_types_proto_init() {
 			}
 		}
 		file_proto_trooptypes_troop_types_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetTroopTypesRequest); i {
+			switch v := v.(*GetTroopTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -648,7 +648,7 @@ func file_proto_trooptypes_troop_types_proto_init() {
 			}
 		}
 		file_proto_trooptypes_troop_types_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetTroopTypesReply); i {
+			switch v := v.(*GetTroopTypesRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -660,7 +660,7 @@ func file_proto_trooptypes_troop_types_proto_init() {
 			}
 		}
 		file_proto_trooptypes_troop_types_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateTroopTypeRequest); i {
+			switch v := v.(*GetTroopTypesReply); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -672,7 +672,7 @@ func file_proto_trooptypes_troop_types_proto_init() {
 			}
 		}
 		file_proto_trooptypes_troop_types_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateTroopTypeRequest); i {
+			switch v := v.(*CreateTroopTypeRequest); i {
 			case 0:
 				return &v.state
 			case 1:

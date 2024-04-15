@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/utils"
+	pbitems "github.com/happilymarrieddad/old-world/api3/pb/proto/items"
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
 )
 
@@ -19,6 +20,24 @@ type Item struct {
 	Story        string     `json:"story"`
 	CreatedAt    time.Time  `json:"created_at"`
 	UpdatedAt    *time.Time `json:"updated_at"`
+}
+
+func PbItemFromItem(itm *Item) *pbitems.Item {
+	pbItem := new(pbitems.Item)
+
+	pbItem.Id = itm.ID
+	pbItem.Name = itm.Name
+	pbItem.Points = int64(itm.Points)
+	pbItem.ItemTypeId = itm.ItemTypeID
+	pbItem.ItemTypeName = itm.ItemTypeName
+	pbItem.GameId = itm.GameID
+	pbItem.Description = itm.Description
+	pbItem.Story = itm.Story
+	if itm.ArmyTypeID != nil {
+		pbItem.ArmyTypeId = *itm.ArmyTypeID
+	}
+
+	return pbItem
 }
 
 func ItemFromNode(node dbtype.Node) *Item {
@@ -67,4 +86,39 @@ type CreateItem struct {
 	Description string  `json:"description"`
 	Story       string  `json:"story"`
 	Debug       bool
+}
+
+func NewItemFromPbCreateItem(itm *pbitems.CreateArmyItem) CreateItem {
+	newItm := CreateItem{
+		Name:        itm.GetName(),
+		Points:      int(itm.GetPoints()),
+		GameID:      itm.GetGameId(),
+		ItemTypeID:  itm.GetItemTypeId(),
+		Description: itm.GetDescription(),
+		Story:       itm.GetStory(),
+	}
+
+	if len(itm.ArmyTypeId) > 0 {
+		newItm.ArmyTypeID = utils.Ref(itm.GetArmyTypeId())
+	}
+
+	return newItm
+}
+
+type UpdateItem struct {
+	ID          string `validate:"required" json:"id"`
+	Name        string `validate:"required" json:"name"`
+	Points      int64  `validate:"required" json:"points"`
+	Description string `validate:"required" json:"description"`
+	Story       string `validate:"required" json:"story"`
+}
+
+func NewItemFromPbUpdateItem(itm *pbitems.UpdateItem) UpdateItem {
+	return UpdateItem{
+		ID:          itm.GetId(),
+		Name:        itm.GetName(),
+		Points:      itm.GetPoints(),
+		Description: itm.GetDescription(),
+		Story:       itm.GetStory(),
+	}
 }

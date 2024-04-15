@@ -254,7 +254,10 @@ var _ = Describe("repo:UserArmies", func() {
 			Expect(gms).NotTo(HaveLen(0))
 			gm = gms[0]
 
-			ats, _, err := gr.ArmyTypes().Find(ctx, gm.ID, 2, 0)
+			ats, _, err := gr.ArmyTypes().Find(ctx, &repos.FindArmyTypeOpts{
+				GameID: gm.ID,
+				Limit:  2,
+			})
 			Expect(err).To(BeNil())
 			Expect(ats).NotTo(HaveLen(0))
 			at = ats[0]

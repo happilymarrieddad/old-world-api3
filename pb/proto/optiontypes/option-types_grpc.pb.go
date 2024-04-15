@@ -33,7 +33,7 @@ type V1OptionTypesClient interface {
 	GetOptionTypes(ctx context.Context, in *GetOptionTypesRequest, opts ...grpc.CallOption) (*GetOptionTypesReply, error)
 	GetOptionType(ctx context.Context, in *GetOptionTypeRequest, opts ...grpc.CallOption) (*OptionType, error)
 	CreateOptionType(ctx context.Context, in *CreateOptionTypeRequest, opts ...grpc.CallOption) (*OptionType, error)
-	UpdateOptionType(ctx context.Context, in *UpdateOptionTypeRequest, opts ...grpc.CallOption) (*OptionType, error)
+	UpdateOptionType(ctx context.Context, in *UpdateOptionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteOptionType(ctx context.Context, in *DeleteOptionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 }
 
@@ -72,8 +72,8 @@ func (c *v1OptionTypesClient) CreateOptionType(ctx context.Context, in *CreateOp
 	return out, nil
 }
 
-func (c *v1OptionTypesClient) UpdateOptionType(ctx context.Context, in *UpdateOptionTypeRequest, opts ...grpc.CallOption) (*OptionType, error) {
-	out := new(OptionType)
+func (c *v1OptionTypesClient) UpdateOptionType(ctx context.Context, in *UpdateOptionTypeRequest, opts ...grpc.CallOption) (*EmptyReply, error) {
+	out := new(EmptyReply)
 	err := c.cc.Invoke(ctx, V1OptionTypes_UpdateOptionType_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -97,7 +97,7 @@ type V1OptionTypesServer interface {
 	GetOptionTypes(context.Context, *GetOptionTypesRequest) (*GetOptionTypesReply, error)
 	GetOptionType(context.Context, *GetOptionTypeRequest) (*OptionType, error)
 	CreateOptionType(context.Context, *CreateOptionTypeRequest) (*OptionType, error)
-	UpdateOptionType(context.Context, *UpdateOptionTypeRequest) (*OptionType, error)
+	UpdateOptionType(context.Context, *UpdateOptionTypeRequest) (*EmptyReply, error)
 	DeleteOptionType(context.Context, *DeleteOptionTypeRequest) (*EmptyReply, error)
 	mustEmbedUnimplementedV1OptionTypesServer()
 }
@@ -115,7 +115,7 @@ func (UnimplementedV1OptionTypesServer) GetOptionType(context.Context, *GetOptio
 func (UnimplementedV1OptionTypesServer) CreateOptionType(context.Context, *CreateOptionTypeRequest) (*OptionType, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateOptionType not implemented")
 }
-func (UnimplementedV1OptionTypesServer) UpdateOptionType(context.Context, *UpdateOptionTypeRequest) (*OptionType, error) {
+func (UnimplementedV1OptionTypesServer) UpdateOptionType(context.Context, *UpdateOptionTypeRequest) (*EmptyReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOptionType not implemented")
 }
 func (UnimplementedV1OptionTypesServer) DeleteOptionType(context.Context, *DeleteOptionTypeRequest) (*EmptyReply, error) {

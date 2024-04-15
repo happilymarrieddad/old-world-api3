@@ -210,6 +210,22 @@ type CreateUnitType struct {
 	UnitOptions       []*UnitTypeOption       `json:"unit_options"`
 }
 
+type UpdateUnitStatistic struct {
+	ID    string `json:"id"`
+	Value string `json:"value"`
+}
+
+type UpdateUnitType struct {
+	ID                string                 `validate:"required" json:"id"`
+	Name              string                 `validate:"required" json:"name"`
+	TroopTypeID       string                 `validate:"required" json:"troop_type_id"`
+	CompositionTypeID string                 `validate:"required" json:"composition_type_id"`
+	PointsPerModel    int                    `validate:"required" json:"points_per_model"`
+	MinModels         int                    `validate:"required" json:"min_models"`
+	MaxModels         int                    `validate:"required" json:"max_models"`
+	UpdateStatistics  []*UpdateUnitStatistic `json:"unit_statistics"`
+}
+
 type CreateChildUnitType struct {
 	UnitTypeID string                  `json:"unit_type_id"`
 	Name       string                  `validate:"required" json:"name"`

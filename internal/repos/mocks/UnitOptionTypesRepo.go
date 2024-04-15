@@ -86,3 +86,31 @@ func (mr *MockUnitOptionTypesRepoMockRecorder) FindOrCreateTx(ctx, tx, at any) *
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreateTx", reflect.TypeOf((*MockUnitOptionTypesRepo)(nil).FindOrCreateTx), ctx, tx, at)
 }
+
+// Update mocks base method.
+func (m *MockUnitOptionTypesRepo) Update(ctx context.Context, uot types.UpdateUnitOptionType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, uot)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockUnitOptionTypesRepoMockRecorder) Update(ctx, uot any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockUnitOptionTypesRepo)(nil).Update), ctx, uot)
+}
+
+// UpdateTx mocks base method.
+func (m *MockUnitOptionTypesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, uot types.UpdateUnitOptionType) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, uot)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockUnitOptionTypesRepoMockRecorder) UpdateTx(ctx, tx, uot any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockUnitOptionTypesRepo)(nil).UpdateTx), ctx, tx, uot)
+}
