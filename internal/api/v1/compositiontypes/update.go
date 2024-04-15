@@ -8,13 +8,13 @@ import (
 	"github.com/happilymarrieddad/old-world/api3/types"
 )
 
-func (h *grpcHandler) UpdateCompositionType(ctx context.Context, req *pbcompositiontypes.UpdateCompositionTypeRequest) (res *pbcompositiontypes.CompositionType, err error) {
+func (h *grpcHandler) UpdateCompositionType(ctx context.Context, req *pbcompositiontypes.UpdateCompositionTypeRequest) (res *pbcompositiontypes.EmptyReply, err error) {
 	gr, err := interceptors.GetGlobalRepoFromContext(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	return &pbcompositiontypes.CompositionType{}, gr.CompositionTypes().Update(ctx, types.UpdateCompositionType{
+	return &pbcompositiontypes.EmptyReply{}, gr.CompositionTypes().Update(ctx, types.UpdateCompositionType{
 		ID:   req.GetId(),
 		Name: req.GetName(),
 	})
