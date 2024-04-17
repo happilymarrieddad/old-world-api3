@@ -13,10 +13,24 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
 )
 
+type FindStatisticsOpts struct {
+	GameIDs  []string
+	Names    []string
+	Displays []string
+	IDs      []string
+	Limit    int
+	Offset   int
+}
+
 //go:generate mockgen -source=./statistics.go -destination=./mocks/StatisticsRepo.go -package=mock_repos StatisticsRepo
 type StatisticsRepo interface {
-	Find(ctx context.Context, gameID string, limit, offset int) ([]*types.Statistic, int64, error)
+	Get(ctx context.Context, id string) (*types.Statistic, error)
+	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.Statistic, error)
+	Find(ctx context.Context, opts *FindStatisticsOpts) ([]*types.Statistic, int64, error)
+	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindStatisticsOpts) ([]*types.Statistic, int64, error)
 	FindOrCreate(ctx context.Context, at types.CreateStatistic) (*types.Statistic, error)
+	Update(ctx context.Context, stat types.UpdateStatistic) error
+	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, stat types.UpdateStatistic) error
 }
 
 func NewStatisticsRepo(db neo4j.DriverWithContext) StatisticsRepo {
@@ -27,56 +41,66 @@ type statisticsRepo struct {
 	db neo4j.DriverWithContext
 }
 
-func (r *statisticsRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.Statistic, int64, error) {
+func (r *statisticsRepo) Update(ctx context.Context, stat types.UpdateStatistic) error {
+	_, err := db.WriteData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return nil, r.UpdateTx(ctx, tx, stat)
+	})
+	return err
+}
+
+func (r *statisticsRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, stat types.UpdateStatistic) error {
+	if err := types.Validate(stat); err != nil {
+		return err
+	}
+
+	result, err := tx.Run(ctx, `
+			MATCH (stat:Statistic{id: $id})
+			SET stat.name = $name
+				,stat.display = $display
+			RETURN stat
+		`, map[string]interface{}{
+		"id":      stat.ID,
+		"name":    stat.Name,
+		"display": stat.Display,
+	})
+	if err != nil {
+		return err
+	}
+	return result.Err()
+}
+
+func (r *statisticsRepo) Get(ctx context.Context, id string) (*types.Statistic, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.GetTx(ctx, tx, id)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res.(*types.Statistic), nil
+}
+
+func (r *statisticsRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.Statistic, error) {
+	stats, _, err := r.FindTx(ctx, tx, &FindStatisticsOpts{
+		IDs: []string{id}, Limit: 1,
+	})
+	if err != nil {
+		return nil, err
+	} else if len(stats) == 0 {
+		return nil, types.NewNotFoundError("statistic not found")
+	}
+
+	return stats[0], nil
+}
+
+func (r *statisticsRepo) Find(ctx context.Context, opts *FindStatisticsOpts) ([]*types.Statistic, int64, error) {
 	var count int64
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
-		var limitQry string
-		var offsetQry string
-
-		if limit > 0 {
-			limitQry = fmt.Sprintf("LIMIT %d", limit)
-		}
-
-		if offset > 0 {
-			offsetQry = fmt.Sprintf("SKIP %d", offset)
-		}
-
-		result, err := tx.Run(ctx, fmt.Sprintf(`
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(stat:Statistic)
-			RETURN stat
-			ORDER BY stat.position
-			%s %s;
-		`, offsetQry, limitQry), map[string]any{"game_id": gameID})
+		result, c, err := r.FindTx(ctx, tx, opts)
 		if err != nil {
 			return nil, err
 		}
-
-		ats := []*types.Statistic{}
-		for result.Next(ctx) {
-			node, ok := result.Record().Values[0].(dbtype.Node)
-			if !ok {
-				return nil, errors.New("unable to convert database type")
-			}
-			ats = append(ats, types.StatisticFromNode(node))
-		}
-
-		result, err = tx.Run(ctx, `
-			MATCH (g:Game{ id: $game_id })<-[:BELONGS_TO]-(n:ArmyType)
-			RETURN count(n) as count
-		`, map[string]any{"game_id": gameID})
-		if err != nil {
-			return nil, err
-		}
-
-		if result.Next(ctx) {
-			var ok bool
-			count, ok = result.Record().Values[0].(int64)
-			if !ok {
-				return nil, errors.New("unable to convert database count to int64")
-			}
-		}
-
-		return ats, nil
+		count = c
+		return result, nil
 	})
 	if err != nil {
 		return nil, 0, err
@@ -85,6 +109,91 @@ func (r *statisticsRepo) Find(ctx context.Context, gameID string, limit, offset 
 	}
 
 	return res.([]*types.Statistic), count, nil
+}
+
+func (r *statisticsRepo) FindTx(
+	ctx context.Context, tx neo4j.ManagedTransaction, opts *FindStatisticsOpts,
+) ([]*types.Statistic, int64, error) {
+	var count int64
+
+	params := map[string]any{}
+	var limitQry string
+	var offsetQry string
+	var whereQry string
+	var matchQry string
+
+	if opts.Limit > 0 {
+		limitQry = fmt.Sprintf("LIMIT %d", opts.Limit)
+	}
+
+	if opts.Offset > 0 {
+		offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
+	}
+
+	comp := "WHERE"
+	if len(opts.GameIDs) > 0 {
+		params["gameIds"] = opts.GameIDs
+		whereQry += fmt.Sprintf(" %s g.id IN $gameIds", comp)
+		comp = "AND"
+		matchQry = "(g:Game)<-[:BELONGS_TO]-"
+	}
+
+	if len(opts.IDs) > 0 {
+		params["ids"] = opts.IDs
+		whereQry += fmt.Sprintf(" %s stat.id IN $ids", comp)
+		comp = "AND"
+	}
+
+	if len(opts.Names) > 0 {
+		params["names"] = opts.Names
+		whereQry += fmt.Sprintf(" %s stat.name IN $names", comp)
+		comp = "AND"
+	}
+
+	if len(opts.Displays) > 0 {
+		params["displays"] = opts.Displays
+		whereQry += fmt.Sprintf(" %s stat.display IN $displays", comp)
+		comp = "AND"
+	}
+
+	result, err := tx.Run(ctx, fmt.Sprintf(`
+		MATCH %s(stat:Statistic)
+		%s
+		RETURN stat
+		ORDER BY stat.position
+		%s %s;
+	`, matchQry, whereQry, offsetQry, limitQry), params)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	ats := []*types.Statistic{}
+	for result.Next(ctx) {
+		node, ok := result.Record().Values[0].(dbtype.Node)
+		if !ok {
+			return nil, 0, errors.New("unable to convert database type")
+		}
+		ats = append(ats, types.StatisticFromNode(node))
+	}
+
+	result, err = tx.Run(ctx, fmt.Sprintf(`
+		MATCH %s(stat:Statistic)
+		%s
+		RETURN count(stat) as count
+	`, matchQry, whereQry), params)
+	if err != nil {
+		return nil, 0, err
+	}
+
+	if result.Next(ctx) {
+		var ok bool
+		count, ok = result.Record().Values[0].(int64)
+		if !ok {
+			return nil, 0, errors.New("unable to convert database count to int64")
+		}
+	}
+
+	return ats, count, nil
 }
 
 func (r *statisticsRepo) FindOrCreate(ctx context.Context, at types.CreateStatistic) (*types.Statistic, error) {

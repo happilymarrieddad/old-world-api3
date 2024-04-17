@@ -15,7 +15,7 @@ func (h *grpcHandler) CreateStatistic(ctx context.Context, req *pbstatistics.Cre
 		return nil, err
 	}
 
-	newAt, err := gr.Statistics().FindOrCreate(ctx, types.CreateStatistic{
+	newStat, err := gr.Statistics().FindOrCreate(ctx, types.CreateStatistic{
 		Name:    req.GetName(),
 		Display: req.GetDisplay(),
 		GameID:  req.GetGameId(),
@@ -25,10 +25,11 @@ func (h *grpcHandler) CreateStatistic(ctx context.Context, req *pbstatistics.Cre
 	}
 
 	res = new(pbstatistics.Statistic)
-	res.Id = newAt.ID
-	res.Name = newAt.Name
-	res.GameId = newAt.GameID
-	res.CreatedAt = timestamppb.New(newAt.CreatedAt.UTC())
+	res.Id = newStat.ID
+	res.Name = newStat.Name
+	res.GameId = newStat.GameID
+	res.Position = int64(newStat.Position)
+	res.CreatedAt = timestamppb.New(newStat.CreatedAt.UTC())
 
 	return res, nil
 }

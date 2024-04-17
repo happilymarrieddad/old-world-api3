@@ -13,7 +13,9 @@ import (
 	context "context"
 	reflect "reflect"
 
+	repos "github.com/happilymarrieddad/old-world/api3/internal/repos"
 	types "github.com/happilymarrieddad/old-world/api3/types"
+	neo4j "github.com/neo4j/neo4j-go-driver/v5/neo4j"
 	gomock "go.uber.org/mock/gomock"
 )
 
@@ -41,9 +43,9 @@ func (m *MockStatisticsRepo) EXPECT() *MockStatisticsRepoMockRecorder {
 }
 
 // Find mocks base method.
-func (m *MockStatisticsRepo) Find(ctx context.Context, gameID string, limit, offset int) ([]*types.Statistic, int64, error) {
+func (m *MockStatisticsRepo) Find(ctx context.Context, opts *repos.FindStatisticsOpts) ([]*types.Statistic, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "Find", ctx, gameID, limit, offset)
+	ret := m.ctrl.Call(m, "Find", ctx, opts)
 	ret0, _ := ret[0].([]*types.Statistic)
 	ret1, _ := ret[1].(int64)
 	ret2, _ := ret[2].(error)
@@ -51,9 +53,9 @@ func (m *MockStatisticsRepo) Find(ctx context.Context, gameID string, limit, off
 }
 
 // Find indicates an expected call of Find.
-func (mr *MockStatisticsRepoMockRecorder) Find(ctx, gameID, limit, offset any) *gomock.Call {
+func (mr *MockStatisticsRepoMockRecorder) Find(ctx, opts any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockStatisticsRepo)(nil).Find), ctx, gameID, limit, offset)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockStatisticsRepo)(nil).Find), ctx, opts)
 }
 
 // FindOrCreate mocks base method.
@@ -69,4 +71,78 @@ func (m *MockStatisticsRepo) FindOrCreate(ctx context.Context, at types.CreateSt
 func (mr *MockStatisticsRepoMockRecorder) FindOrCreate(ctx, at any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindOrCreate", reflect.TypeOf((*MockStatisticsRepo)(nil).FindOrCreate), ctx, at)
+}
+
+// FindTx mocks base method.
+func (m *MockStatisticsRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *repos.FindStatisticsOpts) ([]*types.Statistic, int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "FindTx", ctx, tx, opts)
+	ret0, _ := ret[0].([]*types.Statistic)
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
+}
+
+// FindTx indicates an expected call of FindTx.
+func (mr *MockStatisticsRepoMockRecorder) FindTx(ctx, tx, opts any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindTx", reflect.TypeOf((*MockStatisticsRepo)(nil).FindTx), ctx, tx, opts)
+}
+
+// Get mocks base method.
+func (m *MockStatisticsRepo) Get(ctx context.Context, id string) (*types.Statistic, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Get", ctx, id)
+	ret0, _ := ret[0].(*types.Statistic)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Get indicates an expected call of Get.
+func (mr *MockStatisticsRepoMockRecorder) Get(ctx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Get", reflect.TypeOf((*MockStatisticsRepo)(nil).Get), ctx, id)
+}
+
+// GetTx mocks base method.
+func (m *MockStatisticsRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.Statistic, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetTx", ctx, tx, id)
+	ret0, _ := ret[0].(*types.Statistic)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetTx indicates an expected call of GetTx.
+func (mr *MockStatisticsRepoMockRecorder) GetTx(ctx, tx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetTx", reflect.TypeOf((*MockStatisticsRepo)(nil).GetTx), ctx, tx, id)
+}
+
+// Update mocks base method.
+func (m *MockStatisticsRepo) Update(ctx context.Context, stat types.UpdateStatistic) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Update", ctx, stat)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Update indicates an expected call of Update.
+func (mr *MockStatisticsRepoMockRecorder) Update(ctx, stat any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockStatisticsRepo)(nil).Update), ctx, stat)
+}
+
+// UpdateTx mocks base method.
+func (m *MockStatisticsRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, stat types.UpdateStatistic) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateTx", ctx, tx, stat)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateTx indicates an expected call of UpdateTx.
+func (mr *MockStatisticsRepoMockRecorder) UpdateTx(ctx, tx, stat any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateTx", reflect.TypeOf((*MockStatisticsRepo)(nil).UpdateTx), ctx, tx, stat)
 }

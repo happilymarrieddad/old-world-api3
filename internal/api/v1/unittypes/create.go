@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
+	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbunittypes "github.com/happilymarrieddad/old-world/api3/pb/proto/unittypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -43,7 +44,10 @@ func (h *grpcHandler) CreateUnitType(ctx context.Context, req *pbunittypes.Creat
 			})
 		}
 	} else {
-		stats, _, err := gr.Statistics().Find(ctx, req.GetGameId(), 100, 0)
+		stats, _, err := gr.Statistics().Find(ctx, &repos.FindStatisticsOpts{
+			GameIDs: []string{req.GetGameId()},
+			Limit:   10000,
+		})
 		if err != nil {
 			return nil, err
 		}
