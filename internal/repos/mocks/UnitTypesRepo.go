@@ -42,6 +42,34 @@ func (m *MockUnitTypesRepo) EXPECT() *MockUnitTypesRepoMockRecorder {
 	return m.recorder
 }
 
+// Destroy mocks base method.
+func (m *MockUnitTypesRepo) Destroy(ctx context.Context, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Destroy", ctx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Destroy indicates an expected call of Destroy.
+func (mr *MockUnitTypesRepoMockRecorder) Destroy(ctx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Destroy", reflect.TypeOf((*MockUnitTypesRepo)(nil).Destroy), ctx, id)
+}
+
+// DestroyTx mocks base method.
+func (m *MockUnitTypesRepo) DestroyTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DestroyTx", ctx, tx, id)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DestroyTx indicates an expected call of DestroyTx.
+func (mr *MockUnitTypesRepoMockRecorder) DestroyTx(ctx, tx, id any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DestroyTx", reflect.TypeOf((*MockUnitTypesRepo)(nil).DestroyTx), ctx, tx, id)
+}
+
 // EnsureChildUnitTypeExists mocks base method.
 func (m *MockUnitTypesRepo) EnsureChildUnitTypeExists(ctx context.Context, ncut types.CreateChildUnitType) error {
 	m.ctrl.T.Helper()

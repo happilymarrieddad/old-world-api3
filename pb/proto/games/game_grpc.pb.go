@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	V1Games_GetGame_FullMethodName    = "/games.V1Games/GetGame"
 	V1Games_GetGames_FullMethodName   = "/games.V1Games/GetGames"
 	V1Games_CreateGame_FullMethodName = "/games.V1Games/CreateGame"
 	V1Games_DeleteGame_FullMethodName = "/games.V1Games/DeleteGame"
@@ -29,6 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type V1GamesClient interface {
+	GetGame(ctx context.Context, in *GetGameRequest, opts ...grpc.CallOption) (*GetGameReply, error)
 	GetGames(ctx context.Context, in *GetGamesRequest, opts ...grpc.CallOption) (*GetGamesReply, error)
 	CreateGame(ctx context.Context, in *CreateGameRequest, opts ...grpc.CallOption) (*EmptyReply, error)
 	DeleteGame(ctx context.Context, in *DeleteGameRequest, opts ...grpc.CallOption) (*EmptyReply, error)
@@ -41,6 +43,15 @@ type v1GamesClient struct {
 
 func NewV1GamesClient(cc grpc.ClientConnInterface) V1GamesClient {
 	return &v1GamesClient{cc}
+}
+
+func (c *v1GamesClient) GetGame(ctx context.Context, in *GetGameRequest, opts ...grpc.CallOption) (*GetGameReply, error) {
+	out := new(GetGameReply)
+	err := c.cc.Invoke(ctx, V1Games_GetGame_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *v1GamesClient) GetGames(ctx context.Context, in *GetGamesRequest, opts ...grpc.CallOption) (*GetGamesReply, error) {
@@ -83,6 +94,7 @@ func (c *v1GamesClient) UpdateGame(ctx context.Context, in *UpdateGameRequest, o
 // All implementations must embed UnimplementedV1GamesServer
 // for forward compatibility
 type V1GamesServer interface {
+	GetGame(context.Context, *GetGameRequest) (*GetGameReply, error)
 	GetGames(context.Context, *GetGamesRequest) (*GetGamesReply, error)
 	CreateGame(context.Context, *CreateGameRequest) (*EmptyReply, error)
 	DeleteGame(context.Context, *DeleteGameRequest) (*EmptyReply, error)
@@ -94,6 +106,9 @@ type V1GamesServer interface {
 type UnimplementedV1GamesServer struct {
 }
 
+func (UnimplementedV1GamesServer) GetGame(context.Context, *GetGameRequest) (*GetGameReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGame not implemented")
+}
 func (UnimplementedV1GamesServer) GetGames(context.Context, *GetGamesRequest) (*GetGamesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetGames not implemented")
 }
@@ -117,6 +132,24 @@ type UnsafeV1GamesServer interface {
 
 func RegisterV1GamesServer(s grpc.ServiceRegistrar, srv V1GamesServer) {
 	s.RegisterService(&V1Games_ServiceDesc, srv)
+}
+
+func _V1Games_GetGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGameRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(V1GamesServer).GetGame(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: V1Games_GetGame_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(V1GamesServer).GetGame(ctx, req.(*GetGameRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _V1Games_GetGames_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -198,6 +231,10 @@ var V1Games_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "games.V1Games",
 	HandlerType: (*V1GamesServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetGame",
+			Handler:    _V1Games_GetGame_Handler,
+		},
 		{
 			MethodName: "GetGames",
 			Handler:    _V1Games_GetGames_Handler,

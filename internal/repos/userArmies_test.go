@@ -249,7 +249,7 @@ var _ = Describe("repo:UserArmies", func() {
 				runOnce = true
 			}
 
-			gms, err := gr.Games().Find(ctx, 1, 0)
+			gms, err := gr.Games().Find(ctx, &repos.FindGameOpts{Limit: 1})
 			Expect(err).To(BeNil())
 			Expect(gms).NotTo(HaveLen(0))
 			gm = gms[0]

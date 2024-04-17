@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
+	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbgames "github.com/happilymarrieddad/old-world/api3/pb/proto/games"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -14,7 +15,10 @@ func (h *grpcHandler) GetGames(ctx context.Context, req *pbgames.GetGamesRequest
 		return nil, err
 	}
 
-	games, err := gr.Games().Find(ctx, int(req.Limit), int(req.Offset))
+	games, err := gr.Games().Find(ctx, &repos.FindGameOpts{
+		Limit:  int(req.GetLimit()),
+		Offset: int(req.GetOffset()),
+	})
 	if err != nil {
 		return nil, err
 	}

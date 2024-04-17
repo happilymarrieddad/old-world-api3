@@ -12,9 +12,19 @@ import (
 	"github.com/neo4j/neo4j-go-driver/v5/neo4j/dbtype"
 )
 
+type FindGameOpts struct {
+	IDs    []string
+	Names  []string
+	Limit  int
+	Offset int
+}
+
 //go:generate mockgen -source=./games.go -destination=./mocks/GamesRepo.go -package=mock_repos GamesRepo
 type GamesRepo interface {
-	Find(ctx context.Context, limit, offset int) ([]*types.Game, error)
+	Get(ctx context.Context, id string) (*types.Game, error)
+	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.Game, error)
+	Find(ctx context.Context, opts *FindGameOpts) ([]*types.Game, error)
+	FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindGameOpts) ([]*types.Game, error)
 	FindOrCreate(ctx context.Context, name string) (*types.Game, error)
 	Update(ctx context.Context, gm types.UpdateGame) error
 	UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, gm types.UpdateGame) error
@@ -26,6 +36,29 @@ func NewGamesRepo(db neo4j.DriverWithContext) GamesRepo {
 
 type gamesRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *gamesRepo) Get(ctx context.Context, id string) (*types.Game, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.GetTx(ctx, tx, id)
+	})
+	if err != nil {
+		return nil, err
+	}
+	return res.(*types.Game), nil
+}
+
+func (r *gamesRepo) GetTx(ctx context.Context, tx neo4j.ManagedTransaction, id string) (*types.Game, error) {
+	gms, err := r.FindTx(ctx, tx, &FindGameOpts{
+		IDs: []string{id}, Limit: 1,
+	})
+	if err != nil {
+		return nil, err
+	} else if len(gms) == 0 {
+		return nil, types.NewNotFoundError("game not found")
+	}
+
+	return gms[0], nil
 }
 
 func (r *gamesRepo) Update(ctx context.Context, gm types.UpdateGame) error {
@@ -54,39 +87,9 @@ func (r *gamesRepo) UpdateTx(ctx context.Context, tx neo4j.ManagedTransaction, g
 	return result.Err()
 }
 
-func (r *gamesRepo) Find(ctx context.Context, limit, offset int) ([]*types.Game, error) {
+func (r *gamesRepo) Find(ctx context.Context, opts *FindGameOpts) ([]*types.Game, error) {
 	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
-		var limitQry string
-		var offsetQry string
-
-		if limit > 0 {
-			limitQry = fmt.Sprintf("LIMIT %d", limit)
-		}
-
-		if offset > 0 {
-			offsetQry = fmt.Sprintf("SKIP %d", offset)
-		}
-
-		result, err := tx.Run(ctx, fmt.Sprintf(`
-			MATCH (g:Game)
-			RETURN g
-			ORDER BY g.name
-			%s %s;
-		`, offsetQry, limitQry), map[string]any{})
-		if err != nil {
-			return nil, err
-		}
-
-		gms := []*types.Game{}
-		for result.Next(ctx) {
-			node, ok := result.Record().Values[0].(dbtype.Node)
-			if !ok {
-				return nil, errors.New("unable to convert database type")
-			}
-			gms = append(gms, types.GameFromNode(node))
-		}
-
-		return gms, nil
+		return r.FindTx(ctx, tx, opts)
 	})
 	if err != nil {
 		return nil, err
@@ -95,6 +98,60 @@ func (r *gamesRepo) Find(ctx context.Context, limit, offset int) ([]*types.Game,
 	}
 
 	return res.([]*types.Game), nil
+}
+
+func (r *gamesRepo) FindTx(ctx context.Context, tx neo4j.ManagedTransaction, opts *FindGameOpts) ([]*types.Game, error) {
+	if opts == nil {
+		opts = &FindGameOpts{}
+	}
+
+	var limitQry string
+	var offsetQry string
+	var whereQry string
+	params := map[string]any{}
+	comp := "WHERE"
+
+	if len(opts.IDs) > 0 {
+		whereQry += fmt.Sprintf(" %s g.id IN $ids", comp)
+		params["ids"] = opts.IDs
+		comp = "AND"
+	}
+
+	if len(opts.Names) > 0 {
+		whereQry += fmt.Sprintf(" %s g.name IN $names", comp)
+		params["names"] = opts.Names
+		comp = "AND"
+	}
+
+	if opts.Limit > 0 {
+		limitQry = fmt.Sprintf("LIMIT %d", opts.Limit)
+	}
+
+	if opts.Offset > 0 {
+		offsetQry = fmt.Sprintf("SKIP %d", opts.Offset)
+	}
+
+	result, err := tx.Run(ctx, fmt.Sprintf(`
+		MATCH (g:Game)
+		%s
+		RETURN g
+		ORDER BY g.name
+		%s %s;
+	`, whereQry, offsetQry, limitQry), params)
+	if err != nil {
+		return nil, err
+	}
+
+	gms := []*types.Game{}
+	for result.Next(ctx) {
+		node, ok := result.Record().Values[0].(dbtype.Node)
+		if !ok {
+			return nil, errors.New("unable to convert database type")
+		}
+		gms = append(gms, types.GameFromNode(node))
+	}
+
+	return gms, nil
 }
 
 func (r *gamesRepo) FindOrCreate(ctx context.Context, name string) (*types.Game, error) {

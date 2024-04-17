@@ -50,11 +50,11 @@ var _ = Describe("repo:Games", func() {
 		})
 
 		It("should return the list of games", func() {
-			gms, err := repo.Find(ctx, 10, 0)
+			gms, err := repo.Find(ctx, &repos.FindGameOpts{Limit: 10})
 			Expect(err).To(BeNil())
 			Expect(gms).To(HaveLen(3))
 
-			gms, err = repo.Find(ctx, 1, 0)
+			gms, err = repo.Find(ctx, &repos.FindGameOpts{Limit: 1})
 			Expect(err).To(BeNil())
 			Expect(gms).To(HaveLen(1))
 		})

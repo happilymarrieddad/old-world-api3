@@ -103,7 +103,7 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 		}
 
 		for armyIDX, armyData := range gameData.Armies {
-			fmt.Printf("\nDoing army: %s (%d of %d)\n\n", armyData.Name, armyIDX+1, len(gameData.Armies))
+			fmt.Printf("\nDoing army: %s (%d units) (%d of %d)\n", armyData.Name, len(armyData.UnitTypes), armyIDX+1, len(gameData.Armies))
 			at, err := gr.ArmyTypes().FindOrCreate(ctx, types.CreateArmyType{Name: armyData.Name, GameID: gm.ID})
 			if err != nil {
 				return err
@@ -129,8 +129,8 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 			}
 
 			unitTypeRepo := gr.UnitTypes()
-			for armyUnitTypeIdx, unitType := range armyData.UnitTypes {
-				fmt.Printf("Doing army: %s (%d of %d)\n", unitType.Name, armyUnitTypeIdx+1, len(armyData.UnitTypes))
+			for _, unitType := range armyData.UnitTypes {
+				//fmt.Printf("Doing unit: %s (%d of %d)\n", unitType.Name, armyUnitTypeIdx+1, len(armyData.UnitTypes))
 				tt, err := gr.TroopTypes().FindOrCreate(ctx, types.CreateTroopType{Name: unitType.TroopTypeName, GameID: gm.ID})
 				if err != nil {
 					return err
