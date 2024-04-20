@@ -168,6 +168,8 @@ func EnsureData(ctx context.Context, gr repos.GlobalRepo, ad Games) error {
 						Txt:                opt.Txt,
 						Points:             int(opt.Points),
 						PerModel:           opt.PerModel,
+						DisplayOption:      opt.DisplayOption,
+						DisplaySpecialRule: opt.DisplaySpecialRule,
 						MaxPoints:          int(opt.MaxPts),
 						Items:              []*types.Item{},
 					}
@@ -313,6 +315,8 @@ type UnitOptionData struct {
 	IsMagicStandards   bool                             `json:"is_magic_standards"`
 	MaxPts             int64                            `json:"max_pts"`
 	MustChooseOne      bool                             `json:"must_choose_one"`
+	DisplayOption      string                           `json:"display_option"`
+	DisplaySpecialRule string                           `json:"display_special_rule"`
 }
 
 type UnitTypeData struct {

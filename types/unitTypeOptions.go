@@ -14,6 +14,8 @@ type UnitTypeOption struct {
 	UnitOptionTypeID   string     `validate:"required" json:"unit_option_type_id"`
 	UnitOptionTypeName string     `json:"unit_option_type_name"`
 	Txt                string     `validate:"required" json:"txt"`
+	DisplayOption      string     `json:"display_option"`
+	DisplaySpecialRule string     `json:"display_special_rule"`
 	Points             int        `validate:"required" json:"points"`
 	PerModel           bool       `json:"per_model"`
 	MaxPoints          int        `json:"max_points"`
@@ -32,6 +34,16 @@ func UnitTypeOptionFromNode(node dbtype.Node) *UnitTypeOption {
 		PerModel:         node.Props["per_model"].(bool),
 		MaxPoints:        GetIntFromNodeProps(node.Props["max_pts"]),
 		Items:            []*Item{},
+	}
+
+	doRaw, ok := node.Props["display_option"].(string)
+	if ok {
+		obj.DisplayOption = doRaw
+	}
+
+	dsrRaw, ok := node.Props["display_special_rule"].(string)
+	if ok {
+		obj.DisplaySpecialRule = dsrRaw
 	}
 
 	timeRaw, ok := node.Props["created_at"].(int64)

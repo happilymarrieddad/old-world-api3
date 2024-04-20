@@ -772,15 +772,17 @@ func (r *unitTypesRepo) create(ctx context.Context, ut types.CreateUnitType) (*t
 
 			for idx, opt := range ut.UnitOptions {
 				params3 := map[string]any{
-					"unit_type_id":        newUt.ID,
-					"unit_option_type_id": opt.UnitOptionTypeID,
-					"position":            idx + 1,
-					"txt":                 opt.Txt,
-					"points":              opt.Points,
-					"per_model":           opt.PerModel,
-					"max_pts":             opt.MaxPoints,
-					"created_at":          currentTimestamp,
-					"updated_at":          currentTimestamp,
+					"unit_type_id":         newUt.ID,
+					"unit_option_type_id":  opt.UnitOptionTypeID,
+					"position":             idx + 1,
+					"txt":                  opt.Txt,
+					"points":               opt.Points,
+					"per_model":            opt.PerModel,
+					"max_pts":              opt.MaxPoints,
+					"display_option":       opt.DisplayOption,
+					"display_special_rule": opt.DisplaySpecialRule,
+					"created_at":           currentTimestamp,
+					"updated_at":           currentTimestamp,
 				}
 
 				cmd3 := `
@@ -794,6 +796,8 @@ func (r *unitTypesRepo) create(ctx context.Context, ut types.CreateUnitType) (*t
 					,points:				$points
 					,per_model:				$per_model
 					,max_pts: 				$max_pts
+					,display_option: 		$display_option
+					,display_special_rule: 	$display_special_rule
 				})
 				ON CREATE
 					SET nuo.created_at 	= $created_at

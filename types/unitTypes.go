@@ -164,6 +164,8 @@ func (ut *UnitType) GetPbUnitType() *pbunittypes.UnitType {
 			PerModel:           opt.PerModel,
 			MaxPoints:          int64(opt.MaxPoints),
 			CreatedAt:          timestamppb.New(opt.CreatedAt.UTC()),
+			DisplayOption:      opt.DisplayOption,
+			DisplaySpecialRule: opt.DisplaySpecialRule,
 		}
 
 		for _, itm := range opt.Items {
