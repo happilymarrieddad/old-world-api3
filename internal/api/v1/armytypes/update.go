@@ -3,6 +3,7 @@ package armytypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbarmytypes "github.com/happilymarrieddad/old-world/api3/pb/proto/armytypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,6 +17,6 @@ func (h *grpcHandler) UpdateArmyType(ctx context.Context, req *pbarmytypes.Updat
 
 	return &pbarmytypes.EmptyReply{}, gr.ArmyTypes().Update(ctx, types.UpdateArmyType{
 		ID:   req.GetId(),
-		Name: req.GetName(),
+		Name: goaway.Censor(req.GetName()),
 	})
 }

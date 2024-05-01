@@ -3,6 +3,7 @@ module github.com/happilymarrieddad/old-world/api3
 go 1.20
 
 require (
+	github.com/TwiN/go-away v1.6.13
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/go-playground/validator/v10 v10.18.0

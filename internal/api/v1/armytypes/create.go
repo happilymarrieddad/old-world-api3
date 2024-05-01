@@ -3,6 +3,7 @@ package armytypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbarmytypes "github.com/happilymarrieddad/old-world/api3/pb/proto/armytypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,7 +17,7 @@ func (h *grpcHandler) CreateArmyType(ctx context.Context, req *pbarmytypes.Creat
 	}
 
 	newAt, err := gr.ArmyTypes().FindOrCreate(ctx, types.CreateArmyType{
-		Name:   req.GetName(),
+		Name:   goaway.Censor(req.GetName()),
 		GameID: req.GetGameId(),
 	})
 	if err != nil {

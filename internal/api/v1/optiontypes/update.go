@@ -3,6 +3,7 @@ package optiontypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pboptiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/optiontypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,6 +17,6 @@ func (h *grpcHandler) UpdateOptionType(ctx context.Context, req *pboptiontypes.U
 
 	return &pboptiontypes.EmptyReply{}, gr.UnitOptionTypes().Update(ctx, types.UpdateUnitOptionType{
 		ID:   req.GetId(),
-		Name: req.GetName(),
+		Name: goaway.Censor(req.GetName()),
 	})
 }

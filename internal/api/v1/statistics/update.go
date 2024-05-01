@@ -3,6 +3,7 @@ package statistics
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbstatistics "github.com/happilymarrieddad/old-world/api3/pb/proto/statistics"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -17,7 +18,7 @@ func (h *grpcHandler) UpdateStatistic(ctx context.Context, req *pbstatistics.Upd
 
 	if err := gr.Statistics().Update(ctx, types.UpdateStatistic{
 		ID:      req.GetId(),
-		Name:    req.GetName(),
+		Name:    goaway.Censor(req.GetName()),
 		Display: req.GetDisplay(),
 	}); err != nil {
 		return nil, err

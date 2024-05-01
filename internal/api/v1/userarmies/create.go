@@ -3,6 +3,7 @@ package userarmies
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbuserarmies "github.com/happilymarrieddad/old-world/api3/pb/proto/userarmies"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -20,7 +21,7 @@ func (h *grpcHandler) CreateUserArmy(ctx context.Context, req *pbuserarmies.Crea
 	}
 
 	ua, err := gr.UserArmies().Create(ctx, types.CreateUserArmy{
-		Name:       req.GetName(),
+		Name:       goaway.Censor(req.GetName()),
 		UserID:     usr.ID,
 		GameID:     req.GetGameId(),
 		ArmyTypeID: req.GetArmyTypeId(),

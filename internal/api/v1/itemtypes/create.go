@@ -3,6 +3,7 @@ package itemtypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbitemtypes "github.com/happilymarrieddad/old-world/api3/pb/proto/itemtypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,7 +17,7 @@ func (h *grpcHandler) CreateItemType(ctx context.Context, req *pbitemtypes.Creat
 	}
 
 	newAt, err := gr.ItemTypes().FindOrCreate(ctx, types.CreateItemType{
-		Name:   req.GetName(),
+		Name:   goaway.Censor(req.GetName()),
 		GameID: req.GetGameId(),
 	})
 	if err != nil {

@@ -56,7 +56,17 @@ func (ua *UserArmy) GetPbUserArmy() *pbuserarmies.UserArmy {
 		pbUa.Units = append(pbUa.Units, pbUnit)
 	}
 
+	pbUa.UsedPoints = int64(ua.CalculateUsedPoints())
+
 	return pbUa
+}
+
+func (ua *UserArmy) CalculateUsedPoints() (pts int) {
+	for _, uau := range ua.Units {
+		pts += uau.CalculatePoints()
+	}
+
+	return
 }
 
 type CreateUserArmy struct {

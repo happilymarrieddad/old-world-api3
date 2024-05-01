@@ -3,6 +3,7 @@ package optiontypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pboptiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/optiontypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,7 +17,7 @@ func (h *grpcHandler) CreateOptionType(ctx context.Context, req *pboptiontypes.C
 	}
 
 	newAt, err := gr.UnitOptionTypes().FindOrCreate(ctx, types.CreateUnitOptionType{
-		Name:   req.GetName(),
+		Name:   goaway.Censor(req.GetName()),
 		GameID: req.GetGameId(),
 	})
 	if err != nil {

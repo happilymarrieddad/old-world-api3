@@ -23,6 +23,8 @@ type FindUserArmyOpts struct {
 
 //go:generate mockgen -source=./userArmies.go -destination=./mocks/UserArmiesRepo.go -package=mock_repos UserArmiesRepo
 type UserArmiesRepo interface {
+	FindUserUnitIDsByUnitTypeID(ctx context.Context, unitTypeID string) ([]*types.UserArmyUnit, error)
+	FindUserUnitIDsByUnitTypeIDTx(ctx context.Context, tx neo4j.ManagedTransaction, unitTypeID string) ([]*types.UserArmyUnit, error)
 	Get(ctx context.Context, userID, userArmyID string) (*types.UserArmy, error)
 	GetTx(ctx context.Context, tx neo4j.ManagedTransaction, userID, userArmyID string) (*types.UserArmy, error)
 	Find(ctx context.Context, userID string, opts *FindUserArmyOpts) ([]*types.UserArmy, int64, error)
@@ -47,6 +49,52 @@ func NewUserArmiesRepo(db neo4j.DriverWithContext) UserArmiesRepo {
 
 type userArmyRepo struct {
 	db neo4j.DriverWithContext
+}
+
+func (r *userArmyRepo) FindUserUnitIDsByUnitTypeID(ctx context.Context, unitTypeID string) ([]*types.UserArmyUnit, error) {
+	res, err := db.ReadData(ctx, r.db, func(tx neo4j.ManagedTransaction) (any, error) {
+		return r.FindUserUnitIDsByUnitTypeIDTx(ctx, tx, unitTypeID)
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return res.([]*types.UserArmyUnit), nil
+}
+
+func (r *userArmyRepo) FindUserUnitIDsByUnitTypeIDTx(ctx context.Context, tx neo4j.ManagedTransaction, unitTypeID string) ([]*types.UserArmyUnit, error) {
+	cmd := `
+		MATCH (ut:UnitType{ id: $unitTypeId })
+		MATCH (uau:UserArmyUnit)-[:IS_UNIT_TYPE]->(ut)
+		RETURN uau
+		`
+	params := map[string]any{
+		"unitTypeId": unitTypeID,
+	}
+
+	result, err := tx.Run(ctx, cmd, params)
+	if err != nil {
+		return nil, err
+	}
+
+	uaus := []*types.UserArmyUnit{}
+	for result.Next(ctx) {
+		node, ok := result.Record().Values[0].(dbtype.Node)
+		if !ok {
+			return nil, errors.New("unable to convert database type user army")
+		}
+		uua := types.UserArmyUnitFromNode(node)
+
+		uau, err := r.GetUnitTx(ctx, tx, uua.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		uaus = append(uaus, uau)
+	}
+
+	return uaus, nil
 }
 
 func (r *userArmyRepo) Get(ctx context.Context, userID, userArmyID string) (*types.UserArmy, error) {
@@ -134,13 +182,13 @@ func (r *userArmyRepo) FindTx(
 		MATCH (u:User{ id: $user_id })<-[:BELONGS_TO]-(ua:UserArmy)
 		MATCH (uau:UserArmyUnit)-[:BELONGS_TO]->(ua)
 		MATCH (uau)-[:IS_UNIT_TYPE]->(ut)-[:IS_COMPOSITION_TYPE]->(ct:CompositionType)
-		RETURN uau, ua
+		RETURN uau
 		ORDER BY ct.position, ut.created_at;
 	`, map[string]any{"user_id": userID})
 	if err != nil {
 		return nil, 0, err
 	}
-	unitTypeRepo := NewUnitTypesRepo(r.db)
+
 	for innerResult.Next(ctx) {
 		node, ok := innerResult.Record().Values[0].(dbtype.Node)
 		if !ok {
@@ -148,24 +196,12 @@ func (r *userArmyRepo) FindTx(
 		}
 		uua := types.UserArmyUnitFromNode(node)
 
-		node, ok = innerResult.Record().Values[1].(dbtype.Node)
-		if !ok {
-			return nil, 0, errors.New("unable to convert database type user army")
-		}
-		ua := types.UserArmyFromNode(node)
-		uua.UserArmyName = ua.Name
-
-		if _, exists := mpUnits[ua.ID]; !exists {
-			mpUnits[ua.ID] = []*types.UserArmyUnit{}
-		}
-
-		ut, err := unitTypeRepo.GetTx(ctx, tx, uua.UnitTypeID)
+		uua, err = r.GetUnitTx(ctx, tx, uua.ID)
 		if err != nil {
-			return nil, 0, err
+			return nil, 0, errors.New("unable to get full unit data")
 		}
-		uua.UnitType = ut
 
-		mpUnits[ua.ID] = append(mpUnits[ua.ID], uua)
+		mpUnits[uua.UserArmyID] = append(mpUnits[uua.UserArmyID], uua)
 	}
 
 	uas := []*types.UserArmy{}

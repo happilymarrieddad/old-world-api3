@@ -3,6 +3,7 @@ package unittypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	"github.com/happilymarrieddad/old-world/api3/internal/repos"
 	pbunittypes "github.com/happilymarrieddad/old-world/api3/pb/proto/unittypes"
@@ -19,7 +20,7 @@ func (h *grpcHandler) CreateUnitType(ctx context.Context, req *pbunittypes.Creat
 	parentUnitTypeID := req.GetUnitTypeId()
 
 	newUnitType := types.CreateUnitType{
-		Name:              req.GetName(),
+		Name:              goaway.Censor(req.GetName()),
 		GameID:            req.GetGameId(),
 		ArmyTypeID:        req.GetArmyTypeId(),
 		TroopTypeID:       req.GetTroopTypeId(),

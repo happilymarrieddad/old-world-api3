@@ -1,6 +1,7 @@
 package types
 
 import (
+	"log"
 	"time"
 
 	"github.com/happilymarrieddad/old-world/api3/internal/utils"
@@ -21,6 +22,54 @@ type UserArmyUnit struct {
 	OptionValues []*UserArmyUnitOptionValue `json:"option_values"`
 	CreatedAt    time.Time                  `json:"created_at"`
 	UpdatedAt    *time.Time                 `json:"updated_at"`
+}
+
+func (ua *UserArmyUnit) CalculatePoints() int {
+	pts := ua.Quantity * ua.UnitType.PointsPerModel
+	OptionValues := []*UpdateUserArmyUnitOptionValue{}
+
+	for _, uauo := range ua.OptionValues {
+		multiplier := 1
+		if uauo.UnitOption.PerModel {
+			multiplier = ua.Quantity
+		}
+		switch uauo.UnitOption.UnitOptionTypeName {
+		case "Single":
+			if uauo.IsSelected {
+				pts += multiplier * uauo.UnitOption.Points
+			}
+		case "One Of":
+			if uauo.IndexSelected != "" {
+				for _, itm := range uauo.UnitOption.Items {
+					if itm.ID == uauo.IndexSelected {
+						pts += multiplier * itm.Points
+					}
+				}
+			}
+		case "Many Of":
+			for _, id := range uauo.IDsSelected {
+				for _, itm := range uauo.UnitOption.Items {
+					if itm.ID == id {
+						pts += multiplier * itm.Points
+					}
+				}
+			}
+		case "Many To":
+			pts += multiplier * uauo.QtySelected
+		default:
+			log.Printf("unable to find unit option name '%s' for id: '%s'\n", uauo.UnitOptionName, uauo.ID)
+		}
+
+		OptionValues = append(OptionValues, &UpdateUserArmyUnitOptionValue{
+			ID:            uauo.ID,
+			IsSelected:    uauo.IsSelected,
+			IndexSelected: uauo.IndexSelected,
+			IDsSelected:   uauo.IDsSelected,
+			QtySelected:   uauo.QtySelected,
+		})
+	}
+
+	return pts
 }
 
 func UserArmyUnitFromNode(node dbtype.Node) *UserArmyUnit {

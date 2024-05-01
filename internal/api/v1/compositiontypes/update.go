@@ -3,6 +3,7 @@ package compositiontypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbcompositiontypes "github.com/happilymarrieddad/old-world/api3/pb/proto/compositiontypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,6 +17,6 @@ func (h *grpcHandler) UpdateCompositionType(ctx context.Context, req *pbcomposit
 
 	return &pbcompositiontypes.EmptyReply{}, gr.CompositionTypes().Update(ctx, types.UpdateCompositionType{
 		ID:   req.GetId(),
-		Name: req.GetName(),
+		Name: goaway.Censor(req.GetName()),
 	})
 }

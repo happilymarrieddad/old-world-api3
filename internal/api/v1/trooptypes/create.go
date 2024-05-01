@@ -3,6 +3,7 @@ package trooptypes
 import (
 	"context"
 
+	goaway "github.com/TwiN/go-away"
 	"github.com/happilymarrieddad/old-world/api3/internal/api/interceptors"
 	pbtrooptypes "github.com/happilymarrieddad/old-world/api3/pb/proto/trooptypes"
 	"github.com/happilymarrieddad/old-world/api3/types"
@@ -16,7 +17,7 @@ func (h *grpcHandler) CreateTroopType(ctx context.Context, req *pbtrooptypes.Cre
 	}
 
 	newAt, err := gr.TroopTypes().FindOrCreate(ctx, types.CreateTroopType{
-		Name:   req.GetName(),
+		Name:   goaway.Censor(req.GetName()),
 		GameID: req.GetGameId(),
 	})
 	if err != nil {
